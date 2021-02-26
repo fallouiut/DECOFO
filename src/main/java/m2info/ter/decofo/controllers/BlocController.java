@@ -7,10 +7,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/blocs")
 public class BlocController {
 
-    // creation bloc dans formation
-    // update bloc
-    // delete blocs
-    // liste blocs d'une formation
-    // AJOUT UE dans bloc
+    // obtenir details blocs
+    // modifier bloc
+    // supprimer bloc
 
+    // ajouter ue (qui exite dans la formation=)
+    // supprimer UE
+
+    // ajouter option (qui exite dans la formation=)
+    // supprimer option
 }

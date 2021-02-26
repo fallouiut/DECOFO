@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/options")
 public class OptionController {
 
-    // POST creation OPTION dans BLOC
-    // POST update OPTION
-    // GET delete OPTION
-    // liste OPTION d'une formation
-    // liste Options d'un Bloc appartenant à une formation
+    // supprimer option d'une formation
+    // obtenir detail option
+    // modifier option
+
+    // ajout UE dans l'option
+    // suppression UE dans l'option
 }

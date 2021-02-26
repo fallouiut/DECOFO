@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/ues")
 public class UEController {
 
-    // POST creation UE dans formation
-    // POST update UE
-    // GET delete UE
-    // liste UE d'une formation
-    // liste US d'un Bloc appartenant à une formation
-
+    // details UE
+    // modification UE
+    // suppression UE
 }

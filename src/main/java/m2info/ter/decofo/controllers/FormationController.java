@@ -15,6 +15,15 @@ import java.util.Map;
 @RequestMapping("/formations")
 public class FormationController {
 
+    // ajout UE
+    // suppression UE
+
+    // ajout Bloc
+    // suppression Bloc
+
+    // ajout option
+    // suppression option
+
     @Autowired
     FormationManager formationManager;
 
