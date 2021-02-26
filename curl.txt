@@ -1,0 +1,15 @@
+- Formations
+
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"code":"L3-INFO","cout":"0","intitule":"Licence Info","tailleGroupeCM":"100","tailleGroupeTD":"50","tailleGroupeTP":"100"}' \
+  http://localhost:8080/formations/create
+
+  curl --header "Content-Type: application/json" \
+    --request POST \
+    --data '{"code":"L3-INFO UPDATE","cout":"0","intitule":"Licence Info UPDATE","tailleGroupeCM":"100","tailleGroupeTD":"50","tailleGroupeTP":"100"}' \
+    http://localhost:8080/formations/update/16
+
+curl localhost:8080/formations/all
+curl localhost:8080/formations/details/2
+curl localhost:8080/formations/delete/2
