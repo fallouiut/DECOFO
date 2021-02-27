@@ -9,7 +9,6 @@ public class BlocController {
 
     // obtenir details blocs
     // modifier bloc
-    // supprimer bloc
 
     // ajouter ue (qui exite dans la formation=)
     // supprimer UE

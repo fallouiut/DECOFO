@@ -1,39 +1,67 @@
 package m2info.ter.decofo.managers;
 
 import m2info.ter.decofo.classes.Bloc;
+import m2info.ter.decofo.classes.Formation;
+import m2info.ter.decofo.exceptions.ServerErrorResponse;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.util.List;
 
-public class BlocManager implements Manager<Bloc> {
+@Transactional
+@Service
+public class BlocManager {
 
     @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     EntityManager em;
 
-    @Override
+    public EntityManager entityManager() {
+        return this.em;
+    }
+
     public void insert(Bloc object) {
-
+        this.em.persist(object);
+        this.em.flush();
+        System.err.println("Bloc ajouté avec ID: " + object.getId());
     }
 
-    @Override
-    public void update(Bloc object) {
-
+    public void update(Bloc object) throws Exception  {
+        em.merge(object);
     }
 
-    @Override
     public void delete(int id) throws Exception {
-
+        Bloc bloc =  this.findOne(id);
+        if(bloc != null) {
+            bloc = em.merge(bloc);
+            em.remove(bloc);
+        } else {
+            System.err.println("<NEXISTE PAS DE FORMATION");
+            throw new ServerErrorResponse("Bloc didn't exist");
+        }
     }
 
-    @Override
-    public Bloc findOne(int id) {
-        return null;
+    public Bloc findOne(int id) throws Exception  {
+        return this.em.find(Bloc.class, id);
     }
 
-    @Override
     public List<Bloc> findAll() {
-        return null;
+        try {
+            String query = "SELECT b FROM Bloc b";
+            TypedQuery<Bloc> q = em.createQuery(query, Bloc.class);
+
+            List<Bloc> blocs = q.setMaxResults(200).getResultList();
+
+            for(Bloc f: blocs)
+                System.err.println(f.toString());
+
+            return blocs;
+        } catch (Exception e) {
+            System.err.println("BlocManager.findAll()");
+            return null;
+        }
     }
 }

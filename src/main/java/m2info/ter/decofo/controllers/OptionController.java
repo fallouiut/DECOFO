@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/options")
 public class OptionController {
 
-    // supprimer option d'une formation
     // obtenir detail option
     // modifier option
 
