@@ -13,3 +13,13 @@ curl --header "Content-Type: application/json" \
 curl localhost:8080/formations/all
 curl localhost:8080/formations/details/2
 curl localhost:8080/formations/delete/2
+
+- Blocs
+
+
+curl localhost:8080/blocs/all
+
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"code":"L3-INFO","cout":"0","intitule":"Licence Info"}' \
+  http://localhost:8080/blocs/create

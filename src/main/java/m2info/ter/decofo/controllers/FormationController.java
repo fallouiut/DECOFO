@@ -28,21 +28,37 @@ public class FormationController {
     FormationManager formationManager;
 
     /**
+     * Créer une formation
+     */
+    @PostMapping("/create")
+    public ResponseEntity<Map<String, Object>> createFormation(@RequestBody Formation formation) {
+        try {
+            this.formationManager.insert(formation);
+
+            System.err.println("Création : " + formation.toString());
+
+            return new ResponseEntity(null, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Erreur FormationController.createFormation()");
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
      * Obtenir detail d'une formation
      */
-    @GetMapping("/details/{formationId}")
+    @GetMapping("/read-one/{formationId}")
     public ResponseEntity<Formation> getOneFormation(@PathVariable("formationId") int formationId) {
-        System.err.println("-- details --");
+        try {
+            if(formationId < 0) throw new Exception("formationId < 0");
+            Formation formation = formationManager.findOne(formationId);
 
-        System.err.println("details ok");
-        Formation formation = formationManager.findOne(formationId);
+            System.err.println("Read formation: " + formation.toString());
 
-        if (formation != null) {
-            System.err.println("Formation demandée trouvée");
             return new ResponseEntity(formation, HttpStatus.OK);
-        } else {
-            System.err.println("Formation demandée non trouvée");
-            return new ResponseEntity(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            System.err.println("Erreur FormationController.getOneFormation()");
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -51,45 +67,40 @@ public class FormationController {
      *
      * @return
      */
-    @GetMapping("/all")
+    @GetMapping("/read-all")
     public ResponseEntity<List<Formation>> getAllFormations() {
-        System.err.println("-- all --");
-        System.err.println("toutes formations demandées");
         return new ResponseEntity<>(this.formationManager.findAll(), HttpStatus.OK);
-    }
-
-    /**
-     * Créer une formation
-     */
-    @PostMapping("/create")
-    public ResponseEntity<Map<String, Object>> createFormation(@RequestBody Formation formation) {
-        System.err.println("-- add --");
-        System.err.println("Formation : " + formation.toString());
-        this.formationManager.insert(formation);
-        this.formationManager.findAll();
-
-        return new ResponseEntity(null, HttpStatus.OK);
     }
 
     @PostMapping("/update/{formationId}")
     public ResponseEntity<Object> updateFormation(@RequestBody Formation formation, @PathVariable("formationId") int formationId) {
-        System.err.println("-- update --");
-        System.err.println("Updatinf formation " + formationId);
-        formation.setId(formationId);
-        this.formationManager.update(formation);
-        this.formationManager.findAll();
+        try {
+            if(formationId < 0) throw new Exception("formationId < 0");
+            formation.setId(formationId);
+            this.formationManager.update(formation);
 
-        //this.formationManager.update(formation);
-        return null;
+            System.err.println("Update formation: " + formation.toString());
+
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Erreur FormationController.updateFormation()");
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/delete/{formationId}")
     public ResponseEntity<Object> deleteFormation(@PathVariable("formationId") int formationId) {
-        this.formationManager.delete(formationId);
-        System.err.println("-- delete --");
-        this.formationManager.findAll();
+        try {
+            if(formationId < 0) throw new Exception("formationId < 0");
+            this.formationManager.delete(formationId);
 
-        return new ResponseEntity<>(null, HttpStatus.OK);
+            System.err.println("delete formation: " + formationId);
+
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Erreur FormationController.deleteFormation()");
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

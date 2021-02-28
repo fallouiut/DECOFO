@@ -30,7 +30,14 @@ public class BlocManager {
     }
 
     public void update(Bloc object) throws Exception  {
-        em.merge(object);
+        boolean exist = this.findOne(object.getId()) != null;
+
+        if(exist) {
+            em.merge(object);
+        } else {
+            System.err.println("N'existe pas dans manager");
+            throw new Exception("Bloc doesn't exist");
+        }
     }
 
     public void delete(int id) throws Exception {
@@ -39,13 +46,15 @@ public class BlocManager {
             bloc = em.merge(bloc);
             em.remove(bloc);
         } else {
-            System.err.println("<NEXISTE PAS DE FORMATION");
+            System.err.println("<NEXISTE PAS DE Bloc");
             throw new ServerErrorResponse("Bloc didn't exist");
         }
     }
 
     public Bloc findOne(int id) throws Exception  {
-        return this.em.find(Bloc.class, id);
+        Bloc b = this.em.find(Bloc.class, id);
+        System.err.println("b demandé : " + b.toString());
+        return b;
     }
 
     public List<Bloc> findAll() {

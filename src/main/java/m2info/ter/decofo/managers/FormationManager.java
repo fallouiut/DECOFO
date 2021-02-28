@@ -28,7 +28,7 @@ public class FormationManager implements Manager<Formation> {
         em.merge(object);
     }
 
-    public void delete(int id) {
+    public void delete(int id) throws Exception {
         Formation formation =  this.findOne(id);
         if(formation != null) {
             formation = em.merge(formation);
@@ -39,8 +39,12 @@ public class FormationManager implements Manager<Formation> {
         }
     }
 
-    public Formation findOne(int id) {
-        return this.em.find(Formation.class, id);
+    public Formation findOne(int id) throws Exception {
+        Formation formation = this.em.find(Formation.class, id);
+        if(formation == null) {
+            throw new Exception("formation not found");
+        }
+        return formation;
     }
 
     public List<Formation> findAll() {
