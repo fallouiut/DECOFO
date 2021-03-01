@@ -53,7 +53,6 @@ public class BlocManager {
 
     public Bloc findOne(int id) throws Exception  {
         Bloc b = this.em.find(Bloc.class, id);
-        System.err.println("b demandé : " + b.toString());
         return b;
     }
 

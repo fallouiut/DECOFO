@@ -1,9 +1,7 @@
 package m2info.ter.decofo.controllers;
 
 import m2info.ter.decofo.classes.Bloc;
-import m2info.ter.decofo.classes.Formation;
 import m2info.ter.decofo.managers.BlocManager;
-import m2info.ter.decofo.managers.FormationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +19,6 @@ public class BlocController {
 
     @PostMapping("/create")
     public ResponseEntity<Map<String, Object>> createBloc(@RequestBody Bloc bloc) {
-
         System.err.println("Adding bloc + " + bloc.toString());
         this.blocManager.insert(bloc);
         return new ResponseEntity<>(null, HttpStatus.OK);

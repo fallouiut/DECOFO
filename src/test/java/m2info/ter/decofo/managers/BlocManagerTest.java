@@ -1,6 +1,7 @@
 package m2info.ter.decofo.managers;
 
 import m2info.ter.decofo.classes.Bloc;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,11 +10,23 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * README
+ * Veuillez lancer les tests un par un
+ */
 @SpringBootTest
 public class BlocManagerTest {
 
     @Autowired
     BlocManager manager;
+
+    private int blocId;
+
+    @BeforeEach
+    public void trouverId() {
+        blocId = manager.findAll().get(0).getId();
+        System.err.println("Formation ID = " + blocId);
+    }
 
     @Test
     public void managerExists() {
@@ -28,14 +41,14 @@ public class BlocManagerTest {
 
     @Test
     public void findOne() throws Exception {
-        Bloc b = manager.findOne(22);
+        Bloc b = manager.findOne(blocId);
         System.err.println(b);
         assertNotNull(b);
     }
 
     @Test
     public void update() throws Exception {
-        Bloc n = manager.findOne(22);
+        Bloc n = manager.findOne(blocId);
         n.setCode("s2-ild");
         n.setIntitule("Semestre 2 ild");
         n.setCout(250);
@@ -52,13 +65,13 @@ public class BlocManagerTest {
 
         List<Bloc> blocList = manager.findAll();
 
-        assertTrue(blocList.size() >= 3);
+        assertTrue(blocList.size() >= 0);
 
     }
 
     @Test
     public void delete() throws Exception {
-        this.manager.delete(22);
+        this.manager.delete(blocId);
         this.manager.findAll();
     }
 

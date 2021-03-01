@@ -2,6 +2,7 @@ package m2info.ter.decofo.managers;
 
 import m2info.ter.decofo.classes.Formation;
 import m2info.ter.decofo.exceptions.ServerErrorResponse;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,12 +12,23 @@ import java.util.List;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * README
+ * Veuillez lancer les tests un par un
+ */
 @SpringBootTest
 public class FormationManagerTest {
-/*
+
     @Autowired
     FormationManager manager;
 
+    private int formationId;
+
+    @BeforeEach
+    public void trouverId() {
+        formationId = manager.findAll().get(0).getId();
+        System.err.println("Formation ID = " + formationId);
+    }
 
     @Test
     public void testInsert() {
@@ -39,39 +51,25 @@ public class FormationManagerTest {
     }
 
     @Test
-    public void testUpdate() {
-        Formation f = manager.findOne(1);
+    public void testUpdate() throws Exception {
+        Formation f = manager.findOne(formationId);
 
         f.setIntitule("Update3");
         f.setCout(300);
 
         this.manager.update(f);
 
-        Formation fu = manager.findOne(1);
+        Formation fu = manager.findOne(formationId);
 
-        //this.manager.findAll();
 
         assertTrue(fu.getIntitule().equals(f.getIntitule()));
         assertTrue(fu.getCout() == f.getCout());
     }
 
     @Test
-    public void checkUpdate() {
-        this.manager.findAll();
-    }
-
-    @Test
     public void deleteWorks() throws Exception {
-        this.manager.delete(9);
+        this.manager.delete(formationId);
         this.manager.findAll();
     }
 
-    @Test
-    public void deleteNotWorks() {
-        assertThrows(ServerErrorResponse.class, () -> {
-            this.manager.delete(15);
-            this.manager.findAll();
-        });
-    }
-*/
 }

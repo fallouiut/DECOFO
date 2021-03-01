@@ -23,3 +23,19 @@ curl --header "Content-Type: application/json" \
   --request POST \
   --data '{"code":"L3-INFO","cout":"0","intitule":"Licence Info"}' \
   http://localhost:8080/blocs/create
+
+-------------------------------------------------------------------------
+JSON Formation:
+{"code":"DIM","cout":"0","intitule":"Diplome infirmerie marseille","tailleGroupeCM":"100","tailleGroupeTD":"15","tailleGroupeTP":"15"}
+{"code":"DUT Info","cout":"0","intitule":"Dut Aix en provence","tailleGroupeCM":"100","tailleGroupeTD":"20","tailleGroupeTP":"20"}
+
+JSON Bloc:
+{"code":"DUT-S1","cout":"0","intitule":"Semestre 1 DUT"}
+{"code":"L3-INFO","cout":"0","intitule":"Semestre 2 DUT"}
+
+{"code":"DI-A1","cout":"0","intitule":"Infirmerie Année 1"}
+{"code":"DI-A2","cout":"0","intitule":"Infirmerie Année 2"}
+
+JSON UE:
+
+JSON Option:
