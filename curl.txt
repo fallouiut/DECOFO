@@ -14,6 +14,7 @@ curl localhost:8080/formations/all
 curl localhost:8080/formations/details/2
 curl localhost:8080/formations/delete/2
 
+
 - Blocs
 
 
@@ -37,5 +38,14 @@ JSON Bloc:
 {"code":"DI-A2","cout":"0","intitule":"Infirmerie Année 2"}
 
 JSON UE:
+{"code": "JEE","intitule": "JEE_ILD", "cout": "8", "nombreHeureCM": "12", "nombreHeureTD": "6", "nombreHeureTP": "6", "nombreGroupesCM":"1","nombreGroupesTD":"2","nombreGroupesTP":"2", "effectifTotal":"20" }
+{"code": "Architecture Application","intitule": "AA_ILD", "cout": "12", "nombreHeureCM": "6", "nombreHeureTD": "6", "nombreHeureTP": "6", "nombreGroupesCM":"1","nombreGroupesTD":"3","nombreGroupesTP":"3", "effectifTotal":"30" }
+
 
 JSON Option:
+{"code":"Cloud Computing", "intitule": "CC_ILD", "cout":"10", "effectifTotal":"17" }
+{"code":"Anglais", "intitule": "A_ILD", "cout":"5", "effectifTotal":"40" }
+
+-----------------------------------------------------------------------------------------------------------------
+Ajout / suppression d'un bloc sur une formation
+localhost:8080/formations/add-bloc/?formationId=XXX&blocId=XXX

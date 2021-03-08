@@ -26,7 +26,6 @@ public class BlocManager {
     public void insert(Bloc object) {
         this.em.persist(object);
         this.em.flush();
-        System.err.println("Bloc ajouté avec ID: " + object.getId());
     }
 
     public void update(Bloc object) throws Exception  {

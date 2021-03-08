@@ -42,7 +42,6 @@ public class BlocManagerTest {
     @Test
     public void findOne() throws Exception {
         Bloc b = manager.findOne(blocId);
-        System.err.println(b);
         assertNotNull(b);
     }
 

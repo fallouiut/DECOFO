@@ -1,7 +1,10 @@
 package m2info.ter.decofo.classes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity(name = "Formation")
 @Table(name = "TFormation")
@@ -37,6 +40,27 @@ public class Formation implements Serializable {
     @Basic()
     @Column(name = "f_Tp")
     int tailleGroupeTP;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "formationOwner", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    private List<Bloc> blocs;
+
+    public void addBloc(Bloc b) {
+        this.blocs.add(b);
+        b.setFormationOwner(this);
+    }
+
+    public void removeBloc(Bloc b) {
+        this.blocs.remove(b);
+    }
+
+    public List<Bloc> getBlocs() {
+        return blocs;
+    }
+
+    public void setBlocs(List<Bloc> blocs) {
+        this.blocs = blocs;
+    }
 
     @Override
     public String toString() {

@@ -26,6 +26,10 @@ public class Bloc implements Serializable {
     @Column(name = "b_cout", length = 200, nullable = true)
     private double cout;
 
+    @ManyToOne
+    @JoinColumn(name = "f_id")
+    private Formation formationOwner;
+
     public Bloc() {
 
     }
@@ -44,6 +48,14 @@ public class Bloc implements Serializable {
                 ", intitule='" + intitule + '\'' +
                 ", cout=" + cout +
                 '}';
+    }
+
+    public Formation getFormationOwner() {
+        return formationOwner;
+    }
+
+    public void setFormationOwner(Formation formationOwner) {
+        this.formationOwner = formationOwner;
     }
 
     public int getId() {

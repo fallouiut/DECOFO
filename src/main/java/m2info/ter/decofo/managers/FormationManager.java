@@ -1,6 +1,8 @@
 package m2info.ter.decofo.managers;
 
+import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Formation;
+import m2info.ter.decofo.exceptions.NotFoundObjectException;
 import m2info.ter.decofo.exceptions.ServerErrorResponse;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,6 @@ public class FormationManager implements Manager<Formation> {
     public void insert(Formation formation) {
         this.em.persist(formation);
         this.em.flush();
-        System.err.println("Formation ajouté avec ID: " + formation.getId());
     }
 
     public void update(Formation object) {
@@ -40,11 +41,7 @@ public class FormationManager implements Manager<Formation> {
     }
 
     public Formation findOne(int id) throws Exception {
-        Formation formation = this.em.find(Formation.class, id);
-        if(formation == null) {
-            throw new Exception("formation not found");
-        }
-        return formation;
+        return this.em.find(Formation.class, id);
     }
 
     public List<Formation> findAll() {
@@ -54,13 +51,50 @@ public class FormationManager implements Manager<Formation> {
 
             List<Formation> formations = q.setMaxResults(200).getResultList();
 
-            for(Formation f: formations)
-                System.err.println(f.toString());
-
             return formations;
         } catch (Exception e) {
             System.err.println("FormationManager.findAll()");
             return null;
         }
+    }
+
+    /**
+     * vérifier que la formation existe
+     * vérifier que le bloc existe
+     * vérifier que le bloc n'appartient deja pas à une formations
+     * @param formationId
+     * @param blocId
+     * @throws Exception
+     */
+    public void linkBloc(int formationId, int blocId) throws Exception {
+
+        // vérifie que la formation existe
+        Formation formation = this.findOne(formationId);
+        if (formation == null) throw new NotFoundObjectException("Formation "+ formationId+ " n'existe pas");
+
+        // vérifie que le bloc existe
+        Bloc bloc = this.em.find(Bloc.class, blocId);
+        if(bloc == null) throw new NotFoundObjectException("Bloc "+ blocId +" n'existe pas");
+
+        // vérifie que le bloc n'a pas de formation parent
+        if(bloc.getFormationOwner() != null) throw new NotFoundObjectException("Bloc "+ blocId + " a deja une formation parent");
+
+        // crée le lien
+        formation.addBloc(bloc);
+        this.update(formation);
+    }
+
+    public void unlinkBloc(int formationId, int blocId) throws Exception {
+        // vérifie que la formation existe
+        Formation formation = this.findOne(formationId);
+        if (formation == null) throw new NotFoundObjectException("Formation "+ formationId+ " n'existe pas");
+
+        // vérifie que le bloc existe
+        Bloc bloc = this.em.find(Bloc.class, blocId);
+        if(bloc == null) throw new NotFoundObjectException("Bloc "+ blocId +" n'existe pas");
+
+        // crée le lien
+        formation.removeBloc(bloc);
+        this.update(formation);
     }
 }

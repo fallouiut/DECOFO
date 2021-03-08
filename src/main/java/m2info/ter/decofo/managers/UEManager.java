@@ -57,9 +57,6 @@ public class UEManager implements Manager<UE> {
 
             List<UE> ues = q.setMaxResults(200).getResultList();
 
-            for(UE u: ues)
-                System.err.println(u.toString());
-
             return ues;
         } catch (Exception e) {
             System.err.println("UEManager.findAll()");
