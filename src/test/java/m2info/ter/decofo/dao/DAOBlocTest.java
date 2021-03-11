@@ -1,6 +1,7 @@
 package m2info.ter.decofo.dao;
 
 import m2info.ter.decofo.classes.Bloc;
+import m2info.ter.decofo.classes.Formation;
 import m2info.ter.decofo.classes.Option;
 import m2info.ter.decofo.classes.UE;
 import org.junit.jupiter.api.AfterEach;
@@ -25,6 +26,9 @@ public class DAOBlocTest {
 
     @Autowired
     DAOUe daoUe;
+
+    @Autowired
+    DAOFormation daoFormation;
 
     private int BlocId;
 
@@ -86,7 +90,6 @@ public class DAOBlocTest {
         Bloc deleted = daoBloc.find(BlocId);
 
         assertNull(deleted);
-
     }
 
     /**
@@ -103,27 +106,21 @@ public class DAOBlocTest {
     }
 
     @Test
-    public void addUE() {
-        // récupérer un bloc
-        Bloc bloc = daoBloc.find(BlocId);
-
+    public void linkUE() {
         // ajouter ue
+        Bloc b = daoBloc.find(BlocId);
         UE ue = this.createAndInsertUE();
+        daoBloc.linkUE(b, ue);
 
-        // ajouter ue au bloc
-        bloc.addUE(ue);
-        daoBloc.update(bloc);
-
-        Bloc test = daoBloc.find(bloc.getId());
+        Bloc test = daoBloc.find(BlocId);
         assertTrue(test.getUes().size() >= 1);
-
     }
 
     /**
      * detach UE without removing it
      */
     @Test
-    public void removeUE() {
+    public void unlinkUE() {
         // récupérer un bloc
         Bloc bloc = daoBloc.find(BlocId);
 
@@ -132,37 +129,25 @@ public class DAOBlocTest {
         int ueId = ue.getId();
 
         // ajouter ue au bloc
-        bloc.addUE(ue);
-        daoBloc.update(bloc);
+        daoBloc.linkUE(bloc, ue);
 
         // assurer UE existe
         Bloc blocWithUE = daoBloc.find(bloc.getId());
         assertTrue(blocWithUE.getUes().size() > 0);
         int blocUeSize = blocWithUE.getUes().size();
 
-        // enlever ue
-        System.err.println("-------------------");
-        System.err.println("Bloc before removing ue " + blocWithUE.getUes().size());
-        //blocWithUE.setUes(new ArrayList<>());
-        blocWithUE.removeUE(ue);
-        System.err.println("Bloc after removing ue " + blocWithUE.getUes().size());
+        // enlever ue=
+        daoBloc.unlinkUE(blocWithUE, ue);
         assertTrue(blocWithUE.getUes().size() == 0);
-        System.err.println("-------------------");
-        daoBloc.update(blocWithUE);
 
         // vérifier ue est détaché
         Bloc blocWithoutUE = daoBloc.find(bloc.getId());
-        System.err.println("-------------------");
-        System.err.println("Actual size: " + blocWithoutUE.getUes().size());
-        System.err.println("Expected: " + (blocUeSize -1));
-        System.err.println("-------------------");
         assertTrue(blocWithoutUE.getUes().size() == (blocUeSize -1));
         assertTrue(blocWithoutUE.getUes().contains(ue) == false);
 
         // vérifier ue non supprimé
         UE ueFound = daoUe.find(ueId);
         assertNotNull(ueFound);
-
     }
 
     /**
@@ -179,67 +164,49 @@ public class DAOBlocTest {
     }
 
     @Test
-    public void addOption() {
-        // récupérer un bloc
-        Bloc bloc = daoBloc.find(BlocId);
-
+    public void linkOption() {
         // ajouter ue
-        Option option = this.createAndInsertOption();
+        Bloc b = daoBloc.find(BlocId);
+        Option o = this.createAndInsertOption();
 
-        // ajouter ue au bloc
-        bloc.addOption(option);
-        daoBloc.update(bloc);
+        daoBloc.linkOption(b, o);
 
-        Bloc test = daoBloc.find(bloc.getId());
-
+        Bloc test = daoBloc.find(BlocId);
         assertTrue(test.getOptions().size() >= 1);
-
     }
 
     /**
-     * detach Option without removing it
+     * detach UE without removing it
      */
     @Test
-    public void removeOption() {
+    public void unlinkOption() {
         // récupérer un bloc
         Bloc bloc = daoBloc.find(BlocId);
 
         // créer option
-        Option option = this.createAndInsertOption();
-        int optionId = option.getId();
+        Option o = this.createAndInsertOption();
+        int optionId = o.getId();
 
         // ajouter option au bloc
-        bloc.addOption(option);
-        daoBloc.update(bloc);
+        daoBloc.linkOption(bloc, o);
 
-        // assurer Option existe
+        // assurer option existe
         Bloc blocWithOption = daoBloc.find(bloc.getId());
         assertTrue(blocWithOption.getOptions().size() > 0);
         int blocOptionSize = blocWithOption.getOptions().size();
 
-        // enlever option
-        System.err.println("-------------------");
-        System.err.println("Bloc before removing Option " + blocWithOption.getOptions().size());
-        //blocWithUE.setUes(new ArrayList<>());
-        blocWithOption.removeOption(option);
-        System.err.println("Bloc after removing Option " + blocWithOption.getOptions().size());
+        // enlever option=
+        daoBloc.unlinkOption(blocWithOption, o);
         assertTrue(blocWithOption.getOptions().size() == 0);
-        System.err.println("-------------------");
-        daoBloc.update(blocWithOption);
 
         // vérifier option est détaché
-        Bloc blocWithoutOption = daoBloc.find(bloc.getId());
-        System.err.println("-------------------");
-        System.err.println("Actual size: " + blocWithoutOption.getOptions().size());
-        System.err.println("Expected: " + (blocOptionSize -1));
-        System.err.println("-------------------");
-        assertTrue(blocWithoutOption.getOptions().size() == (blocOptionSize -1));
-        assertTrue(blocWithoutOption.getOptions().contains(option) == false);
+        Bloc blocWithoutUE = daoBloc.find(bloc.getId());
+        assertTrue(blocWithoutUE.getOptions().size() == (blocOptionSize -1));
+        assertTrue(blocWithoutUE.getOptions().contains(o) == false);
 
-        // vérifier ue non supprimé
-        Option ueFound = daoOption.find(optionId);
-        assertNotNull(ueFound);
-
+        // vérifier option non supprimé
+        Option optionFound = daoOption.find(optionId);
+        assertNotNull(optionFound);
     }
 
 }

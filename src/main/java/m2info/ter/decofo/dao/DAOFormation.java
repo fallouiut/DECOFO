@@ -1,6 +1,9 @@
 package m2info.ter.decofo.dao;
 
+import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Formation;
+import m2info.ter.decofo.classes.Option;
+import m2info.ter.decofo.classes.UE;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -46,4 +49,20 @@ public class DAOFormation extends DAO<Formation> {
             return null;
         }
     }
+
+    public void addBloc(Formation f, Bloc b) {
+        f.addBloc(b);
+        this.update(f);
+    }
+
+    public void addOption(Formation f, Option o) {
+        f.addOption(o);
+        this.update(f);
+    }
+
+    public void addUE(Formation f, UE ue) {
+        f.addUE(ue);
+        this.update(f);
+    }
+
 }

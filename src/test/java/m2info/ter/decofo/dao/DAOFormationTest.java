@@ -4,6 +4,7 @@ import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Formation;
 import m2info.ter.decofo.classes.Option;
 import m2info.ter.decofo.classes.UE;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,33 @@ public class DAOFormationTest {
     @Autowired
     DAOFormation daoFormation;
 
+    @Autowired
+    DAOBloc daoBloc;
+
+    @Autowired
+    DAOBloc daoOption;
+
+    @Autowired
+    DAOUe daoUE;
+
     private int formationId;
 
     @BeforeEach
     public void befa() {
-        formationId = daoFormation.findAll().get(0).getId();
+        Formation f = new Formation("M7ILD", 250, "M3 - ILD", 5, 2, 3);
+        daoFormation.insert(f);
+        formationId = f.getId();
         System.err.println("Formation ID = " + formationId);
     }
+
+
+    @AfterEach
+    public void after() {
+        Formation f = daoFormation.find(formationId);
+        if(f!= null)
+            daoFormation.delete(f);
+    }
+
 
     @Test
     public void autowireWorkds() {
@@ -80,13 +101,11 @@ public class DAOFormationTest {
 
     @Test
     public void addBlocs() {
-        Formation f = new Formation("M3ILD", 250, "M3 - ILD", 5, 2, 3);
-        f.addBloc(new Bloc("s1", "semestre", 0));
-        f.addBloc(new Bloc("s1", "semestre", 0));
+        Formation formationTest = daoFormation.find(formationId);
+        daoFormation.addBloc(formationTest, new Bloc("s1", "semestre", 0));
+        daoFormation.addBloc(formationTest, new Bloc("s1", "semestre", 0));
 
-        daoFormation.insert(f);
-
-        Formation found = daoFormation.find(f.getId());
+        Formation found = daoFormation.find(formationId);
 
         assertTrue(found.getBlocs().size() >= 2);
 
@@ -94,29 +113,93 @@ public class DAOFormationTest {
 
     @Test
     public void addOptions() {
-        Formation f = new Formation("M3ILD", 250, "M3 - ILD", 5, 2, 3);
-        f.addOption(new Option("code", "intitule", 0, 0));
-        f.addOption(new Option("code", "intitule", 0, 0));
+        Formation formationTest = daoFormation.find(formationId);
+        daoFormation.addOption(formationTest, new Option("code", "intitule", 0, 0));
+        daoFormation.addOption(formationTest, new Option("code", "intitule", 0, 0));
 
-        daoFormation.insert(f);
-
-        Formation found = daoFormation.find(f.getId());
+        Formation found = daoFormation.find(formationId);
 
         assertTrue(found.getOptions().size() >= 1);
     }
 
     @Test
     public void addUE() {
-        Formation f = new Formation("M3ILD", 250, "M3 - ILD", 5, 2, 3);
-        f.addUE(new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6));
-        f.addUE(new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6));
+        Formation formationTest = daoFormation.find(formationId);
+        daoFormation.addUE(formationTest, new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6));
+        daoFormation.addUE(formationTest, new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6));
 
-        daoFormation.insert(f);
-
-        Formation found = daoFormation.find(f.getId());
-
+        Formation found = daoFormation.find(formationId);
         assertTrue(found.getUEs().size() >= 1);
 
     }
+
+    @Test
+    public void deleteCascade() {
+        Formation formationTest = daoFormation.find(formationId);
+        daoFormation.addBloc(formationTest, new Bloc("s1", "semestre", 0));
+        daoFormation.addUE(formationTest, new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6));
+        daoFormation.addOption(formationTest, new Option("code", "intitule", 0, 0));
+
+
+        Formation found = daoFormation.find(formationId);
+
+        int ueId = found.getUEs().get(0).getId();
+        int optionId = found.getOptions().get(0).getId();
+        int blocId = found.getBlocs().get(0).getId();
+
+        daoFormation.delete(found);
+        assertTrue(daoFormation.find(formationId) == null);
+
+        assertNotNull(daoBloc.find(blocId) == null);
+        assertNotNull(daoOption.find(optionId) == null);
+        assertNotNull(daoUE.find(ueId) == null);
+    }
+
+
+    @Test
+    public void deleteBloc() {
+        Formation formationTest = daoFormation.find(formationId);
+        daoFormation.addBloc(formationTest, new Bloc("s1", "semestre", 0));
+
+        Formation found = daoFormation.find(formationId);
+        Bloc b = found.getBlocs().get(0);
+        int blocId = b.getId();
+
+        found.removeBloc(b);
+
+        daoFormation.update(found);
+        assertNull(daoBloc.find(blocId));
+    }
+
+    @Test
+    public void deleteOption() {
+        Formation formationTest = daoFormation.find(formationId);
+        daoFormation.addOption(formationTest, new Option("code", "intitule", 0, 0));
+
+        Formation found = daoFormation.find(formationId);
+        Option o = found.getOptions().get(0);
+        int id = o.getId();
+
+        found.removeOption(o);
+
+        daoFormation.update(found);
+        assertNull(daoBloc.find(id));
+    }
+
+    @Test
+    public void deleteUE() {
+        Formation formationTest = daoFormation.find(formationId);
+        daoFormation.addUE(formationTest, new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6));
+
+        Formation found = daoFormation.find(formationId);
+        UE ue = found.getUEs().get(0);
+        int id = ue.getId();
+
+        found.removeUE(ue);
+
+        daoFormation.update(found);
+        assertNull(daoBloc.find(id));
+    }
+
 }
 

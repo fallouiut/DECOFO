@@ -42,13 +42,13 @@ public class Formation implements Serializable {
     @Column(name = "f_Tp")
     int tailleGroupeTP;
 
-    @OneToMany(mappedBy = "formationOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "formationOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Bloc> blocs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "formationOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "formationOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Option> options = new ArrayList<>();
 
-    @OneToMany(mappedBy = "formationOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "formationOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UE> ues;
 
     public void addBloc(Bloc b) {

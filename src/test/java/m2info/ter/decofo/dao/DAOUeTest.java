@@ -1,9 +1,6 @@
 package m2info.ter.decofo.dao;
 
-import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.UE;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

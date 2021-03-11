@@ -103,68 +103,50 @@ public class DAOOptionTest {
         return ue;
     }
 
+
     @Test
-    public void addUE() {
-        // récupérer un bloc
-        Option option = dapOption.find(optionId);
-
+    public void linkUE() {
         // ajouter ue
+        Option o = dapOption.find(optionId);
         UE ue = this.createAndInsertUE();
+        dapOption.linkUE(o, ue);
 
-        // ajouter ue au bloc
-        option.addUE(ue);
-        dapOption.update(option);
-
-        Option test = dapOption.find(option.getId());
+        Option test = dapOption.find(optionId);
         assertTrue(test.getUes().size() >= 1);
-
     }
-
 
     /**
      * detach UE without removing it
      */
     @Test
-    public void removeUE() {
-        // récupérer un option
+    public void unlinkUE() {
+        // récupérer un bloc
         Option option = dapOption.find(optionId);
 
         // créer ue
         UE ue = this.createAndInsertUE();
         int ueId = ue.getId();
 
-        // ajouter ue au option
-        option.addUE(ue);
-        dapOption.update(option);
+        // ajouter ue au bloc
+        dapOption.linkUE(option, ue);
 
         // assurer UE existe
         Option optionWithUE = dapOption.find(option.getId());
         assertTrue(optionWithUE.getUes().size() > 0);
-        int blocUeSize = optionWithUE.getUes().size();
+        int optionUeSize = optionWithUE.getUes().size();
 
-        // enlever ue
-        System.err.println("-------------------");
-        System.err.println("Option before removing ue " + optionWithUE.getUes().size());
-        //blocWithUE.setUes(new ArrayList<>());
-        optionWithUE.removeUE(ue);
-        System.err.println("Option after removing ue " + optionWithUE.getUes().size());
+        // enlever ue=
+        dapOption.unlinkUE(optionWithUE, ue);
         assertTrue(optionWithUE.getUes().size() == 0);
-        System.err.println("-------------------");
-        dapOption.update(optionWithUE);
 
         // vérifier ue est détaché
         Option optionWithoutUE = dapOption.find(option.getId());
-        System.err.println("-------------------");
-        System.err.println("Actual size: " + optionWithoutUE.getUes().size());
-        System.err.println("Expected: " + (blocUeSize -1));
-        System.err.println("-------------------");
-        assertTrue(optionWithoutUE.getUes().size() == (blocUeSize -1));
+        assertTrue(optionWithoutUE.getUes().size() == (optionUeSize -1));
         assertTrue(optionWithoutUE.getUes().contains(ue) == false);
 
         // vérifier ue non supprimé
         UE ueFound = daoUe.find(ueId);
         assertNotNull(ueFound);
-
     }
 }
 

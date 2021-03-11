@@ -2,6 +2,7 @@ package m2info.ter.decofo.dao;
 
 import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Option;
+import m2info.ter.decofo.classes.UE;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
@@ -37,4 +38,15 @@ public class DAOOption extends DAO<Option> {
             return null;
         }
     }
+
+    public void linkUE(Option o, UE ue) {
+        o.addUE(ue);
+        this.update(o);
+    }
+
+    public void unlinkUE(Option o, UE ue) {
+        o.removeUE(ue);
+        this.update(o);
+    }
+
 }

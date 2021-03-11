@@ -1,6 +1,8 @@
 package m2info.ter.decofo.dao;
 
 import m2info.ter.decofo.classes.Bloc;
+import m2info.ter.decofo.classes.Option;
+import m2info.ter.decofo.classes.UE;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
@@ -38,18 +40,24 @@ public class DAOBloc extends DAO<Bloc> {
         }
     }
 
-    public List<Bloc> findAllByFormation(int formationId) {
-        try {
-            String query = "SELECT b FROM Bloc b JOIN b.formationOwner owner WHERE owner.id = :id";
-            TypedQuery<Bloc> q = this.em.createQuery(query, Bloc.class);
-
-            List<Bloc> blocs = q.setParameter("id", formationId).setMaxResults(50).getResultList();
-
-            return blocs;
-        } catch (Exception e) {
-            System.err.println("BlocManager.findAll()");
-            return null;
-        }
+    public void linkUE(Bloc b, UE ue) {
+        b.addUE(ue);
+        this.update(b);
     }
 
+    public void unlinkUE(Bloc b, UE ue) {
+        b.removeUE(ue);
+        this.update(b);
+    }
+
+
+    public void linkOption(Bloc b, Option o) {
+        b.addOption(o);
+        this.update(b);
+    }
+
+    public void unlinkOption(Bloc b, Option o) {
+        b.removeOption(o);
+        this.update(b);
+    }
 }
