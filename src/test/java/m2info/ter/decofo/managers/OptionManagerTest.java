@@ -56,7 +56,7 @@ public class OptionManagerTest {
     }
 
     @Test
-    public void testUpdate(){
+    public void testUpdate() throws Exception {
         Option option = optionManager.findOne(optionId);
 
         option.setIntitule("Test1.1 update");

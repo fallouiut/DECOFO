@@ -19,52 +19,13 @@ public class FormationController {
     @Autowired
     FormationManager formationManager;
 
-    // ajout Bloc
-    @GetMapping("/add-bloc")
-    public ResponseEntity<Map<String, Object>> addBloc(@RequestParam("formationId") int formationId, @RequestParam("blocId") int blocId) {
+    // création bloc
+    // suppression bloc
 
-        Map<String, Object> map = new HashMap<>();
-
-        try {
-            this.formationManager.linkBloc(formationId, blocId);
-            map.put("success", true);
-            return new ResponseEntity<>(map, HttpStatus.OK);
-        } catch (NotFoundObjectException e) {
-            map.put("success", false);
-            map.put("error", e.getMessage());
-            System.err.println(e.getMessage());
-            return new ResponseEntity<>(map, HttpStatus.OK);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    // suppression Bloc
-    @GetMapping("/remove-bloc")
-    public ResponseEntity<Map<String, Object>> removeBloc(@RequestParam("formationId") int formationId, @RequestParam("blocId") int blocId) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        try {
-            this.formationManager.unlinkBloc(formationId, blocId);
-            map.put("success", true);
-            return new ResponseEntity<>(map, HttpStatus.OK);
-        } catch (NotFoundObjectException e) {
-            System.err.println(e.getMessage());
-            map.put("success", false);
-            map.put("error", e.getMessage());
-            return new ResponseEntity<>(map, HttpStatus.OK);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    // ajout UE
+    // creation bloc
     // suppression UE
 
-    // ajout option
+    // creation option
     // suppression option
 
     /**

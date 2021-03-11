@@ -42,7 +42,7 @@ public class OptionController {
     }
 
     @PostMapping("/update/{optionId}")
-    public ResponseEntity<Object> updateOption(@RequestBody Option option, @PathVariable("optionId") int optionId) {
+    public ResponseEntity<Object> updateOption(@RequestBody Option option, @PathVariable("optionId") int optionId) throws Exception {
         option.setId(optionId);
         this.optionManager.update(option);
         return null;
@@ -54,5 +54,7 @@ public class OptionController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
+    // ajouter UE
+    // enlever UE
 
 }

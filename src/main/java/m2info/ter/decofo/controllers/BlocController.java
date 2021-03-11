@@ -17,9 +17,8 @@ public class BlocController {
     @Autowired
     BlocManager blocManager;
 
-    @PostMapping("/create")
-    public ResponseEntity<Map<String, Object>> createBloc(@RequestBody Bloc bloc) {
-        System.err.println("Adding bloc + " + bloc.toString());
+    @PostMapping("/create/{formationId}")
+    public ResponseEntity<Map<String, Object>> createBloc(@RequestBody Bloc bloc, @PathVariable("formationOwnerId") int formationOwnerId) {
         this.blocManager.insert(bloc);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
@@ -36,7 +35,7 @@ public class BlocController {
     }
 
     @GetMapping("/read-all")
-    public ResponseEntity<List<Bloc>> getAllFormations() {
+    public ResponseEntity<List<Bloc>> getAllBlocsFromFormation(@RequestParam("formationId") int formationId) {
         return new ResponseEntity<List<Bloc>>(this.blocManager.findAll(), HttpStatus.OK);
     }
 
@@ -70,6 +69,7 @@ public class BlocController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
 
     // ajouter ue (qui exite dans la formation=)

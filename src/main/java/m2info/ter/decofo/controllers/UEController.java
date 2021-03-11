@@ -43,7 +43,7 @@ public class UEController {
     }
 
     @PostMapping("/update/{UEId}")
-    public ResponseEntity<Object> updateUE(@RequestBody UE ue, @PathVariable("UEId") int UEId) {
+    public ResponseEntity<Object> updateUE(@RequestBody UE ue, @PathVariable("UEId") int UEId) throws Exception {
         System.err.println("Updatue UE " + UEId);
         ue.setId(UEId);
         this.ueManager.update(ue);

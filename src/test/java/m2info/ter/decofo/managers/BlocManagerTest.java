@@ -31,7 +31,6 @@ public class BlocManagerTest {
     @Test
     public void managerExists() {
         assertTrue(manager != null);
-        assertTrue(manager.entityManager() != null);
     }
 
     @Test public void insertOne() {

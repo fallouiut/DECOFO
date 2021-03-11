@@ -63,7 +63,7 @@ public class UEManagerTest {
     }
 
     @Test
-    public void testUpdate() {
+    public void testUpdate() throws Exception {
         UE ue = ueManager.findOne(ueId);
 
         ue.setCode("Genie logiciel");

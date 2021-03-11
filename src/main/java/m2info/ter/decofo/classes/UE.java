@@ -2,17 +2,17 @@ package m2info.ter.decofo.classes;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "UE")
 @Table(name = "T_UE")
-
 public class UE implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id()
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ue_id")
     private int id;
 
     @Basic()
@@ -56,6 +56,18 @@ public class UE implements Serializable {
     @Column(name = "ue_effectifTotal", length = 200, nullable = true)
     private int effectifTotal;
 
+    @ManyToOne
+    @JoinColumn(name = "f_id")
+    private Formation formationOwner;
+
+    // ue parent
+    @ManyToMany(mappedBy = "ues", fetch = FetchType.LAZY)
+    List<Bloc> blocs = new ArrayList<>();
+
+    // option parent
+    @ManyToMany(mappedBy = "ues", fetch = FetchType.LAZY)
+    List<Option> options = new ArrayList<>();
+
     public UE() {
 
     }
@@ -88,6 +100,62 @@ public class UE implements Serializable {
                 ", nombreGroupesTP=" + nombreGroupesTP +
                 ", effectifTotal=" + effectifTotal +
                 '}';
+    }
+
+    // ------------------------- blocs
+    public void addBloc(Bloc bloc) {
+        this.blocs.add(bloc);
+    }
+
+    public void removeBloc(Bloc bloc) {
+        List<Bloc> newBlocs = new ArrayList<>();
+
+        for(Bloc myBloc: blocs)
+            if(bloc.getId() != myBloc.getId())
+                newBlocs.add(myBloc);
+
+        this.blocs = newBlocs;
+    }
+
+    public List<Bloc> getBlocs() {
+        return blocs;
+    }
+
+    // --------- OPTIONS -------------
+    public void addOption(Option option) {
+        this.options.add(option);
+    }
+
+    public void removeOption(Option option) {
+        List<Option> newOption = new ArrayList<>();
+
+        for(Option myOption: options)
+            if(option.getId() != myOption.getId())
+                newOption.add(option);
+
+        this.options = newOption;
+    }
+
+    public List<Option> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<Option> options) {
+        this.options = options;
+    }
+    // ------------------------------------
+
+
+    public void setBlocs(List<Bloc> blocs) {
+        this.blocs = blocs;
+    }
+
+    public Formation getFormationOwner() {
+        return formationOwner;
+    }
+
+    public void setFormationOwner(Formation formationOwner) {
+        this.formationOwner = formationOwner;
     }
 
     public void incrementerEffectif(int effectif) {

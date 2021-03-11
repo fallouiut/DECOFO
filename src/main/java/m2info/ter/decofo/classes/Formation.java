@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "Formation")
@@ -41,9 +42,14 @@ public class Formation implements Serializable {
     @Column(name = "f_Tp")
     int tailleGroupeTP;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "formationOwner", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-    private List<Bloc> blocs;
+    @OneToMany(mappedBy = "formationOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Bloc> blocs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "formationOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Option> options = new ArrayList<>();
+
+    @OneToMany(mappedBy = "formationOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<UE> ues;
 
     public void addBloc(Bloc b) {
         this.blocs.add(b);
@@ -58,9 +64,32 @@ public class Formation implements Serializable {
         return blocs;
     }
 
-    public void setBlocs(List<Bloc> blocs) {
-        this.blocs = blocs;
+    public void addOption(Option o) {
+        this.options.add(o);
+        o.setFormationOwner(this);
     }
+
+    public List<Option> getOptions() {
+        return options;
+    }
+
+    public void removeOption(Option o) {
+        this.options.remove(o);
+    }
+
+    public void addUE(UE ue) {
+        this.ues.add(ue);
+        ue.setFormationOwner(this);
+    }
+
+    public List<UE> getUEs() {
+        return ues;
+    }
+
+    public void removeUE(UE ue) {
+        this.ues.remove(ue);
+    }
+
 
     @Override
     public String toString() {

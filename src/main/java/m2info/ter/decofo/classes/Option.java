@@ -2,6 +2,8 @@ package m2info.ter.decofo.classes;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name="Option")
 @Table(name = "TOption")
@@ -30,6 +32,17 @@ public class Option implements Serializable {
     @Column(name = "o_effectifTotal", length = 200, nullable = true)
     private int effectifTotal;
 
+    @ManyToOne
+    @JoinColumn(name = "f_id")
+    private Formation formationOwner;
+
+    @ManyToMany(mappedBy = "options", fetch = FetchType.LAZY)
+    List<Bloc> blocs = new ArrayList<>();
+
+    // ues
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<UE> ues = new ArrayList<>();
+
     public Option() {
 
     }
@@ -50,6 +63,66 @@ public class Option implements Serializable {
                 ", cout=" + cout +
                 ", effectifTotal=" + effectifTotal +
                 '}';
+    }
+
+    // ------------------------- blocs
+    
+    public void addBloc(Bloc bloc) {
+        this.blocs.add(bloc);
+    }
+
+    public void removeBloc(Bloc bloc) {
+        List<Bloc> newBlocs = new ArrayList<>();
+
+        for(Bloc myBloc: blocs)
+            if(bloc.getId() != myBloc.getId())
+                newBlocs.add(myBloc);
+
+        this.blocs = newBlocs;
+    }
+
+    public List<Bloc> getBlocs() {
+        return blocs;
+    }
+
+    // --------- UE -------------
+
+    public void addUE(UE ue) {
+        this.ues.add(ue);
+        ue.addOption(this);
+    }
+
+    public void removeUE(UE ue) {
+        List<UE> newUes = new ArrayList<>();
+
+        for(UE myUe: ues)
+            if(ue.getId() != myUe.getId())
+                newUes.add(myUe);
+
+        this.ues = newUes;
+        ue.removeOption(this);
+    }
+
+    public List<UE> getUes() {
+        return ues;
+    }
+
+    public void setUes(List<UE> ues) {
+        this.ues = ues;
+    }
+
+    // ------------------------------------
+
+    public void setBlocs(List<Bloc> blocs) {
+        this.blocs = blocs;
+    }
+
+    public Formation getFormationOwner() {
+        return formationOwner;
+    }
+
+    public void setFormationOwner(Formation formationOwner) {
+        this.formationOwner = formationOwner;
     }
 
     public int getId() {
