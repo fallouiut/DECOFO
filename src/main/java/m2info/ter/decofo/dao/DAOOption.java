@@ -18,6 +18,7 @@ public class DAOOption extends DAO<Option> {
         if(o == null) return null;
 
         o.getBlocs().size();
+        o.getUes().size();
 
         return o;
     }
@@ -35,15 +36,5 @@ public class DAOOption extends DAO<Option> {
             System.err.println("DAOOption.findAll()");
             return null;
         }
-    }
-
-    public List<Option> findAllByFormation(int formationId) {
-        return null;
-    }
-
-
-    public List<Option> findAllByBloc(int blocId) {
-
-        return null;
     }
 }

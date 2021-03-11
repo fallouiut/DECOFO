@@ -18,6 +18,7 @@ public class DAOUe extends DAO<UE> {
         if (ue == null) return null;
 
         ue.getBlocs().size();
+        ue.getOptions().size();
 
         return ue;
     }
