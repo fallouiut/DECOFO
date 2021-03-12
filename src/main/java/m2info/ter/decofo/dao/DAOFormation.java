@@ -6,7 +6,6 @@ import m2info.ter.decofo.classes.Option;
 import m2info.ter.decofo.classes.UE;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -55,13 +54,29 @@ public class DAOFormation extends DAO<Formation> {
         this.update(f);
     }
 
+    public void removeBloc(Formation f, Bloc b) {
+        f.removeBloc(b);
+        this.update(f);
+    }
+
+
     public void addOption(Formation f, Option o) {
         f.addOption(o);
         this.update(f);
     }
 
+    public void removeOption(Formation f, Option o) {
+        f.removeOption(o);
+        this.update(f);
+    }
+
     public void addUE(Formation f, UE ue) {
         f.addUE(ue);
+        this.update(f);
+    }
+
+    public void removeUE(Formation f, UE ue) {
+        f.removeUE(ue);
         this.update(f);
     }
 

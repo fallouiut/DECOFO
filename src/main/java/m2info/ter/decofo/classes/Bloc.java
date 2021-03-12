@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity(name = "Bloc")
 @Table(name = "TBloc")
@@ -50,6 +51,19 @@ public class Bloc implements Serializable {
         this.code = code;
         this.intitule = intitule;
         this.cout = cout;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bloc bloc = (Bloc) o;
+        return id == bloc.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

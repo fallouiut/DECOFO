@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity(name = "UE")
 @Table(name = "T_UE")
@@ -100,6 +101,19 @@ public class UE implements Serializable {
                 ", nombreGroupesTP=" + nombreGroupesTP +
                 ", effectifTotal=" + effectifTotal +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UE ue = (UE) o;
+        return id == ue.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     // ------------------------- blocs

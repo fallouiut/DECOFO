@@ -17,12 +17,6 @@ public class BlocController {
     @Autowired
     BlocManager blocManager;
 
-    @PostMapping("/create/{formationId}")
-    public ResponseEntity<Map<String, Object>> createBloc(@RequestBody Bloc bloc, @PathVariable("formationOwnerId") int formationOwnerId) {
-        this.blocManager.insert(bloc);
-        return new ResponseEntity<>(null, HttpStatus.OK);
-    }
-
     @GetMapping("/read-one/{blocId}")
     public ResponseEntity<Bloc> getBlocDetails(@PathVariable("blocId") int blocId) {
         try {
@@ -32,11 +26,6 @@ public class BlocController {
             System.err.println("Erreur BlocController.getBlocDetails()");
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    @GetMapping("/read-all")
-    public ResponseEntity<List<Bloc>> getAllBlocsFromFormation(@RequestParam("formationId") int formationId) {
-        return new ResponseEntity<List<Bloc>>(this.blocManager.findAll(), HttpStatus.OK);
     }
 
     @PostMapping("/update/{blocId}")

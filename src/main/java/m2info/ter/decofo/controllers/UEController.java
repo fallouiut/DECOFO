@@ -18,14 +18,6 @@ public class UEController {
     @Autowired
     UEManager ueManager;
 
-    @PostMapping("/create")
-    public ResponseEntity<Map<String, Object>> createUE(@RequestBody UE ue) {
-        System.err.println("UE : " + ue.toString());
-        this.ueManager.insert(ue);
-
-        return new ResponseEntity(null, HttpStatus.OK);
-    }
-
     @GetMapping("/read-one/{UEId}")
     public ResponseEntity<Formation> getOneUE(@PathVariable("UEId") int UEId) {
         UE ue = ueManager.findOne(UEId);
@@ -35,11 +27,6 @@ public class UEController {
         } else {
             return new ResponseEntity(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    @GetMapping("/read-all")
-    public ResponseEntity<List<UE>> getAllUEs() {
-        return new ResponseEntity<>(this.ueManager.findAll(), HttpStatus.OK);
     }
 
     @PostMapping("/update/{UEId}")

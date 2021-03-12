@@ -49,7 +49,7 @@ public class Formation implements Serializable {
     private List<Option> options = new ArrayList<>();
 
     @OneToMany(mappedBy = "formationOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UE> ues;
+    private List<UE> ues = new ArrayList<>();
 
     public void addBloc(Bloc b) {
         this.blocs.add(b);

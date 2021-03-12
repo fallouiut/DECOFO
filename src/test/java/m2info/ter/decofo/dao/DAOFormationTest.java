@@ -51,7 +51,6 @@ public class DAOFormationTest {
             daoFormation.delete(f);
     }
 
-
     @Test
     public void autowireWorkds() {
 
@@ -165,9 +164,8 @@ public class DAOFormationTest {
         Bloc b = found.getBlocs().get(0);
         int blocId = b.getId();
 
-        found.removeBloc(b);
+        daoFormation.removeBloc(found, b);
 
-        daoFormation.update(found);
         assertNull(daoBloc.find(blocId));
     }
 
@@ -180,9 +178,8 @@ public class DAOFormationTest {
         Option o = found.getOptions().get(0);
         int id = o.getId();
 
-        found.removeOption(o);
+        daoFormation.removeOption(found, o);
 
-        daoFormation.update(found);
         assertNull(daoBloc.find(id));
     }
 
@@ -195,9 +192,7 @@ public class DAOFormationTest {
         UE ue = found.getUEs().get(0);
         int id = ue.getId();
 
-        found.removeUE(ue);
-
-        daoFormation.update(found);
+        daoFormation.removeUE(found, ue);
         assertNull(daoBloc.find(id));
     }
 

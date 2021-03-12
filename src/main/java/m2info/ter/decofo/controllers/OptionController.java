@@ -17,13 +17,6 @@ public class OptionController {
     @Autowired
     OptionManager optionManager;
 
-    @PostMapping("/create")
-    public ResponseEntity<Map<String, Object>> createOption(@RequestBody Option option) {
-        System.err.println("Adding option + " + option.toString());
-        this.optionManager.insert(option);
-        return new ResponseEntity(null, HttpStatus.OK);
-    }
-    
     @GetMapping("/read-one/{optionId}")
     public ResponseEntity<Option> getOneOption(@PathVariable("optionId") int optionId) {
 
@@ -34,11 +27,6 @@ public class OptionController {
         } else {
             return new ResponseEntity(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    @GetMapping("/read-all")
-    public ResponseEntity<List<Option>> getAllOptions() {
-        return new ResponseEntity<>(this.optionManager.findAll(), HttpStatus.OK);
     }
 
     @PostMapping("/update/{optionId}")
