@@ -40,7 +40,7 @@ public class DAOFormation extends DAO<Formation> {
             String query = "SELECT f FROM Formation f";
             TypedQuery<Formation> q = this.em.createQuery(query, Formation.class);
 
-            List<Formation> formations = q.setMaxResults(200).getResultList();
+            List<Formation> formations = q.setMaxResults(50).getResultList();
 
             return formations;
         } catch (Exception e) {

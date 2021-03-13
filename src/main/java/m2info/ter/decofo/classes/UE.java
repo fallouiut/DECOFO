@@ -1,5 +1,7 @@
 package m2info.ter.decofo.classes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -57,15 +59,18 @@ public class UE implements Serializable {
     @Column(name = "ue_effectifTotal", length = 200, nullable = true)
     private int effectifTotal;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "f_id")
     private Formation formationOwner;
 
     // ue parent
+    @JsonIgnore
     @ManyToMany(mappedBy = "ues", fetch = FetchType.LAZY)
     List<Bloc> blocs = new ArrayList<>();
 
     // option parent
+    @JsonIgnore
     @ManyToMany(mappedBy = "ues", fetch = FetchType.LAZY)
     List<Option> options = new ArrayList<>();
 

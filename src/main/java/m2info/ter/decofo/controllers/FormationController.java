@@ -1,6 +1,10 @@
 package m2info.ter.decofo.controllers;
 
+import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Formation;
+import m2info.ter.decofo.classes.Option;
+import m2info.ter.decofo.classes.UE;
+import m2info.ter.decofo.exceptions.DecofoException;
 import m2info.ter.decofo.exceptions.NotFoundObjectException;
 import m2info.ter.decofo.managers.FormationManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +23,6 @@ public class FormationController {
     @Autowired
     FormationManager formationManager;
 
-    // création bloc
-    // suppression bloc
-
-    // creation bloc
-    // suppression UE
-
-    // creation option
-    // suppression option
-
     /**
      * Créer une formation
      */
@@ -35,8 +30,6 @@ public class FormationController {
     public ResponseEntity<Map<String, Object>> createFormation(@RequestBody Formation formation) {
         try {
             this.formationManager.insert(formation);
-
-            System.err.println("Création : " + formation.toString());
 
             return new ResponseEntity(null, HttpStatus.OK);
         } catch (Exception e) {
@@ -71,8 +64,7 @@ public class FormationController {
      */
     @GetMapping("/read-all")
     public ResponseEntity<List<Formation>> getAllFormations() {
-        List<Formation> formations =this.formationManager.findAll();
-        System.err.println("Size: " + formations.size());
+        List<Formation> formations = this.formationManager.findAll();
         return new ResponseEntity<>(formations, HttpStatus.OK);
     }
 
@@ -98,12 +90,55 @@ public class FormationController {
             if (formationId < 0) throw new Exception("formationId < 0");
             this.formationManager.delete(formationId);
 
-            System.err.println("delete formation: " + formationId);
-
             return new ResponseEntity<>(null, HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Erreur FormationController.deleteFormation()");
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // création bloc
+    @PostMapping("/create-bloc/{formationId}")
+    public ResponseEntity<Map<String, Object>> createBlocOnFormation(@PathVariable("formationId") int formationId, @RequestBody Bloc bloc) {
+        Map <String, Object> result = new HashMap<>();
+        try {
+            if(formationId < 0 ) throw new Exception("formationId < 0 ");
+            this.formationManager.addBloc(formationId, bloc);
+
+            result.put("success", true);
+            return new ResponseEntity(result, HttpStatus.OK);
+        } catch (DecofoException e) {
+            result.put("success", false);
+            result.put("error", e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Erreur FormationController.createBloc()");
+            result.put("error", "Server error");
+            System.err.println(e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // suppression bloc
+    @GetMapping("/delete-bloc/")
+    public ResponseEntity<Map<String, Object>> deleteBlocOnFormation(@RequestParam("formationId") int formationId, @RequestParam("blocId") int blocId) {
+        Map <String, Object> result = new HashMap<>();
+        try {
+            if(formationId < 0 ) throw new Exception("formationId < 0 ");
+            if(blocId < 0) throw new Exception(" blocId < 0");
+            this.formationManager.removeBloc(formationId, blocId);
+
+            result.put("success", true);
+            return new ResponseEntity(result, HttpStatus.OK);
+        } catch (DecofoException e) {
+            result.put("success", false);
+            result.put("error", e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Erreur FormationController.createBloc()");
+            result.put("error", "Server error");
+            System.err.println(e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

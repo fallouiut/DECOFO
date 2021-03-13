@@ -1,5 +1,6 @@
 package m2info.ter.decofo.classes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -31,6 +32,7 @@ public class Bloc implements Serializable {
     @Column(name = "b_cout", length = 200, nullable = true)
     private double cout;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "f_id")
     private Formation formationOwner;
