@@ -18,5 +18,13 @@ class DecofoApplicationTests {
 	void addFormation() {
 		List<Integer> integers = new ArrayList<>();
 
+		double test = 2.3;
+
+		int parse = (int)Math.ceil(test);
+
+
+		System.out.println("Parsed value: " + parse);
+
+
 	}
 }

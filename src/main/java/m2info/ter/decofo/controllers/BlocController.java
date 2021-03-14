@@ -1,15 +1,16 @@
 package m2info.ter.decofo.controllers;
 
 import m2info.ter.decofo.classes.Bloc;
+import m2info.ter.decofo.classes.Formation;
 import m2info.ter.decofo.exceptions.DecofoException;
-import m2info.ter.decofo.managers.BlocManager;
+import m2info.ter.decofo.exceptions.NotFoundObjectException;
+import m2info.ter.decofo.manager.gestion.BlocManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -21,42 +22,51 @@ public class BlocController {
 
     @GetMapping("/read-one/{blocId}")
     public ResponseEntity<Bloc> getBlocDetails(@PathVariable("blocId") int blocId) {
+        Map <String, Object> result = new HashMap<>();
+
         try {
-            Bloc b = this.blocManager.findOne(blocId);
-            return new ResponseEntity<>(b, HttpStatus.OK);
-        } catch (Exception e) {
-            System.err.println("Erreur BlocController.getBlocDetails()");
+            if (blocId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
+            Bloc bloc = blocManager.findOne(blocId);
+            if(bloc == null) throw new NotFoundObjectException("Bloc n'existe pas");
+
+            result.put("bloc", bloc);
+            return new ResponseEntity(result, HttpStatus.OK);
+        } catch (DecofoException e) {
+            result.put("error", e.getMessage());
+            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping("/update/{blocId}")
     public ResponseEntity<Map<String, Object>> updateBloc(@RequestBody Bloc bloc, @PathVariable("blocId") int blocId) {
-        System.err.println("--- Update ---");
+        Map <String, Object> result = new HashMap<>();
         try {
-            if(blocId > 0) {
-                bloc.setId(blocId);
-                this.blocManager.update(bloc);
-                return new ResponseEntity<>(null, HttpStatus.OK);
-            } else {
-                throw new Exception("bloc id < 0");
-            }
+            if (blocId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
+            bloc.setId(blocId);
+            this.blocManager.update(bloc);
+
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch (DecofoException e) {
+            result.put("error", e.getMessage());
+            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            System.err.println("Erreur");
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/delete/{blocId}")
     public ResponseEntity<Map<String, Object>> deleteBloc(@PathVariable("blocId") int blocId) {
+        Map <String, Object> result = new HashMap<>();
         try {
-            if(blocId > 0) {
-                this.blocManager.delete(blocId);
-                return new ResponseEntity<>(null, HttpStatus.OK);
-            } else {
-                throw new Exception("bloc id < 0");
-            }
+            if (blocId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
+            this.blocManager.delete(blocId);
+            return new ResponseEntity<>(null, HttpStatus.OK);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -66,21 +76,16 @@ public class BlocController {
     public ResponseEntity<Map<String, Object>> linkUE(@RequestParam("blocId") int blocId, @RequestParam("ueId") int ueId) {
         Map <String, Object> result = new HashMap<>();
         try{
-            if(blocId < 0 ) throw new Exception("blocId < 0");
-            if(ueId < 0 ) throw new Exception("ueId < 0");
+            if(blocId < 0) throw new NotFoundObjectException("Mauvais ID Bloc");
+            if(ueId < 0)   throw new NotFoundObjectException("Mauvais ID UE");
 
             this.blocManager.linkUE(blocId,ueId);
-            result.put("success", true);
             return new ResponseEntity<>(result, HttpStatus.OK);
 
         } catch (DecofoException e) {
-            result.put("success", false);
             result.put("error", e.getMessage());
-
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            System.err.println("Erreur FormationController.createBloc()");
-            result.put("error", "Server error");
             System.err.println(e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -92,8 +97,8 @@ public class BlocController {
         Map <String, Object> result = new HashMap<>();
 
         try{
-            if(blocId < 0 ) throw new Exception("blocId < 0");
-            if(ueId < 0 ) throw new Exception("ueId < 0");
+            if(blocId < 0) throw new NotFoundObjectException("Mauvais ID Bloc");
+            if(ueId < 0)   throw new NotFoundObjectException("Mauvais ID UE");
 
             this.blocManager.unlinkUE(blocId,ueId);
 
@@ -101,12 +106,9 @@ public class BlocController {
             return new ResponseEntity<>(result, HttpStatus.OK);
 
         } catch (DecofoException e) {
-            result.put("success", false);
             result.put("error", e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
-            System.err.println("Erreur FormationController.createBloc()");
-            result.put("error", "Server error");
             System.err.println(e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -118,8 +120,8 @@ public class BlocController {
     public ResponseEntity<Map<String, Object>> linkOption(@RequestParam("blocId") int blocId, @RequestParam("optionId") int optionId) {
         Map <String, Object> result = new HashMap<>();
         try{
-            if(blocId < 0 ) throw new Exception("blocId < 0");
-            if(optionId < 0 ) throw new Exception("ueId < 0");
+            if(blocId < 0)   throw new NotFoundObjectException("Mauvais ID Bloc");
+            if(optionId < 0) throw new NotFoundObjectException("Mauvais ID Option");
 
             this.blocManager.linkOption(blocId,optionId);
             result.put("success", true);
@@ -131,8 +133,6 @@ public class BlocController {
 
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
-            System.err.println("Erreur FormationController.createBloc()");
-            result.put("error", "Server error");
             System.err.println(e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -144,8 +144,8 @@ public class BlocController {
         Map <String, Object> result = new HashMap<>();
 
         try{
-            if(blocId < 0 ) throw new Exception("blocId < 0");
-            if(optionId < 0 ) throw new Exception("ueId < 0");
+            if(blocId < 0)   throw new NotFoundObjectException("Mauvais ID Bloc");
+            if(optionId < 0) throw new NotFoundObjectException("Mauvais ID Option");
 
             this.blocManager.unlinkOption(blocId,optionId);
 
@@ -153,12 +153,9 @@ public class BlocController {
             return new ResponseEntity<>(result, HttpStatus.OK);
 
         } catch (DecofoException e) {
-            result.put("success", false);
             result.put("error", e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
-            System.err.println("Erreur FormationController.createBloc()");
-            result.put("error", "Server error");
             System.err.println(e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -2,11 +2,9 @@ package m2info.ter.decofo.controllers;
 
 import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Formation;
-import m2info.ter.decofo.classes.Option;
-import m2info.ter.decofo.classes.UE;
 import m2info.ter.decofo.exceptions.DecofoException;
 import m2info.ter.decofo.exceptions.NotFoundObjectException;
-import m2info.ter.decofo.managers.FormationManager;
+import m2info.ter.decofo.manager.gestion.FormationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +26,15 @@ public class FormationController {
      */
     @PostMapping("/create")
     public ResponseEntity<Map<String, Object>> createFormation(@RequestBody Formation formation) {
+        Map <String, Object> result = new HashMap<>();
+
         try {
             this.formationManager.insert(formation);
 
-            return new ResponseEntity(null, HttpStatus.OK);
+            result.put("formationId", formation.getId());
+            return new ResponseEntity(result, HttpStatus.OK);
         } catch (Exception e) {
-            System.err.println("Erreur FormationController.createFormation()");
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -43,16 +44,20 @@ public class FormationController {
      */
     @GetMapping("/read-one/{formationId}")
     public ResponseEntity<Formation> getOneFormation(@PathVariable("formationId") int formationId) {
+        Map <String, Object> result = new HashMap<>();
+
         try {
-            if (formationId < 0) throw new Exception("formationId < 0");
+            if (formationId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             Formation formation = formationManager.findOne(formationId);
-            if(formation == null) throw new Exception("Formation n'existe pas");
+            if(formation == null) throw new NotFoundObjectException("Formation n'existe pas");
 
-            System.err.println("Read formation: " + formation.toString());
-
-            return new ResponseEntity(formation, HttpStatus.OK);
-        } catch (Exception e) {
-            System.err.println("Erreur FormationController.getOneFormation()");
+            result.put("formation", formation);
+            return new ResponseEntity(result, HttpStatus.OK);
+        } catch (DecofoException e) {
+            result.put("error", e.getMessage());
+            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -64,22 +69,34 @@ public class FormationController {
      */
     @GetMapping("/read-all")
     public ResponseEntity<List<Formation>> getAllFormations() {
-        List<Formation> formations = this.formationManager.findAll();
-        return new ResponseEntity<>(formations, HttpStatus.OK);
+        Map <String, Object> result = new HashMap<>();
+
+        try {
+            List<Formation> formations = this.formationManager.findAll();
+
+            result.put("formations", formations);
+            return new ResponseEntity<>(formations, HttpStatus.OK);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/update/{formationId}")
     public ResponseEntity<Object> updateFormation(@RequestBody Formation formation, @PathVariable("formationId") int formationId) {
+        Map <String, Object> result = new HashMap<>();
         try {
-            if (formationId < 0) throw new Exception("formationId < 0");
+            if (formationId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             formation.setId(formationId);
             this.formationManager.update(formation);
 
-            System.err.println("Update formation: " + formation.toString());
-
             return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch (DecofoException e) {
+            result.put("error", e.getMessage());
+            return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            System.err.println("Erreur FormationController.updateFormation()");
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -87,12 +104,12 @@ public class FormationController {
     @GetMapping("/delete/{formationId}")
     public ResponseEntity<Object> deleteFormation(@PathVariable("formationId") int formationId) {
         try {
-            if (formationId < 0) throw new Exception("formationId < 0");
+            if (formationId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             this.formationManager.delete(formationId);
 
             return new ResponseEntity<>(null, HttpStatus.OK);
         } catch (Exception e) {
-            System.err.println("Erreur FormationController.deleteFormation()");
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -102,18 +119,14 @@ public class FormationController {
     public ResponseEntity<Map<String, Object>> createBlocOnFormation(@PathVariable("formationId") int formationId, @RequestBody Bloc bloc) {
         Map <String, Object> result = new HashMap<>();
         try {
-            if(formationId < 0 ) throw new Exception("formationId < 0 ");
+            if (formationId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             this.formationManager.addBloc(formationId, bloc);
 
-            result.put("success", true);
-            return new ResponseEntity(result, HttpStatus.OK);
+            return new ResponseEntity(null, HttpStatus.OK);
         } catch (DecofoException e) {
-            result.put("success", false);
             result.put("error", e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
-            System.err.println("Erreur FormationController.createBloc()");
-            result.put("error", "Server error");
             System.err.println(e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -124,22 +137,17 @@ public class FormationController {
     public ResponseEntity<Map<String, Object>> deleteBlocOnFormation(@RequestParam("formationId") int formationId, @RequestParam("blocId") int blocId) {
         Map <String, Object> result = new HashMap<>();
         try {
-            if(formationId < 0 ) throw new Exception("formationId < 0 ");
-            if(blocId < 0) throw new Exception(" blocId < 0");
+            if (formationId < 0) throw new NotFoundObjectException("Mauvais ID Formation saisit");
+            if (blocId < 0) throw new NotFoundObjectException("Mauvais ID Bloc saisit");
             this.formationManager.removeBloc(formationId, blocId);
 
-            result.put("success", true);
-            return new ResponseEntity(result, HttpStatus.OK);
+            return new ResponseEntity(null, HttpStatus.OK);
         } catch (DecofoException e) {
-            result.put("success", false);
             result.put("error", e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
-            System.err.println("Erreur FormationController.createBloc()");
-            result.put("error", "Server error");
             System.err.println(e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }

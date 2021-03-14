@@ -45,6 +45,9 @@ public class Bloc implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Option> options = new ArrayList<>();
 
+    @Embedded
+    private Effectif effectif;
+
     public Bloc() {
 
     }
@@ -169,4 +172,11 @@ public class Bloc implements Serializable {
         this.cout = cout;
     }
 
+    public Effectif getEffectif() {
+        return effectif;
+    }
+
+    public void setEffectif(Effectif effectif) {
+        this.effectif = effectif;
+    }
 }
