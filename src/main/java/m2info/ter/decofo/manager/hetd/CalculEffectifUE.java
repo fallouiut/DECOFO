@@ -20,7 +20,6 @@ public class CalculEffectifUE {
         this.formation = formation;
 
         for(UE ue : formation.getUEs())  {
-            System.err.println("UE" + ue);
             int effectifTotalUE = 0;
 
             // pour chaque bloc contenant l'UE

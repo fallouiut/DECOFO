@@ -1,7 +1,9 @@
 package m2info.ter.decofo.manager.gestion;
 
 
+import m2info.ter.decofo.classes.Option;
 import m2info.ter.decofo.classes.UE;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +27,20 @@ public class UEManagerTest {
     private static int ueId;
 
     @BeforeEach
-    public void trouverId() {
-        ueId = ueManager.findAll().get(0).getId();
-        System.err.println("UEid = " + ueId);
+    public void befa() {
+        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6);
+        ueManager.insert(ue);
+        ueId = ue.getId();
+        System.err.println("UE ID = " + ueId);
     }
+
+    @AfterEach
+    public void after() throws Exception {
+        UE ue = ueManager.findOne(ueId);
+        if(ue!= null)
+            ueManager.delete(ue.getId());
+    }
+
 
     @Test
     public void testInsert() {

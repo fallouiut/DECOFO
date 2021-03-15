@@ -1,11 +1,13 @@
 package m2info.ter.decofo.manager.gestion;
 
+import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Formation;
 import m2info.ter.decofo.classes.Option;
 import m2info.ter.decofo.classes.UE;
 import m2info.ter.decofo.exceptions.FormationParentNotFoundException;
 import m2info.ter.decofo.exceptions.ItemExistInListException;
 import m2info.ter.decofo.exceptions.NotFoundObjectException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +37,18 @@ public class OptionManagerTest {
     private static int optionId;
 
     @BeforeEach
-    public void trouverId() {
-        optionId = optionManager.findAll().get(0).getId();
-        System.err.println("UEid = " + optionId);
+    public void befa() {
+        Option option = new Option("test1","Test1.1",5, 8);
+        optionManager.insert(option);
+        optionId = option.getId();
+        System.err.println("Option ID = " + optionId);
+    }
+
+    @AfterEach
+    public void after() throws Exception {
+        Option option = optionManager.findOne(optionId);
+        if(option!= null)
+            optionManager.delete(option.getId());
     }
 
     @Test

@@ -36,7 +36,7 @@ public class Option implements Serializable {
     private int effectifTotal;
 
     @Basic()
-    @Column(name = "o_effectif_par_ue")
+    @Column(name = "o_effectif_par_ue", length = 200, nullable = true)
     private int effectifParUe;
 
     @JsonIgnore

@@ -7,6 +7,7 @@ import m2info.ter.decofo.classes.UE;
 import m2info.ter.decofo.exceptions.FormationParentNotFoundException;
 import m2info.ter.decofo.exceptions.ItemExistInListException;
 import m2info.ter.decofo.exceptions.NotFoundObjectException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,18 @@ public class BlocManagerTest {
     private int blocId;
 
     @BeforeEach
-    public void trouverId() {
-        blocId = manager.findAll().get(0).getId();
-        System.err.println("Formation ID = " + blocId);
+    public void befa() {
+        Bloc b = new Bloc("test", "test", 0);
+        manager.insert(b);
+        blocId = b.getId();
+        System.err.println("Bloc ID = " + b);
+    }
+
+    @AfterEach
+    public void after() throws Exception {
+        Bloc b = manager.findOne(blocId);
+        if(b!= null)
+            manager.delete(b.getId());
     }
 
     @Test
