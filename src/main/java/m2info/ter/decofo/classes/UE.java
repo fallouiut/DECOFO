@@ -177,10 +177,6 @@ public class UE implements Serializable {
         this.formationOwner = formationOwner;
     }
 
-    public void incrementerEffectif(int effectif) {
-        this.effectifTotal += 1;
-    }
-
     public int getId() {
         return id;
     }

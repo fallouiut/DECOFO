@@ -3,11 +3,7 @@ package m2info.ter.decofo.manager.hetd;
 import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Formation;
 import m2info.ter.decofo.classes.UE;
-import m2info.ter.decofo.manager.gestion.FormationManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.text.Format;
 
 @Service
 public class CalculNombreGroupesUE {
@@ -30,7 +26,7 @@ public class CalculNombreGroupesUE {
             for(Bloc bloc : ue.getBlocs()) {
 
                 // pour chaque site, calculer le npmbre de groupe CM, TD , TP
-                // ajouter cette valeur à l'efectif total (CM, TD, TP) pour chaque UE
+                // incrémenter cette valeur à l'efectif total (CM, TD, TP) pour chaque UE
 
                 bloc.getEffectif().setNbGroupesCMSite1(this.calculerNombreGroupesCM(ue, bloc.getEffectif().getSite1()));
                 bloc.getEffectif().setNbGroupesCMSite2(this.calculerNombreGroupesCM(ue, bloc.getEffectif().getSite2()));
@@ -57,12 +53,7 @@ public class CalculNombreGroupesUE {
             ue.setNombreGroupesCM(nombreGroupeCM);
             ue.setNombreGroupesTD(nombreGroupeTD);
             ue.setNombreGroupesTP(nombreGroupeTP);
-
-            nombreGroupeCM = 0;
-            nombreGroupeTD = 0;
-            nombreGroupeTP = 0;
         }
-
 
     }
 
@@ -78,63 +69,54 @@ public class CalculNombreGroupesUE {
         }
     }
 
+    /**
+     * si effectif == 0,
+     *      on renvoie 0 car 0 groupe
+     * si effectif < taille_imposé
+     *      on renvoie 1 car ça tient sur un groupe
+     * sinon
+     *      si reste_division(effecif, taille) = 0
+     *          renvoie la valeur car pas de valeur décimal
+     *      sinon
+     *          renvoie division exces arrondi supérieur
+     */
     private int calculerNombreGroupesTD(UE ue, int effectifSite) {
         System.out.println("Effectif : "+ effectifSite + ", taille: " + ue.getFormationOwner().getTailleGroupeTD());
+        
         if(effectifSite == 0) {
             return 0;
         } else if (effectifSite < ue.getFormationOwner().getTailleGroupeTD()) {
-            // si effectif < taille_imposée
-            // on a qu'un groupe
             return 1;
-        } else { // division effectif / taille
-
+        } else {
             boolean modulo = (effectifSite % ue.getFormationOwner().getTailleGroupeTD()) == 0;
-            // si valeur pas décimale on renvoie direct
+
             if(modulo) {
-                System.err.println("Division simple:");
                 int rest = effectifSite / ue.getFormationOwner().getTailleGroupeTD();
-                System.err.println(" = " + rest);
                 return rest;
-            }
-            // sinon division par excès car 4.1 groupes = 5 groupes à avoir
-            else {
+            } else {
                 double nbGroupe = (effectifSite  - 1) / (double)(ue.getFormationOwner().getTailleGroupeTD());
-                System.err.println("Division par excès");
-                System.err.println(" brut =  " + nbGroupe);
                 int nbGroupeInt = (int) nbGroupe;
                 int arrondiSuperieur = (int) Math.ceil(nbGroupe);
-                System.err.println(" arrondi =  " + arrondiSuperieur);
                 return arrondiSuperieur;
             }
         }
     }
 
     private int calculerNombreGroupesTP(UE ue, int effectifSite) {
-        System.out.println("Effectif : "+ effectifSite + ", taille: " + ue.getFormationOwner().getTailleGroupeTP());
         if(effectifSite == 0) {
             return 0;
         } else if (effectifSite < ue.getFormationOwner().getTailleGroupeTP()) {
-            // si effectif < taille_imposée
-            // on a qu'un groupe
             return 1;
-        } else { // division effectif / taille
+        } else {
 
             boolean modulo = (effectifSite % ue.getFormationOwner().getTailleGroupeTP()) == 0;
-            // si valeur pas décimale on renvoie direct
             if(modulo) {
-                System.err.println("Division simple:");
                 int rest = effectifSite / ue.getFormationOwner().getTailleGroupeTP();
-                System.err.println(" = " + rest);
                 return rest;
-            }
-            // sinon division par excès car 4.1 groupes = 5 groupes à avoir
-            else {
+            } else {
                 double nbGroupe = (effectifSite  - 1) / (double)(ue.getFormationOwner().getTailleGroupeTP());
-                System.err.println("Division par excès");
-                System.err.println(" brut =  " + nbGroupe);
                 int nbGroupeInt = (int) nbGroupe;
                 int arrondiSuperieur = (int) Math.ceil(nbGroupe);
-                System.err.println(" arrondi =  " + arrondiSuperieur);
                 return arrondiSuperieur;
             }
         }

@@ -35,6 +35,10 @@ public class Option implements Serializable {
     @Column(name = "o_effectifTotal", length = 200, nullable = true)
     private int effectifTotal;
 
+    @Basic()
+    @Column(name = "o_effectif_par_ue")
+    private int effectifParUe;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "f_id")
@@ -183,4 +187,11 @@ public class Option implements Serializable {
         this.effectifTotal = effectifTotal;
     }
 
+    public int getEffectifParUe() {
+        return effectifParUe;
+    }
+
+    public void setEffectifParUe(int effectifParUe) {
+        this.effectifParUe = effectifParUe;
+    }
 }
