@@ -37,12 +37,14 @@ public class BlocManager {
     }
 
     public void update(Bloc object) throws Exception  {
-        boolean exist = this.findOne(object.getId()) != null;
+        Bloc bloc = this.daoBloc.find(object.getId());
+        if(bloc != null) {
 
-        if(exist) {
-            daoBloc.update(object);
+            bloc.setCode(object.getCode());
+            bloc.setIntitule(object.getIntitule());
+
+            daoBloc.update(bloc);
         } else {
-            System.err.println("N'existe pas dans manager");
             throw new Exception("Bloc doesn't exist");
         }
     }

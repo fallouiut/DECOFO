@@ -2,8 +2,11 @@ package m2info.ter.decofo.controllers;
 
 import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Formation;
+import m2info.ter.decofo.classes.Option;
+import m2info.ter.decofo.classes.UE;
 import m2info.ter.decofo.exceptions.DecofoException;
 import m2info.ter.decofo.exceptions.NotFoundObjectException;
+import m2info.ter.decofo.manager.Generation;
 import m2info.ter.decofo.manager.gestion.FormationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +24,9 @@ public class FormationController {
 
     @Autowired
     FormationManager formationManager;
+
+    @Autowired
+    Generation generation;
 
     /**
      * Créer une formation
@@ -149,6 +155,94 @@ public class FormationController {
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    // création option
+    @PostMapping("/create-option/{formationId}")
+    public ResponseEntity<Map<String, Object>> createOptionOnFormation(@PathVariable("formationId") int formationId, @RequestBody Option option) {
+        Map <String, Object> result = new HashMap<>();
+        try {
+            if (formationId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
+            this.formationManager.addOption(formationId, option);
+
+            return new ResponseEntity(null, HttpStatus.OK);
+        } catch (DecofoException e) {
+            result.put("error", e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // suppression option
+    @GetMapping("/delete-option/")
+    public ResponseEntity<Map<String, Object>> deleteOptionOnFormation(@RequestParam("formationId") int formationId, @RequestParam("optionId") int optionId) {
+        Map <String, Object> result = new HashMap<>();
+        try {
+            if (formationId < 0) throw new NotFoundObjectException("Mauvais ID Formation saisit");
+            if (optionId < 0) throw new NotFoundObjectException("Mauvais ID Option saisit");
+            this.formationManager.removeOption(formationId, optionId);
+
+            return new ResponseEntity(null, HttpStatus.OK);
+        } catch (DecofoException e) {
+            result.put("error", e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    // création ue
+    @PostMapping("/create-ue/{formationId}")
+    public ResponseEntity<Map<String, Object>> createUEOnFormation(@PathVariable("formationId") int formationId, @RequestBody UE ue) {
+        Map <String, Object> result = new HashMap<>();
+        try {
+            if (formationId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
+            this.formationManager.addUE(formationId, ue);
+
+            return new ResponseEntity(null, HttpStatus.OK);
+        } catch (DecofoException e) {
+            result.put("error", e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // suppression ue
+    @GetMapping("/delete-ue/")
+    public ResponseEntity<Map<String, Object>> deleteUEOnFormation(@RequestParam("formationId") int formationId, @RequestParam("ueId") int ueId) {
+        Map <String, Object> result = new HashMap<>();
+        try {
+            if (formationId < 0) throw new NotFoundObjectException("Mauvais ID Formation saisit");
+            if (ueId < 0) throw new NotFoundObjectException("Mauvais ID UE saisit");
+            this.formationManager.removeUE(formationId, ueId);
+
+            return new ResponseEntity(null, HttpStatus.OK);
+        } catch (DecofoException e) {
+            result.put("error", e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @GetMapping("/generate")
+    public ResponseEntity<Map<String,Object>> generation() {
+        try{
+            this.generation.generate();
+            return new ResponseEntity(null, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

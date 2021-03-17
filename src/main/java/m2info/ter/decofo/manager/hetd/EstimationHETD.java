@@ -30,6 +30,7 @@ public class EstimationHETD {
     }
 
     public void calculerHETD(Formation formation) {
+        this.formation = formation;
         /*
         repartitionEffectifOption.calculerEffectifOption(formation);
         this.formation = repartitionEffectifOption.getFormation();
@@ -55,8 +56,10 @@ public class EstimationHETD {
             double coutTD = ue.getNombreGroupesTD() * ue.getNombreHeureTD();
             double coutTP = ue.getNombreGroupesTP() * ue.getNombreHeureTP();
             ue.setCout(coutCM + coutTD + coutTP);
+            System.err.println("Cout : " + ue.getCout());
         }
     }
+
     private void calculerHETDUOption() {
         for(Option option: this.formation.getOptions()) {
             double coutOption = 0;
@@ -79,7 +82,7 @@ public class EstimationHETD {
             for (Option option: b.getOptions()) {
                 double coutOption = option.getCout() * (effectifTotalBloc / option.getEffectifTotal());
             }
-            b.setCout(coutBloc );
+            b.setCout(coutBloc);
         }
     }
     private void calculerHETDUFormation() {

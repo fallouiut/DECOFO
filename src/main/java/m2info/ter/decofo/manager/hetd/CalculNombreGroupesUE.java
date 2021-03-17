@@ -81,7 +81,6 @@ public class CalculNombreGroupesUE {
      *          renvoie division exces arrondi supérieur
      */
     private int calculerNombreGroupesTD(UE ue, int effectifSite) {
-        System.out.println("Effectif : "+ effectifSite + ", taille: " + ue.getFormationOwner().getTailleGroupeTD());
         
         if(effectifSite == 0) {
             return 0;

@@ -217,8 +217,7 @@ public class CalculEffectifUEsTest {
         assertEquals(119, test.getUEs().get(2).getEffectifTotal());
         assertEquals(0  , test.getUEs().get(3).getEffectifTotal());
     }
-
-
+    
     private Formation createFormationTest6() {
         Formation formation = new Formation();
 

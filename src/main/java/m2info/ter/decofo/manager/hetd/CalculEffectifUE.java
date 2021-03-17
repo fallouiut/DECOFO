@@ -7,7 +7,6 @@ import m2info.ter.decofo.classes.UE;
 import org.springframework.stereotype.Service;
 
 @Service
-
 public class CalculEffectifUE {
 
     private Formation formation;

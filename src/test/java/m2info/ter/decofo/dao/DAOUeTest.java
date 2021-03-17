@@ -1,6 +1,8 @@
 package m2info.ter.decofo.dao;
 
+import m2info.ter.decofo.classes.Option;
 import m2info.ter.decofo.classes.UE;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +25,19 @@ public class DAOUeTest {
 
     @BeforeEach
     public void befa() {
-        ueId = daoUe.findAll().get(0).getId();
+        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6);
+        daoUe.insert(ue);
+        ueId = ue.getId();
         System.err.println("UE ID = " + ueId);
     }
+
+    @AfterEach
+    public void after() {
+        UE ue = daoUe.find(ueId);
+        if(ue!= null)
+            daoUe.delete(ue);
+    }
+
 
     @Test
     public void autowireWorkds() {
