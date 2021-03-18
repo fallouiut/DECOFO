@@ -1,9 +1,6 @@
 package m2info.ter.decofo.manager.hetd;
 
-import m2info.ter.decofo.classes.Bloc;
-import m2info.ter.decofo.classes.Effectif;
-import m2info.ter.decofo.classes.Formation;
-import m2info.ter.decofo.classes.UE;
+import m2info.ter.decofo.classes.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,13 +12,19 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class CalculNombreGroupeTest {
 
     @Autowired
+    RepartitionEffectifOption repartitionEffectifOption;
+
+    @Autowired
+    CalculEffectifUE calculEffectifUE;
+
+    @Autowired
     CalculNombreGroupesUE calculNombreGroupesService;
 
     @Test
     public void notNull() {
         assertNotNull(calculNombreGroupesService);
     }
-/*
+
     private Formation createFormationTest1() {
         Formation formation = new Formation();
         formation.setTailleGroupeCM(0);
@@ -36,33 +39,36 @@ public class CalculNombreGroupeTest {
         bloc.addUE(ue);
         formation.addBloc(bloc);
         formation.addUE(ue);
-        return formation;
+
+        repartitionEffectifOption.calculerEffectifOption(formation);
+        calculEffectifUE.calculerEffectifUEs(repartitionEffectifOption.getFormation());
+        calculNombreGroupesService.calculerNombreGroupesCMTDTP(calculEffectifUE.getFormation());
+
+        return calculNombreGroupesService.getFormation();
     }
 
     @Test
     public void test1() {
 
-        Formation formationBefore = createFormationTest1();
-        calculNombreGroupesService.calculerNombreGroupesCMTDTP(formationBefore);
-        Formation formationAfter = calculNombreGroupesService.getFormation();
+        Formation formationAfter = createFormationTest1();
 
         // confirmer nb groupes CM pour chaque site
-        assertEquals(1, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesCMSite1());
-        assertEquals(1, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesCMSite2());
-        assertEquals(0, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesCMSite3());
-        assertEquals(0, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesCMSite4());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeCMSite1());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeCMSite2());
+        assertEquals(0, formationAfter.getUEs().get(0).getNombreGroupeCMSite3());
+        assertEquals(0, formationAfter.getUEs().get(0).getNombreGroupeCMSite4());
 
         // confirmer nb groupes TD pour chaque site
-        assertEquals(3, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTDSite1());
-        assertEquals(1, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTDSite2());
-        assertEquals(0, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTDSite3());
-        assertEquals(0, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTDSite4());
+        assertEquals(3, formationAfter.getUEs().get(0).getNombreGroupeTDSite1());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeTDSite2());
+        assertEquals(0, formationAfter.getUEs().get(0).getNombreGroupeTDSite3());
+        assertEquals(0, formationAfter.getUEs().get(0).getNombreGroupeTDSite4());
 
-        // confirmer nb groupes CM pour chaque site
-        assertEquals(3, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTPSite1());
-        assertEquals(1, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTPSite2());
-        assertEquals(0, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTPSite3());
-        assertEquals(0, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTPSite4());
+        // confirmer nb groupes TD pour chaque site
+        assertEquals(3, formationAfter.getUEs().get(0).getNombreGroupeTPSite1());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeTPSite2());
+        assertEquals(0, formationAfter.getUEs().get(0).getNombreGroupeTPSite3());
+        assertEquals(0, formationAfter.getUEs().get(0).getNombreGroupeTPSite4());
 
         // confirmer total
         assertEquals(2,formationAfter.getUEs().get(0).getNombreGroupesCM());
@@ -70,6 +76,7 @@ public class CalculNombreGroupeTest {
         assertEquals(4,formationAfter.getUEs().get(0).getNombreGroupesTP());
 
     }
+
 
     private Formation createFormationTest2() {
         Formation formation = new Formation();
@@ -85,87 +92,194 @@ public class CalculNombreGroupeTest {
         bloc.addUE(ue);
         formation.addBloc(bloc);
         formation.addUE(ue);
-        return formation;
+
+        repartitionEffectifOption.calculerEffectifOption(formation);
+        calculEffectifUE.calculerEffectifUEs(repartitionEffectifOption.getFormation());
+        calculNombreGroupesService.calculerNombreGroupesCMTDTP(calculEffectifUE.getFormation());
+
+        return calculNombreGroupesService.getFormation();
     }
 
     @Test
     public void test2() {
 
-        Formation formationBefore = createFormationTest2();
-        calculNombreGroupesService.calculerNombreGroupesCMTDTP(formationBefore);
-        Formation formationAfter = calculNombreGroupesService.getFormation();
+        Formation formationAfter = createFormationTest2();
 
         // confirmer nb groupes CM pour chaque site
-        assertEquals(1, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesCMSite1());
-        assertEquals(1, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesCMSite2());
-        assertEquals(1, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesCMSite3());
-        assertEquals(1, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesCMSite4());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeCMSite1());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeCMSite2());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeCMSite3());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeCMSite4());
 
-        // confirmer nb groupes CM pour chaque site
-        assertEquals(4, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTDSite1());
-        assertEquals(3, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTDSite2());
-        assertEquals(2, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTDSite3());
-        assertEquals(1, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTDSite4());
+        // confirmer nb groupes TD pour chaque site
+        assertEquals(4, formationAfter.getUEs().get(0).getNombreGroupeTDSite1());
+        assertEquals(3, formationAfter.getUEs().get(0).getNombreGroupeTDSite2());
+        assertEquals(2, formationAfter.getUEs().get(0).getNombreGroupeTDSite3());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeTDSite4());
 
-        // confirmer nb groupes CM pour chaque site
-        assertEquals(7, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTPSite1());
-        assertEquals(5, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTPSite2());
-        assertEquals(4, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTPSite3());
-        assertEquals(2, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTPSite4());
+        // confirmer nb groupes TD pour chaque site
+        assertEquals(7, formationAfter.getUEs().get(0).getNombreGroupeTPSite1());
+        assertEquals(5, formationAfter.getUEs().get(0).getNombreGroupeTPSite2());
+        assertEquals(4, formationAfter.getUEs().get(0).getNombreGroupeTPSite3());
+        assertEquals(2, formationAfter.getUEs().get(0).getNombreGroupeTPSite4());
 
         // confirmer total
         assertEquals(4,formationAfter.getUEs().get(0).getNombreGroupesCM());
         assertEquals(10,formationAfter.getUEs().get(0).getNombreGroupesTD());
         assertEquals(18,formationAfter.getUEs().get(0).getNombreGroupesTP());
-    }
 
+    }
 
     private Formation createFormationTest3() {
         Formation formation = new Formation();
         formation.setTailleGroupeCM(0);
         formation.setTailleGroupeTD(25);
-        formation.setTailleGroupeTP(10);
+        formation.setTailleGroupeTP(15);
 
         Bloc bloc = new Bloc();
-        bloc.setEffectif(new Effectif(125, 100, 40, 10));
+        bloc.setEffectif(new Effectif(70, 50, 15, 5));
+
+        Bloc bloc2 = new Bloc();
+        bloc2.setEffectif(new Effectif(40, 35, 20, 10));
 
         UE ue = new UE();
 
         bloc.addUE(ue);
+        bloc2.addUE(ue);
+
         formation.addBloc(bloc);
+        formation.addBloc(bloc2);
         formation.addUE(ue);
-        return formation;
+
+        repartitionEffectifOption.calculerEffectifOption(formation);
+        calculEffectifUE.calculerEffectifUEs(repartitionEffectifOption.getFormation());
+        calculNombreGroupesService.calculerNombreGroupesCMTDTP(calculEffectifUE.getFormation());
+
+        return calculNombreGroupesService.getFormation();
     }
 
     @Test
     public void test3() {
 
-        Formation formationBefore = createFormationTest3();
-        calculNombreGroupesService.calculerNombreGroupesCMTDTP(formationBefore);
-        Formation formationAfter = calculNombreGroupesService.getFormation();
+        Formation formationAfter = createFormationTest3();
 
         // confirmer nb groupes CM pour chaque site
-        assertEquals(1, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesCMSite1());
-        assertEquals(1, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesCMSite2());
-        assertEquals(1, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesCMSite3());
-        assertEquals(1, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesCMSite4());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeCMSite1());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeCMSite2());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeCMSite3());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeCMSite4());
 
-        // confirmer nb groupes CM pour chaque site
-        assertEquals(5, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTDSite1());
-        assertEquals(4, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTDSite2());
-        assertEquals(2, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTDSite3());
-        assertEquals(1, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTDSite4());
+        // confirmer nb groupes TD pour chaque site
+        assertEquals(5, formationAfter.getUEs().get(0).getNombreGroupeTDSite1());
+        assertEquals(4, formationAfter.getUEs().get(0).getNombreGroupeTDSite2());
+        assertEquals(2, formationAfter.getUEs().get(0).getNombreGroupeTDSite3());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeTDSite4());
 
-        // confirmer nb groupes CM pour chaque site
-        assertEquals(13, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTPSite1());
-        assertEquals(10, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTPSite2());
-        assertEquals(4, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTPSite3());
-        assertEquals(1, formationAfter.getBlocs().get(0).getEffectif().getNbGroupesTPSite4());
+        // confirmer nb groupes TD pour chaque site
+        assertEquals(8, formationAfter.getUEs().get(0).getNombreGroupeTPSite1());
+        assertEquals(6, formationAfter.getUEs().get(0).getNombreGroupeTPSite2());
+        assertEquals(3, formationAfter.getUEs().get(0).getNombreGroupeTPSite3());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeTPSite4());
 
         // confirmer total
         assertEquals(4,formationAfter.getUEs().get(0).getNombreGroupesCM());
         assertEquals(12,formationAfter.getUEs().get(0).getNombreGroupesTD());
-        assertEquals(28,formationAfter.getUEs().get(0).getNombreGroupesTP());
+        assertEquals(18,formationAfter.getUEs().get(0).getNombreGroupesTP());
 
-    }*/
+    }
+
+
+    private Formation createFormationTest4() {
+        Formation formation = new Formation();
+        formation.setTailleGroupeCM(0);
+        formation.setTailleGroupeTD(25);
+        formation.setTailleGroupeTP(20);
+
+        Bloc bloc = new Bloc();
+        bloc.setEffectif(new Effectif(50, 30, 15, 45));
+
+        Bloc bloc2 = new Bloc();
+        bloc2.setEffectif(new Effectif(20, 30, 44, 72));
+
+        Bloc bloc3 = new Bloc();
+        bloc3.setEffectif(new Effectif(26, 2, 17, 41));
+
+        Option option = new Option();
+
+        UE ue = new UE();
+        UE ue2 = new UE();
+
+        formation.addBloc(bloc);
+        formation.addBloc(bloc2);
+        formation.addBloc(bloc3);
+        formation.addOption(option);
+
+        bloc.addUE(ue);
+        bloc2.addUE(ue);
+        bloc2.addUE(ue2);
+
+        bloc3.addOption(option);
+
+
+        option.addUE(ue2);
+        option.addUE(new UE());
+
+        formation.addUE(ue);
+        formation.addUE(ue2);
+
+        repartitionEffectifOption.calculerEffectifOption(formation);
+        calculEffectifUE.calculerEffectifUEs(repartitionEffectifOption.getFormation());
+        calculNombreGroupesService.calculerNombreGroupesCMTDTP(calculEffectifUE.getFormation());
+
+        return calculNombreGroupesService.getFormation();
+    }
+
+    @Test
+    public void test4() {
+
+        Formation formationAfter = createFormationTest4();
+
+        // confirmer nb groupes CM pour chaque site UE1
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeCMSite1());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeCMSite2());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeCMSite3());
+        assertEquals(1, formationAfter.getUEs().get(0).getNombreGroupeCMSite4());
+        // confirmer nb groupes TD pour chaque site
+        assertEquals(3, formationAfter.getUEs().get(0).getNombreGroupeTDSite1());
+        assertEquals(3, formationAfter.getUEs().get(0).getNombreGroupeTDSite2());
+        assertEquals(3, formationAfter.getUEs().get(0).getNombreGroupeTDSite3());
+        assertEquals(5, formationAfter.getUEs().get(0).getNombreGroupeTDSite4());
+        // confirmer nb groupes TD pour chaque site
+        assertEquals(4, formationAfter.getUEs().get(0).getNombreGroupeTPSite1());
+        assertEquals(3, formationAfter.getUEs().get(0).getNombreGroupeTPSite2());
+        assertEquals(3, formationAfter.getUEs().get(0).getNombreGroupeTPSite3());
+        assertEquals(6, formationAfter.getUEs().get(0).getNombreGroupeTPSite4());
+        // confirmer total
+        assertEquals(4,formationAfter.getUEs().get(0).getNombreGroupesCM());
+        assertEquals(14,formationAfter.getUEs().get(0).getNombreGroupesTD());
+        assertEquals(16,formationAfter.getUEs().get(0).getNombreGroupesTP());
+
+        // confirmer nb groupes CM pour chaque site UE2
+        assertEquals(1, formationAfter.getUEs().get(1).getNombreGroupeCMSite1());
+        assertEquals(1, formationAfter.getUEs().get(1).getNombreGroupeCMSite2());
+        assertEquals(1, formationAfter.getUEs().get(1).getNombreGroupeCMSite3());
+        assertEquals(1, formationAfter.getUEs().get(1).getNombreGroupeCMSite4());
+        // confirmer nb groupes TD pour chaque site
+        assertEquals(2, formationAfter.getUEs().get(1).getNombreGroupeTDSite1());
+        assertEquals(2, formationAfter.getUEs().get(1).getNombreGroupeTDSite2());
+        assertEquals(3, formationAfter.getUEs().get(1).getNombreGroupeTDSite3());
+        assertEquals(4, formationAfter.getUEs().get(1).getNombreGroupeTDSite4());
+        // confirmer nb groupes TD pour chaque site
+        assertEquals(2, formationAfter.getUEs().get(1).getNombreGroupeTPSite1());
+        assertEquals(2, formationAfter.getUEs().get(1).getNombreGroupeTPSite2());
+        assertEquals(3, formationAfter.getUEs().get(1).getNombreGroupeTPSite3());
+        assertEquals(5, formationAfter.getUEs().get(1).getNombreGroupeTPSite4());
+        // confirmer total
+        assertEquals(4,formationAfter.getUEs().get(1).getNombreGroupesCM());
+        assertEquals(11,formationAfter.getUEs().get(1).getNombreGroupesTD());
+        assertEquals(12,formationAfter.getUEs().get(1).getNombreGroupesTP());
+
+    }
+
+
 }

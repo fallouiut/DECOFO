@@ -26,39 +26,52 @@ public class CalculNombreGroupesUE {
     }
 
     /**
-     * Somme des nombres de groupe de CM de chaque site
+     * Calcule nombre groupes CM par site
+     * puis fais la somme et l'enregistre
      */
     private void calculerNombreGroupesCMTotal(UE ue) {
-        int nombreGroupeCM = 0;
-        nombreGroupeCM += this.calculerNombreGroupesCMSite(ue, ue.getEffectifTotalSite1());
-        nombreGroupeCM += this.calculerNombreGroupesCMSite(ue, ue.getEffectifTotalSite2());
-        nombreGroupeCM += this.calculerNombreGroupesCMSite(ue, ue.getEffectifTotalSite3());
-        nombreGroupeCM += this.calculerNombreGroupesCMSite(ue, ue.getEffectifTotalSite4());
-        ue.setNombreGroupesCM(nombreGroupeCM);
+        int nombreGroupeCMTotal;
+
+        ue.setNombreGroupeCMSite1(this.calculerNombreGroupesCMSite(ue, ue.getEffectifTotalSite1()));
+        ue.setNombreGroupeCMSite2(this.calculerNombreGroupesCMSite(ue, ue.getEffectifTotalSite2()));
+        ue.setNombreGroupeCMSite3(this.calculerNombreGroupesCMSite(ue, ue.getEffectifTotalSite3()));
+        ue.setNombreGroupeCMSite4(this.calculerNombreGroupesCMSite(ue, ue.getEffectifTotalSite4()));
+
+        nombreGroupeCMTotal = ue.getNombreGroupeCMSite1() + ue.getNombreGroupeCMSite2() + ue.getNombreGroupeCMSite3() + ue.getNombreGroupeCMSite4() ;
+
+        ue.setNombreGroupesCM(nombreGroupeCMTotal);
     }
 
     /**
-     * Somme des nombres de groupe de TD de chaque site
+     * Calcule nombre groupes TD par site
+     * puis fais la somme et l'enregistre
      */
     private void calculerNombreGroupesTDTotal(UE ue) {
-        int nombreGroupeTD = 0;
-        nombreGroupeTD += this.calculerNombreGroupesTDSite(ue, ue.getEffectifTotalSite1());
-        nombreGroupeTD += this.calculerNombreGroupesTDSite(ue, ue.getEffectifTotalSite2());
-        nombreGroupeTD += this.calculerNombreGroupesTDSite(ue, ue.getEffectifTotalSite3());
-        nombreGroupeTD += this.calculerNombreGroupesTDSite(ue, ue.getEffectifTotalSite4());
-        ue.setNombreGroupesTD(nombreGroupeTD);
+        int nombreGroupeTDTotal;
+
+        ue.setNombreGroupeTDSite1(this.calculerNombreGroupesTDSite(ue, ue.getEffectifTotalSite1()));
+        ue.setNombreGroupeTDSite2(this.calculerNombreGroupesTDSite(ue, ue.getEffectifTotalSite2()));
+        ue.setNombreGroupeTDSite3(this.calculerNombreGroupesTDSite(ue, ue.getEffectifTotalSite3()));
+        ue.setNombreGroupeTDSite4(this.calculerNombreGroupesTDSite(ue, ue.getEffectifTotalSite4()));
+        nombreGroupeTDTotal = ue.getNombreGroupeTDSite1() + ue.getNombreGroupeTDSite2() + ue.getNombreGroupeTDSite3() + ue.getNombreGroupeTDSite4() ;
+
+        ue.setNombreGroupesTD(nombreGroupeTDTotal);
     }
 
     /**
-     * Somme des nombres de groupe de TP de chaque site
+     * Calcule nombre groupes TP par site
+     * puis fais la somme et l'enregistre
      */
     private void calculerNombreGroupesTPTotal(UE ue) {
-        int nombreGroupeTP = 0;
-        nombreGroupeTP += this.calculerNombreGroupesTPSite(ue, ue.getEffectifTotalSite1());
-        nombreGroupeTP += this.calculerNombreGroupesTPSite(ue, ue.getEffectifTotalSite2());
-        nombreGroupeTP += this.calculerNombreGroupesTPSite(ue, ue.getEffectifTotalSite3());
-        nombreGroupeTP += this.calculerNombreGroupesTPSite(ue, ue.getEffectifTotalSite4());
-        ue.setNombreGroupesTP(nombreGroupeTP);
+        int nombreGroupeTPTotal = 0;
+
+        ue.setNombreGroupeTPSite1(this.calculerNombreGroupesTPSite(ue, ue.getEffectifTotalSite1()));
+        ue.setNombreGroupeTPSite2(this.calculerNombreGroupesTPSite(ue, ue.getEffectifTotalSite2()));
+        ue.setNombreGroupeTPSite3(this.calculerNombreGroupesTPSite(ue, ue.getEffectifTotalSite3()));
+        ue.setNombreGroupeTPSite4(this.calculerNombreGroupesTPSite(ue, ue.getEffectifTotalSite4()));
+        nombreGroupeTPTotal = ue.getNombreGroupeTPSite1() + ue.getNombreGroupeTPSite2() + ue.getNombreGroupeTPSite3() + ue.getNombreGroupeTPSite4() ;
+
+        ue.setNombreGroupesTP(nombreGroupeTPTotal);
     }
 
     /**

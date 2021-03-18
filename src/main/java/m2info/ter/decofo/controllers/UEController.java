@@ -57,18 +57,4 @@ public class UEController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @GetMapping("/delete/{UEId}")
-    public ResponseEntity<Object> deleteUE(@PathVariable("UEId") int UEId) {
-        Map <String, Object> result = new HashMap<>();
-        try {
-            if (UEId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
-            this.ueManager.delete(UEId);
-            return new ResponseEntity<>(null, HttpStatus.OK);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
 }

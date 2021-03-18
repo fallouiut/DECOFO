@@ -31,32 +31,27 @@ public class EstimationHETD {
 
     public void calculerHETD(Formation formation) {
         this.formation = formation;
-        /*
+
         repartitionEffectifOption.calculerEffectifOption(formation);
-        this.formation = repartitionEffectifOption.getFormation();
+        calculEffectifUE         .calculerEffectifUEs(repartitionEffectifOption.getFormation());
+        calculNombreGroupesUE    .calculerNombreGroupesCMTDTP(calculEffectifUE.getFormation());
 
-        calculEffectifUE.calculerEffectifUEs(this.formation);
         this.formation = calculNombreGroupesUE.getFormation();
-
-        calculNombreGroupesUE.calculerNombreGroupesCMTDTP(this.formation);
-        this.formation = calculNombreGroupesUE.getFormation();
-
-
 
         calculerHETDUEs();
         calculerHETDUOption();
         calculerHETDUBlocs();
         calculerHETDUFormation();
-*/
+
     }
-/*
+
     private void calculerHETDUEs() {
         for(UE ue: this.formation.getUEs()) {
             double coutCM = 1.5 * ue.getNombreGroupesCM() * ue.getNombreHeureCM();
             double coutTD = ue.getNombreGroupesTD() * ue.getNombreHeureTD();
             double coutTP = ue.getNombreGroupesTP() * ue.getNombreHeureTP();
             ue.setCout(coutCM + coutTD + coutTP);
-            System.err.println("Cout : " + ue.getCout());
+            System.err.println("HETD ("+ ue.getIntitule() + "): " + ue.getCout());
         }
     }
 
@@ -64,27 +59,32 @@ public class EstimationHETD {
         for(Option option: this.formation.getOptions()) {
             double coutOption = 0;
             for(UE ue: option.getUes()) {
-                double coutUe = ue.getCout() * (option.getEffectifParUe() / option.getEffectifTotal());
+                double coutUe = ue.getCout() * ((double)option.getEffectifTotalParUE() / ue.getEffectifTotal());
                 coutOption += coutUe;
             }
             option.setCout(coutOption);
+            System.err.println("HETD ("+ option.getIntitule() + "): " + option.getCout());
         }
     }
     private void calculerHETDUBlocs() {
         for(Bloc b: this.formation.getBlocs()) {
             double coutBloc = 0;
-            int effectifTotalBloc = b.getEffectif().getSite1() + b.getEffectif().getSite2() + b.getEffectif().getSite3() + b.getEffectif().getSite4();
+            int effectifTotalBloc = b.getEffectifTotal();
+
             for(UE ue: b.getUes()) {
-                double coutUe = ue.getCout() * (effectifTotalBloc / ue.getEffectifTotal());
+                double coutUe = ue.getCout() * ((double)effectifTotalBloc / ue.getEffectifTotal());
                 coutBloc += coutUe;
             }
 
             for (Option option: b.getOptions()) {
-                double coutOption = option.getCout() * (effectifTotalBloc / option.getEffectifTotal());
+                double coutOption = option.getCout() * ((double)effectifTotalBloc / option.getEffectifTotal());
+                coutBloc += coutOption;
             }
             b.setCout(coutBloc);
+            System.err.println("HETD ("+ b.getIntitule() + "): " + b.getCout());
         }
     }
+
     private void calculerHETDUFormation() {
         double coutFormation = 0;
         for(Bloc bloc: this.formation.getBlocs()) {
@@ -92,5 +92,5 @@ public class EstimationHETD {
         }
         this.formation.setCout(coutFormation);
     }
-*/
+
 }

@@ -21,16 +21,16 @@ public class Bloc implements Serializable {
     private int id;
 
     @Basic()
-    @Column(name = "b_code", length = 200)
+    @Column(name = "b_code", length = 200, nullable = false)
     private String code;
 
     @Basic()
-    @Column(name = "b_intitule", length = 200)
+    @Column(name = "b_intitule", length = 200, nullable = false)
     private String intitule;
 
     @Basic()
-    @Column(name = "b_cout", length = 200, nullable = true)
-    private double cout;
+    @Column(name = "b_cout", length = 200)
+    private double cout = 0;
 
     @JsonIgnore
     @ManyToOne
@@ -177,5 +177,9 @@ public class Bloc implements Serializable {
 
     public void setEffectif(Effectif effectif) {
         this.effectif = effectif;
+    }
+
+    public int getEffectifTotal() {
+        return this.effectif.getSite1() + this.effectif.getSite2() + this.effectif.getSite3() + this.effectif.getSite4();
     }
 }

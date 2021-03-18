@@ -23,8 +23,8 @@ public class Formation implements Serializable {
     String code;
 
     @Basic()
-    @Column(name = "f_cout")
-    double cout;
+    @Column(name = "f_cout", length = 200)
+    double cout = 0;
 
     @Basic()
     @Column(name = "f_intitulé", length = 200, nullable = false)
@@ -32,15 +32,15 @@ public class Formation implements Serializable {
 
     @Basic()
     @Column(name = "f_cm")
-    int tailleGroupeCM;
+    int tailleGroupeCM = 0;
 
     @Basic()
     @Column(name = "f_Td")
-    int tailleGroupeTD;
+    int tailleGroupeTD = 0;
 
     @Basic()
     @Column(name = "f_Tp")
-    int tailleGroupeTP;
+    int tailleGroupeTP = 0;
 
     @OneToMany(mappedBy = "formationOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Bloc> blocs = new ArrayList<>();

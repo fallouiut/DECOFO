@@ -28,12 +28,12 @@ public class Option implements Serializable {
     private String intitule;
 
     @Basic()
-    @Column(name = "o_cout", length = 200, nullable = true)
-    private double cout;
+    @Column(name = "o_cout", length = 200)
+    private double cout = 0;
 
     @Basic()
-    @Column(name = "o_credits", length = 200, nullable = true)
-    private int credits;
+    @Column(name = "o_credits", length = 200)
+    private int credits = 0;
 
     @JsonIgnore
     @ManyToOne
@@ -49,15 +49,24 @@ public class Option implements Serializable {
     private List<UE> ues = new ArrayList<>();
 
     // ----------------------- //
-    // Valeurs intermédiaires option //
+    // récupération des effectifs par site //
+    @Transient
     private int effectifOptionSite1;
+    @Transient
     private int effectifOptionSite2;
+    @Transient
     private int effectifOptionSite3;
+    @Transient
     private int effectifOptionSite4;
 
+    // effectifs par UE
+    @Transient
     private int effectifParUESite1;
+    @Transient
     private int effectifParUESite2;
+    @Transient
     private int effectifParUESite3;
+    @Transient
     private int effectifParUESite4;
     // ----------------------- //
 
@@ -257,4 +266,13 @@ public class Option implements Serializable {
     public void setEffectifParUESite4(int effectifParUESite4) {
         this.effectifParUESite4 = effectifParUESite4;
     }
+
+    public int getEffectifTotalParUE() {
+        return effectifParUESite1 + effectifParUESite2 + effectifParUESite3 + effectifParUESite4;
+    }
+
+    public int getEffectifTotal() {
+        return effectifOptionSite1 + effectifOptionSite2 + effectifOptionSite3 + effectifOptionSite4;
+    }
+
 }

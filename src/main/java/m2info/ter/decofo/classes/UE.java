@@ -27,24 +27,24 @@ public class UE implements Serializable {
     private String intitule;
 
     @Basic()
-    @Column(name = "ue_cout", length = 200, nullable = true)
-    private double cout;
+    @Column(name = "ue_cout", length = 200)
+    private double cout = 0;
 
     @Basic()
-    @Column(name = "ue_nombreHeureCM", length = 200, nullable = true)
-    private double nombreHeureCM;
+    @Column(name = "ue_nombreHeureCM", length = 200)
+    private double nombreHeureCM = 0;
 
     @Basic()
-    @Column(name = "ue_nombreHeureTD", length = 200, nullable = true)
-    private double nombreHeureTD;
+    @Column(name = "ue_nombreHeureTD", length = 200)
+    private double nombreHeureTD = 0;
 
     @Basic()
-    @Column(name = "ue_nombreHeureTP", length = 200, nullable = true)
-    private double nombreHeureTP;
+    @Column(name = "ue_nombreHeureTP", length = 200)
+    private double nombreHeureTP = 0;
 
     @Basic()
-    @Column(name = "ue_credits", length = 200, nullable = true)
-    private int credits;
+    @Column(name = "ue_credits", length = 200)
+    private int credits = 0;
 
     @JsonIgnore
     @ManyToOne
@@ -78,11 +78,41 @@ public class UE implements Serializable {
 
     // ----------------------- //
     // Valeurs intermédiaires UE //
+    @Transient
     int effectifTotalSite1; // somme des effectifs des blocs (pour le site 1)
+    @Transient
     int effectifTotalSite2; // somme des effectifs des blocs (pour le site 2)
+    @Transient
     int effectifTotalSite3; // somme des effectifs des blocs (pour le site 3)
+    @Transient
     int effectifTotalSite4; // somme des effectifs des blocs (pour le site 4)
     // ----------------------- //
+    @Transient
+    int nombreGroupeCMSite1;
+    @Transient
+    int nombreGroupeCMSite2;
+    @Transient
+    int nombreGroupeCMSite3;
+    @Transient
+    int nombreGroupeCMSite4;
+
+    @Transient
+    int nombreGroupeTDSite1;
+    @Transient
+    int nombreGroupeTDSite2;
+    @Transient
+    int nombreGroupeTDSite3;
+    @Transient
+    int nombreGroupeTDSite4;
+
+    @Transient
+    int nombreGroupeTPSite1;
+    @Transient
+    int nombreGroupeTPSite2;
+    @Transient
+    int nombreGroupeTPSite3;
+    @Transient
+    int nombreGroupeTPSite4;
 
     public UE() {
 
@@ -305,4 +335,106 @@ public class UE implements Serializable {
     public void setEffectifTotalSite4(int effectifTotalSite4) {
         this.effectifTotalSite4 = effectifTotalSite4;
     }
+
+
+    public int getNombreGroupeCMSite1() {
+        return nombreGroupeCMSite1;
+    }
+
+    public void setNombreGroupeCMSite1(int nombreGroupeCMSite1) {
+        this.nombreGroupeCMSite1 = nombreGroupeCMSite1;
+    }
+
+    public int getNombreGroupeCMSite2() {
+        return nombreGroupeCMSite2;
+    }
+
+    public void setNombreGroupeCMSite2(int nombreGroupeCMSite2) {
+        this.nombreGroupeCMSite2 = nombreGroupeCMSite2;
+    }
+
+    public int getNombreGroupeCMSite3() {
+        return nombreGroupeCMSite3;
+    }
+
+    public void setNombreGroupeCMSite3(int nombreGroupeCMSite3) {
+        this.nombreGroupeCMSite3 = nombreGroupeCMSite3;
+    }
+
+    public int getNombreGroupeCMSite4() {
+        return nombreGroupeCMSite4;
+    }
+
+    public void setNombreGroupeCMSite4(int nombreGroupeCMSite4) {
+        this.nombreGroupeCMSite4 = nombreGroupeCMSite4;
+    }
+
+    public int getNombreGroupeTDSite1() {
+        return nombreGroupeTDSite1;
+    }
+
+    public void setNombreGroupeTDSite1(int nombreGroupeTDSite1) {
+        this.nombreGroupeTDSite1 = nombreGroupeTDSite1;
+    }
+
+    public int getNombreGroupeTDSite2() {
+        return nombreGroupeTDSite2;
+    }
+
+    public void setNombreGroupeTDSite2(int nombreGroupeTDSite2) {
+        this.nombreGroupeTDSite2 = nombreGroupeTDSite2;
+    }
+
+    public int getNombreGroupeTDSite3() {
+        return nombreGroupeTDSite3;
+    }
+
+    public void setNombreGroupeTDSite3(int nombreGroupeTDSite3) {
+        this.nombreGroupeTDSite3 = nombreGroupeTDSite3;
+    }
+
+    public int getNombreGroupeTDSite4() {
+        return nombreGroupeTDSite4;
+    }
+
+    public void setNombreGroupeTDSite4(int nombreGroupeTDSite4) {
+        this.nombreGroupeTDSite4 = nombreGroupeTDSite4;
+    }
+
+    public int getNombreGroupeTPSite1() {
+        return nombreGroupeTPSite1;
+    }
+
+    public void setNombreGroupeTPSite1(int nombreGroupeTPSite1) {
+        this.nombreGroupeTPSite1 = nombreGroupeTPSite1;
+    }
+
+    public int getNombreGroupeTPSite2() {
+        return nombreGroupeTPSite2;
+    }
+
+    public void setNombreGroupeTPSite2(int nombreGroupeTPSite2) {
+        this.nombreGroupeTPSite2 = nombreGroupeTPSite2;
+    }
+
+    public int getNombreGroupeTPSite3() {
+        return nombreGroupeTPSite3;
+    }
+
+    public void setNombreGroupeTPSite3(int nombreGroupeTPSite3) {
+        this.nombreGroupeTPSite3 = nombreGroupeTPSite3;
+    }
+
+    public int getNombreGroupeTPSite4() {
+        return nombreGroupeTPSite4;
+    }
+
+    public void setNombreGroupeTPSite4(int nombreGroupeTPSite4) {
+        this.nombreGroupeTPSite4 = nombreGroupeTPSite4;
+    }
+
+    public int getEffectifTotal () {
+        return effectifTotalSite1 + effectifTotalSite2 + effectifTotalSite3 + effectifTotalSite4;
+    }
+
 }

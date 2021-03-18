@@ -21,9 +21,10 @@ public class EstimationHETDTest {
     public void testNotNull() {
         assertNotNull(estimationHETD);
     }
-/*
+
     private Formation createFormationTest1() {
-        Formation f = new Formation();
+        /*
+        Formation f = new Formation("Formation 1", "F1", 0,0, 0);
         f.setTailleGroupeCM(100);
         f.setTailleGroupeTD(20);
         f.setTailleGroupeTP(20);
@@ -43,11 +44,12 @@ public class EstimationHETDTest {
         f.addUE(ue2);
 
         return f;
-
+*/ return null;
     }
 
     @Test
     public void test1() {
+/*
         Formation formation = this.createFormationTest1();
         estimationHETD.calculerHETD(formation);
         formation = estimationHETD.getFormation();
@@ -55,7 +57,7 @@ public class EstimationHETDTest {
 
         assertEquals(154, formation.getUEs().get(0).getCout());
         assertEquals(420, formation.getUEs().get(1).getCout());
-
-    }*/
+*/
+    }
 
 }

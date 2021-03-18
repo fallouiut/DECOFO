@@ -59,20 +59,6 @@ public class OptionController {
         }
     }
 
-    @GetMapping("/delete/{optionId}")
-    public ResponseEntity<Object> deleteOption(@PathVariable("optionId") int optionId) {
-        Map <String, Object> result = new HashMap<>();
-        try {
-            if (optionId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
-            this.optionManager.delete(optionId);
-            return new ResponseEntity<>(null, HttpStatus.OK);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-
     // ajouter une ue
     @GetMapping("/link-ue/")
     public ResponseEntity<Map<String, Object>> linkUE(@RequestParam("optionId") int optionId, @RequestParam("ueId") int ueId) {

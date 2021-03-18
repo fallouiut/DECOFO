@@ -59,19 +59,6 @@ public class BlocController {
         }
     }
 
-    @GetMapping("/delete/{blocId}")
-    public ResponseEntity<Map<String, Object>> deleteBloc(@PathVariable("blocId") int blocId) {
-        Map <String, Object> result = new HashMap<>();
-        try {
-            if (blocId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
-            this.blocManager.delete(blocId);
-            return new ResponseEntity<>(null, HttpStatus.OK);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     // ajouter une ue
     @GetMapping("/link-ue/")
     public ResponseEntity<Map<String, Object>> linkUE(@RequestParam("blocId") int blocId, @RequestParam("ueId") int ueId) {
