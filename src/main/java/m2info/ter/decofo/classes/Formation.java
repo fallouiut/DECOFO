@@ -111,9 +111,8 @@ public class Formation implements Serializable {
     /**
      * attention à ne pas mettre l'ID
      */
-    public Formation(String code, double cout, String intitule, int tailleGroupeCM, int tailleGroupeTD, int tailleGroupeTP) {
+    public Formation(String code, String intitule, int tailleGroupeCM, int tailleGroupeTD, int tailleGroupeTP) {
         this.code = code;
-        this.cout = cout;
         this.intitule = intitule;
         this.tailleGroupeCM = tailleGroupeCM;
         this.tailleGroupeTD = tailleGroupeTD;

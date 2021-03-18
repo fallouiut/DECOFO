@@ -1,7 +1,9 @@
 package m2info.ter.decofo.manager.gestion;
 
+import m2info.ter.decofo.classes.Option;
 import m2info.ter.decofo.classes.UE;
 import m2info.ter.decofo.dao.DAOUe;
+import m2info.ter.decofo.exceptions.NotFoundObjectException;
 import m2info.ter.decofo.exceptions.ServerErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,14 +23,22 @@ public class UEManager implements Manager<UE> {
 
     @Override
     public void update(UE object) throws Exception {
-        boolean exist = this.findOne(object.getId()) != null;
 
-        if(exist) {
-            daoUe.update(object);
+        UE ue = this.daoUe.find(object.getId());
+        if(ue != null) {
+
+            ue.setCode(object.getCode());
+            ue.setIntitule(object.getIntitule());
+            ue.setCredits(object.getCredits());
+
+            ue.setNombreHeureCM(object.getNombreHeureCM());
+            ue.setNombreHeureTD(object.getNombreHeureTD());
+            ue.setNombreHeureTP(object.getNombreHeureTP());
+
+            daoUe.update(ue);
         } else {
-            throw new Exception("UE doesn't exist");
+            throw new NotFoundObjectException("UE doesn't exist");
         }
-
     }
 
     @Override

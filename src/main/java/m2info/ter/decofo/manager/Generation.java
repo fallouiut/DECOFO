@@ -67,12 +67,12 @@ public class Generation {
 
             int groupe = random(2,30);
 
-            Formation formation = new Formation(code[i],0,intitulé[i],groupe, groupe - 2, groupe -2 );
+            Formation formation = new Formation(code[i],intitulé[i],groupe, groupe - 2, groupe -2 );
             formationManager.insert(formation);
             System.err.println("formation code = " + formation.getCode());
 
             for(int j=0; j <4 ; j++){
-                Bloc bloc = new Bloc("Bloc_code"+ i + "." + j,"Bloc_intitule"+ i + "." + j,0);
+                Bloc bloc = new Bloc("Bloc_code"+ i + "." + j,"Bloc_intitule"+ i + "." + j);
                 bloc.setEffectif(new Effectif(effectif1,effectif2,effectif3,effectif4));
                 blocManager.insert(bloc);
                 formationManager.addBloc(formation.getId(), bloc);
@@ -83,8 +83,7 @@ public class Generation {
                 for(int g = 0 ; g < 2 ; g++){
                         int effectif_total = random(20,50);
                         int effectifParUe = random(10,30);
-                        Option option = new Option("Option_code"+ j + "." + g, "Option_Intitule"+ j + "." + g,0, effectif_total );
-                        option.setEffectifParUe(effectifParUe);
+                        Option option = new Option("Option_code"+ j + "." + g, "Option_Intitule"+ j + "." + g,0 );
                         optionManager.insert(option);
                         formationManager.addOption(formation.getId(), option);
                         System.err.println("Option code = " + option.getCode());
@@ -96,7 +95,7 @@ public class Generation {
                         int CM = random(10,14);
                         int TP_TD = random(6,10);
                         int effectif_total = random(20,30);
-                        UE ue = new UE("UE_code"+ j + "." + z, "UE_intitulé"+ j + "." + z, 0,CM,TP_TD,TP_TD,CM,TP_TD,TP_TD,effectif_total);
+                        UE ue = new UE("UE_code"+ j + "." + z, "UE_intitulé"+ j + "." + z, 0,CM,TP_TD,TP_TD,CM,TP_TD,TP_TD);
                         ueManager.insert(ue);
                         formationManager.addUE(formation.getId(),ue);
                         System.err.println("UE code = " + ue.getCode());

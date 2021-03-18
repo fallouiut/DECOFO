@@ -35,6 +35,7 @@ public class DAOOption extends DAO<Option> {
             return options;
         } catch (Exception e) {
             System.err.println("DAOOption.findAll()");
+            e.printStackTrace();
             return null;
         }
     }

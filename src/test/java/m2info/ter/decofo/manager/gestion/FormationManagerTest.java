@@ -31,7 +31,7 @@ public class FormationManagerTest {
 
     @BeforeEach
     public void befa() {
-        Formation f = new Formation("M7ILD", 250, "M3 - ILD", 5, 2, 3);
+        Formation f = new Formation("M7ILD", "M3 - ILD", 5, 2, 3);
         manager.insert(f);
         formationId = f.getId();
         System.err.println("Formation ID = " + formationId);
@@ -48,14 +48,14 @@ public class FormationManagerTest {
     @Test
     public void testInsertAndDelete() throws Exception {
 
-        Formation f = new Formation("M2ILD", 150, "M2 - ILD", 5, 2, 3);
+        Formation f = new Formation("M2ILD", "M2 - ILD", 5, 2, 3);
         manager.insert(f);
         assertTrue( manager.findOne(f.getId()) != null);
     }
 
     @Test
     public void testFindAll() {
-        Formation f = new Formation("M3ILD", 250, "M3 - ILD", 5, 2, 3);
+        Formation f = new Formation("M3ILD", "M3 - ILD", 5, 2, 3);
         manager.insert(f);
 
         List<Formation> formationList = manager.findAll();
@@ -77,7 +77,7 @@ public class FormationManagerTest {
 
 
         assertTrue(fu.getIntitule().equals(f.getIntitule()));
-        assertTrue(fu.getCout() == f.getCout());
+        assertTrue(fu.getCode() == f.getCode());
     }
 
     @Test
@@ -90,7 +90,7 @@ public class FormationManagerTest {
     // ----------------------------------------------------------------
     @Test
     public void addBlocWorks() throws Exception {
-        Bloc b = new Bloc("test", "intitule", 0);
+        Bloc b = new Bloc("test", "intitule");
 
         manager.addBloc(formationId, b);
         assertTrue(manager.findOne(formationId).getBlocs().size() >= 1);
@@ -102,7 +102,7 @@ public class FormationManagerTest {
     @Test
     public void addBlocFailsFormationNotExist() {
 
-        Bloc b = new Bloc("test", "intitule", 0);
+        Bloc b = new Bloc("test", "intitule");
 
         assertThrows(NotFoundObjectException.class, () -> {
             manager.addBloc(7974648, b);
@@ -117,7 +117,7 @@ public class FormationManagerTest {
     @Test
     public void addBlocFailsBlocAlreadyExiste() throws NotFoundObjectException, ItemExistInListException {
 
-        Bloc b = new Bloc("test", "intitule", 0);
+        Bloc b = new Bloc("test", "intitule");
         manager.addBloc(formationId, b);
 
         Bloc found = manager.findOne(formationId).getBlocs().get(0);
@@ -132,7 +132,7 @@ public class FormationManagerTest {
     @Test
     public void removeBlocWorks() throws NotFoundObjectException, ItemExistInListException {
 
-        Bloc b = new Bloc("test", "intitule", 0);
+        Bloc b = new Bloc("test", "intitule");
 
         manager.addBloc(formationId, b);
         assertTrue(manager.findOne(formationId).getBlocs().size() >= 1);
@@ -150,7 +150,7 @@ public class FormationManagerTest {
     @Test
     public void removeBlocFailsFormationNotExist() {
 
-        Bloc b = new Bloc("test", "intitule", 0);
+        Bloc b = new Bloc("test", "intitule");
 
 
         assertThrows(NotFoundObjectException.class, () -> {
@@ -175,7 +175,7 @@ public class FormationManagerTest {
     @Test
     public void removeBlocFailsBlocNotExisteOnList() throws NotFoundObjectException, ItemExistInListException {
 
-        Bloc b = new Bloc("test", "intitule", 0);
+        Bloc b = new Bloc("test", "intitule");
 
         assertThrows(NotFoundObjectException.class, () -> {
             manager.removeBloc(formationId, b.getId());
@@ -188,7 +188,7 @@ public class FormationManagerTest {
 
     @Test
     public void addOptionWorks() throws Exception {
-        Option option = new Option("test", "intitule", 0, 0);
+        Option option = new Option("test", "intitule", 0);
 
         manager.addOption(formationId, option);
         assertTrue(manager.findOne(formationId).getOptions().size() >= 1);
@@ -200,7 +200,7 @@ public class FormationManagerTest {
     @Test
     public void addOptionFailsFormationNotExist() {
 
-        Option option = new Option("test", "intitule", 0, 0);
+        Option option = new Option("test", "intitule", 0);
 
         assertThrows(NotFoundObjectException.class, () -> {
             manager.addOption(7974648, option);
@@ -214,7 +214,7 @@ public class FormationManagerTest {
      */
     @Test
     public void addOptionFailsOptionAlreadyExiste() throws NotFoundObjectException, ItemExistInListException {
-        Option option = new Option("test", "intitule", 0, 0);
+        Option option = new Option("test", "intitule", 0);
 
         manager.addOption(formationId, option);
         Option found = manager.findOne(formationId).getOptions().get(0);
@@ -229,7 +229,7 @@ public class FormationManagerTest {
     @Test
     public void removeOptionWorks() throws NotFoundObjectException, ItemExistInListException {
 
-        Option option = new Option("test", "intitule", 0, 0);
+        Option option = new Option("test", "intitule", 0);
 
         manager.addOption(formationId, option);
         assertTrue(manager.findOne(formationId).getOptions().size() >= 1);
@@ -268,7 +268,7 @@ public class FormationManagerTest {
     @Test
     public void removeOptionFailsBlocNotExisteOnList() throws NotFoundObjectException, ItemExistInListException {
 
-        Option option = new Option("test", "intitule", 0, 0);
+        Option option = new Option("test", "intitule", 0);
 
         assertThrows(NotFoundObjectException.class, () -> {
             manager.removeOption(formationId, option.getId());
@@ -281,7 +281,7 @@ public class FormationManagerTest {
 
     @Test
     public void addUEWorks() throws Exception {
-        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6);
+        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6);
 
         manager.addUE(formationId, ue);
         assertTrue(manager.findOne(formationId).getUEs().size() >= 1);
@@ -293,7 +293,7 @@ public class FormationManagerTest {
     @Test
     public void addUEFailsFormationNotExist() {
 
-        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6);
+        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6);
 
         assertThrows(NotFoundObjectException.class, () -> {
             manager.addUE(7974648, ue);
@@ -307,7 +307,7 @@ public class FormationManagerTest {
      */
     @Test
     public void addUEFailsOptionAlreadyExiste() throws NotFoundObjectException, ItemExistInListException {
-        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6);
+        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6);
 
         manager.addUE(formationId, ue);
         UE found = manager.findOne(formationId).getUEs().get(0);
@@ -322,7 +322,7 @@ public class FormationManagerTest {
     @Test
     public void removeUEWorks() throws NotFoundObjectException, ItemExistInListException {
 
-        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6);
+        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6);
 
         // ajout ue
         manager.addUE(formationId, ue);
@@ -371,7 +371,7 @@ public class FormationManagerTest {
     @Test
     public void removeUEFailsBlocNotExisteOnList() throws NotFoundObjectException, ItemExistInListException {
 
-        Option option = new Option("test", "intitule", 0, 0);
+        Option option = new Option("test", "intitule", 0);
 
         assertThrows(NotFoundObjectException.class, () -> {
             manager.removeUE(formationId, option.getId());

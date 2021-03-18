@@ -38,7 +38,7 @@ public class OptionManagerTest {
 
     @BeforeEach
     public void befa() {
-        Option option = new Option("test1","Test1.1",5, 8);
+        Option option = new Option("test1","Test1.1", 8);
         optionManager.insert(option);
         optionId = option.getId();
         System.err.println("Option ID = " + optionId);
@@ -53,7 +53,7 @@ public class OptionManagerTest {
 
     @Test
     public void testInsert(){
-        Option option = new Option("test1","Test1.1",5, 8);
+        Option option = new Option("test1","Test1.1", 8);
         this.optionManager.insert(option);
 
     }
@@ -68,7 +68,7 @@ public class OptionManagerTest {
 
     @Test
     public void testFindAll(){
-        Option option = new Option("test2","test2.2",8,7);
+        Option option = new Option("test1","Test1.1", 8);
         this.optionManager.insert(option);
 
         List<Option> optionList = optionManager.findAll();
@@ -98,9 +98,10 @@ public class OptionManagerTest {
     @Test
     public void addUEWorks() throws Exception {
         // crée et insère une formation avec bloc et ue
-        Formation f = new Formation("M7ILD", 250, "M3 - ILD", 5, 2, 3);
-        f.addOption(new Option("test2","test2.2",8,7));
-        f.addUE(new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6));
+        int nbCredits = 6;
+        Formation f = new Formation("M7ILD", "M3 - ILD", 5, 2, 3);
+        f.addOption(new Option("test2","test2.2", nbCredits));
+        f.addUE(new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7, nbCredits));
         formationManager.insert(f);
 
         // s'assurer que le lien est fait
@@ -133,13 +134,13 @@ public class OptionManagerTest {
      */
     @Test
     public void linkUENotWorking2() throws Exception {
-        Option o = new Option("test2","test2.2",8,7);
-        optionManager.insert(o);
+        Option option = new Option("test1","Test1.1", 8);
+        optionManager.insert(option);
         assertThrows(NotFoundObjectException.class, ()-> {
-            optionManager.linkUE(o.getId(), 51645642);
+            optionManager.linkUE(option.getId(), 51645642);
         });
 
-        optionManager.delete(o.getId());
+        optionManager.delete(option.getId());
     }
 
 
@@ -148,17 +149,18 @@ public class OptionManagerTest {
      */
     @Test
     public void linkUENotWorking3() throws Exception {
-        Option o = new Option("test2","test2.2",8,7);
-        optionManager.insert(o);
-        UE ueToAdd = new UE("JEE-64g64f","M2 - ILD", 5, 2, 3,5,5,6,7,6);
+        int nbCredits = 6;
+        Option option = new Option("test1","Test1.1", nbCredits);
+        optionManager.insert(option);
+        UE ueToAdd = new UE("JEE-64g64f","M2 - ILD", 5, 2, 3,5,6,7,nbCredits);
         ueManager.insert(ueToAdd);
 
         assertThrows(FormationParentNotFoundException.class, () -> {
-            optionManager.linkUE(o.getId(), ueToAdd.getId());
+            optionManager.linkUE(option.getId(), ueToAdd.getId());
         });
 
         ueManager.delete(ueToAdd.getId());
-        optionManager.delete(o.getId());
+        optionManager.delete(option.getId());
     }
 
     /**
@@ -167,9 +169,10 @@ public class OptionManagerTest {
     @Test
     public void linkUENotWorking4() throws Exception {
         // créer
-        Formation f = new Formation("M7ILD", 250, "M3 - ILD", 5, 2, 3);
-        f.addOption(new Option("test2","test2.2",8,7));
-        f.addUE(new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6));
+        int nbCredits = 6;
+        Formation f = new Formation("M7ILD", "M3 - ILD", 5, 2, 3);
+        f.addOption(new Option("test2","test2.2",nbCredits));
+        f.addUE(new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,nbCredits));
         formationManager.insert(f);
 
         // LIER
@@ -189,9 +192,10 @@ public class OptionManagerTest {
     @Test
     public void unlinkUEWorks() throws Exception {
         // créer
-        Formation f = new Formation("M7ILD", 250, "M3 - ILD", 5, 2, 3);
-        f.addOption(new Option("test2","test2.2",8,7));
-        f.addUE(new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6));
+        int nbCredits = 6;
+        Formation f = new Formation("M7ILD", "M3 - ILD", 5, 2, 3);
+        f.addOption(new Option("test2","test2.2",nbCredits));
+        f.addUE(new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,nbCredits));
         formationManager.insert(f);
 
         // LIER
@@ -227,7 +231,7 @@ public class OptionManagerTest {
      */
     @Test
     public void unlinkUENotWorking2() throws Exception {
-        Option o = new Option("test2","test2.2",8,7);
+        Option o = new Option("test2","test2.2",7);
         optionManager.insert(o);
         assertThrows(NotFoundObjectException.class, () -> {
             optionManager.unlinkUE(o.getId(), 0);
@@ -241,9 +245,9 @@ public class OptionManagerTest {
      */
     @Test
     public void unlinkUENotWorking3() throws Exception {
-        Option o = new Option("test2","test2.2",8,7);
+        Option o = new Option("test2","test2.2",7);
         optionManager.insert(o);
-        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6);
+        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6);
         ueManager.insert(ue);
 
         assertThrows(NotFoundObjectException.class, () -> {
@@ -252,6 +256,36 @@ public class OptionManagerTest {
 
         optionManager.delete(o.getId());
         ueManager.delete(ue.getId());
+    }
+
+
+    /**
+     * Nombre de credit n'est pas equivalent (option != ue)
+     * @throws Exception
+     */
+
+    @Test
+    public void addUENotWorks5() throws Exception {
+        // crée et insère une formation avec bloc et ue
+        int nbCredits = 6;
+        Formation f = new Formation("M7ILD", "M3 - ILD", 5, 2, 3);
+        f.addOption(new Option("test2","test2.2",nbCredits));
+        f.addUE(new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,nbCredits));
+        formationManager.insert(f);
+
+        // s'assurer que le lien est fait
+        Formation insertedFormation = formationManager.findOne(f.getId());
+        assertTrue(insertedFormation.getUEs().size() >= 1);
+        assertTrue(insertedFormation.getOptions().size() >= 1);
+
+        Option linkedOption = insertedFormation.getOptions().get(0);
+        UE linkedUE = insertedFormation.getUEs().get(0);
+        optionManager.linkUE(linkedOption.getId(), linkedUE.getId());
+
+        Option test = optionManager.findOne(linkedOption.getId());
+        assertTrue(test.getUes().contains(linkedUE));
+
+        formationManager.delete(f.getId());
     }
 
 }

@@ -42,10 +42,11 @@ public class BlocManager {
 
             bloc.setCode(object.getCode());
             bloc.setIntitule(object.getIntitule());
+            bloc.setEffectif(bloc.getEffectif());
 
             daoBloc.update(bloc);
         } else {
-            throw new Exception("Bloc doesn't exist");
+            throw new NotFoundObjectException("Bloc doesn't exist");
         }
     }
 

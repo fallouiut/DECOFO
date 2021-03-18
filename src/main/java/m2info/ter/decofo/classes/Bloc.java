@@ -52,10 +52,9 @@ public class Bloc implements Serializable {
 
     }
 
-    public Bloc(String code, String intitule, double cout) {
+    public Bloc(String code, String intitule) {
         this.code = code;
         this.intitule = intitule;
-        this.cout = cout;
     }
 
     @Override

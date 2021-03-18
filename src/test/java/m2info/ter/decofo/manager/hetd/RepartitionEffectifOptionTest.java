@@ -1,8 +1,6 @@
 package m2info.ter.decofo.manager.hetd;
 
-import m2info.ter.decofo.classes.Formation;
-import m2info.ter.decofo.classes.Option;
-import m2info.ter.decofo.classes.UE;
+import m2info.ter.decofo.classes.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,15 +19,22 @@ public class RepartitionEffectifOptionTest {
         assertNotNull(repartitionEffectifOption);
     }
 
-    private Formation createFormationTest(int effectifTotal, int nombreUe) {
+    private Formation createFormationTest1() {
         Formation formation = new Formation();
 
-        Option option = new Option();
-        option.setEffectifTotal(effectifTotal);
+        Bloc b2 = new Bloc();
+        b2.setEffectif(new Effectif(0, 20, 0, 0));
 
-        for(int i = 0; i < nombreUe; ++i) {
-            option.addUE(new UE());
-        }
+        Bloc b3 = new Bloc();
+        b3.setEffectif(new Effectif(5, 10, 0, 0));
+
+        Option option = new Option();
+
+        option.addUE(new UE());
+        option.addUE(new UE());
+
+        b2.addOption(option);
+        b3.addOption(option);
 
         formation.addOption(option);
         return formation;
@@ -38,79 +43,169 @@ public class RepartitionEffectifOptionTest {
 
     @Test
     public void test1() {
-        Formation test = this.createFormationTest(100, 3);
+        Formation test = this.createFormationTest1();
 
         repartitionEffectifOption.calculerEffectifOption(test);
         test = repartitionEffectifOption.getFormation();
 
-        assertEquals(33, test.getOptions().get(0).getEffectifParUe());
+        // test effectif option par site
+        assertEquals(5, test.getOptions() .get(0).getEffectifOptionSite1());
+        assertEquals(30,test.getOptions() .get(0).getEffectifOptionSite2());
+        assertEquals(0, test.getOptions() .get(0).getEffectifOptionSite3());
+        assertEquals(0, test.getOptions() .get(0).getEffectifOptionSite4());
+        // test effectif par UE
+        assertEquals(3, test.getOptions() .get(0).getEffectifParUESite1());
+        assertEquals(15,test.getOptions() .get(0).getEffectifParUESite2());
+        assertEquals(0, test.getOptions() .get(0).getEffectifParUESite3());
+        assertEquals(0, test.getOptions() .get(0).getEffectifParUESite4());
+    }
+
+    private Formation createFormationTest2() {
+        Formation formation = new Formation();
+
+        Bloc b2 = new Bloc();
+        b2.setEffectif(new Effectif(0, 0, 0, 0));
+
+        Bloc b3 = new Bloc();
+        b3.setEffectif(new Effectif(0, 0, 0, 0));
+
+        Option option = new Option();
+
+        option.addUE(new UE());
+        option.addUE(new UE());
+
+        b2.addOption(option);
+        b3.addOption(option);
+
+        formation.addOption(option);
+        return formation;
 
     }
 
     @Test
     public void test2() {
-        Formation test = this.createFormationTest(100, 5);
+        Formation test = this.createFormationTest2();
 
         repartitionEffectifOption.calculerEffectifOption(test);
         test = repartitionEffectifOption.getFormation();
 
-        assertEquals(20, test.getOptions().get(0).getEffectifParUe());
+        // test effectif option par site
+        assertEquals(0, test.getOptions() .get(0).getEffectifOptionSite1());
+        assertEquals(0,test.getOptions() .get(0).getEffectifOptionSite2());
+        assertEquals(0, test.getOptions() .get(0).getEffectifOptionSite3());
+        assertEquals(0, test.getOptions() .get(0).getEffectifOptionSite4());
+        // test effectif par UE
+        assertEquals(0, test.getOptions() .get(0).getEffectifParUESite1());
+        assertEquals(0,test.getOptions() .get(0).getEffectifParUESite2());
+        assertEquals(0, test.getOptions() .get(0).getEffectifParUESite3());
+        assertEquals(0, test.getOptions() .get(0).getEffectifParUESite4());
+    }
+
+
+    private Formation createFormationTest3() {
+        Formation formation = new Formation();
+
+        Bloc b1 = new Bloc();
+        b1.setEffectif(new Effectif(10, 20, 0, 0));
+
+        Bloc b2 = new Bloc();
+        b2.setEffectif(new Effectif(15, 5, 0, 0));
+
+        Bloc b3 = new Bloc();
+        b3.setEffectif(new Effectif(6, 12, 0, 0));
+
+        Option option = new Option();
+
+        option.addUE(new UE());
+        option.addUE(new UE());
+        option.addUE(new UE());
+
+        b1.addOption(option);
+        b2.addOption(option);
+        b3.addOption(option);
+
+        formation.addOption(option);
+        return formation;
 
     }
 
     @Test
     public void test3() {
-        Formation test = this.createFormationTest(200, 4);
+        Formation test = this.createFormationTest3();
 
         repartitionEffectifOption.calculerEffectifOption(test);
         test = repartitionEffectifOption.getFormation();
 
-        assertEquals(50, test.getOptions().get(0).getEffectifParUe());
+        // test effectif option par site
+        assertEquals(31, test.getOptions() .get(0).getEffectifOptionSite1());
+        assertEquals(37,test.getOptions() .get(0).getEffectifOptionSite2());
+        assertEquals(0, test.getOptions() .get(0).getEffectifOptionSite3());
+        assertEquals(0, test.getOptions() .get(0).getEffectifOptionSite4());
+        // test effectif par UE
+        assertEquals(11, test.getOptions() .get(0).getEffectifParUESite1());
+        assertEquals(13,test.getOptions() .get(0).getEffectifParUESite2());
+        assertEquals(0, test.getOptions() .get(0).getEffectifParUESite3());
+        assertEquals(0, test.getOptions() .get(0).getEffectifParUESite4());
+    }
+
+
+
+    private Formation createFormationTest4() {
+        Formation formation = new Formation();
+
+        Bloc b1 = new Bloc();
+        b1.setEffectif(new Effectif(50, 20, 22, 12));
+
+        Bloc b2 = new Bloc();
+        b2.setEffectif(new Effectif(50, 35, 37, 5));
+
+        Option option1 = new Option();
+        option1.addUE(new UE());
+        option1.addUE(new UE());
+
+        Option option2 = new Option();
+        option2.addUE(new UE());
+        option2.addUE(new UE());
+
+        b1.addOption(option1);
+        b1.addOption(option2);
+        b2.addOption(option1);
+
+
+        formation.addOption(option1);
+        formation.addOption(option2);
+        return formation;
 
     }
 
     @Test
     public void test4() {
-        Formation test = this.createFormationTest(100, 6);
+        Formation test = this.createFormationTest4();
 
         repartitionEffectifOption.calculerEffectifOption(test);
         test = repartitionEffectifOption.getFormation();
 
-        assertEquals(16, test.getOptions().get(0).getEffectifParUe());
+        // test effectif option par site option 1
+        assertEquals(100, test.getOptions() .get(0).getEffectifOptionSite1());
+        assertEquals(55,test.getOptions() .get(0).getEffectifOptionSite2());
+        assertEquals(59, test.getOptions() .get(0).getEffectifOptionSite3());
+        assertEquals(17, test.getOptions() .get(0).getEffectifOptionSite4());
+        // test effectif par UE
+        assertEquals(50, test.getOptions() .get(0).getEffectifParUESite1());
+        assertEquals(28,test.getOptions() .get(0).getEffectifParUESite2());
+        assertEquals(30, test.getOptions() .get(0).getEffectifParUESite3());
+        assertEquals(9, test.getOptions() .get(0).getEffectifParUESite4());
 
-    }
-
-    @Test
-    public void test5() {
-        Formation test = this.createFormationTest(60, 6);
-
-        repartitionEffectifOption.calculerEffectifOption(test);
-        test = repartitionEffectifOption.getFormation();
-
-        assertEquals(10, test.getOptions().get(0).getEffectifParUe());
-
-    }
-
-    @Test
-    public void test6() {
-        Formation test = this.createFormationTest(60, 0);
-
-        repartitionEffectifOption.calculerEffectifOption(test);
-        test = repartitionEffectifOption.getFormation();
-
-        assertEquals(0, test.getOptions().get(0).getEffectifParUe());
-
-    }
-
-    @Test
-    public void test7() {
-        Formation test = this.createFormationTest(20, 1);
-
-        repartitionEffectifOption.calculerEffectifOption(test);
-        test = repartitionEffectifOption.getFormation();
-
-        assertEquals(20, test.getOptions().get(0).getEffectifParUe());
-
+        // test effectif option par site option 2
+        assertEquals(50, test.getOptions() .get(1).getEffectifOptionSite1());
+        assertEquals(20,test.getOptions() .get(1).getEffectifOptionSite2());
+        assertEquals(22, test.getOptions() .get(1).getEffectifOptionSite3());
+        assertEquals(12, test.getOptions() .get(1).getEffectifOptionSite4());
+        // test effectif par UE
+        assertEquals(25, test.getOptions() .get(1).getEffectifParUESite1());
+        assertEquals(10,test.getOptions() .get(1).getEffectifParUESite2());
+        assertEquals(11, test.getOptions() .get(1).getEffectifParUESite3());
+        assertEquals(6, test.getOptions() .get(1).getEffectifParUESite4());
     }
 
 }

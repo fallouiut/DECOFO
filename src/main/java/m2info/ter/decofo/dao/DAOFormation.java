@@ -52,6 +52,7 @@ public class DAOFormation extends DAO<Formation> {
     public void addBloc(Formation f, Bloc b) {
         f.addBloc(b);
         this.update(f);
+        System.err.println("blocId: " + b);
     }
 
     public void removeBloc(Formation f, Bloc b) {

@@ -36,10 +36,18 @@ public class FormationManager implements Manager<Formation> {
     }
 
     public void update(Formation object) throws Exception {
-        boolean exist = this.findOne(object.getId()) != null;
 
-        if(exist) {
-            daoFormation.update(object);
+        Formation formation = daoFormation.find(object.getId());
+
+        if(formation != null) {
+
+            formation.setTailleGroupeCM(object.getTailleGroupeCM());
+            formation.setTailleGroupeTD(object.getTailleGroupeTD());
+            formation.setTailleGroupeTP(object.getTailleGroupeTP());
+            formation.setCode(object.getCode());
+            formation.setIntitule(object.getIntitule());
+
+            daoFormation.update(formation);
         } else {
             throw new NotFoundObjectException("Formation "+object.getId()+" n'existe pas");
         }

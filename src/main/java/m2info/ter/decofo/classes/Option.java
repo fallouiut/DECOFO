@@ -32,12 +32,8 @@ public class Option implements Serializable {
     private double cout;
 
     @Basic()
-    @Column(name = "o_effectifTotal", length = 200, nullable = true)
-    private int effectifTotal;
-
-    @Basic()
-    @Column(name = "o_effectif_par_ue", length = 200, nullable = true)
-    private int effectifParUe;
+    @Column(name = "o_credits", length = 200, nullable = true)
+    private int credits;
 
     @JsonIgnore
     @ManyToOne
@@ -52,25 +48,44 @@ public class Option implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<UE> ues = new ArrayList<>();
 
+    // ----------------------- //
+    // Valeurs intermédiaires option //
+    private int effectifOptionSite1;
+    private int effectifOptionSite2;
+    private int effectifOptionSite3;
+    private int effectifOptionSite4;
+
+    private int effectifParUESite1;
+    private int effectifParUESite2;
+    private int effectifParUESite3;
+    private int effectifParUESite4;
+    // ----------------------- //
+
     public Option() {
 
     }
 
-    public Option(String code, String intitule, double cout, int effectifTotal) {
+    public Option(String code, String intitule, int credits) {
         this.code = code;
         this.intitule = intitule;
-        this.cout = cout;
-        this.effectifTotal = effectifTotal;
+        this.credits = credits;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
     }
 
     @Override
     public String toString() {
         return "Option{" +
-                "id=" + id +
-                ", code='" + code + '\'' +
+                "code='" + code + '\'' +
                 ", intitule='" + intitule + '\'' +
                 ", cout=" + cout +
-                ", effectifTotal=" + effectifTotal +
+                ", credits=" + credits +
                 '}';
     }
 
@@ -179,19 +194,67 @@ public class Option implements Serializable {
         this.cout = cout;
     }
 
-    public int getEffectifTotal() {
-        return effectifTotal;
+    public int getEffectifOptionSite1() {
+        return effectifOptionSite1;
     }
 
-    public void setEffectifTotal(int effectifTotal) {
-        this.effectifTotal = effectifTotal;
+    public void setEffectifOptionSite1(int effectifOptionSite1) {
+        this.effectifOptionSite1 = effectifOptionSite1;
     }
 
-    public int getEffectifParUe() {
-        return effectifParUe;
+    public int getEffectifOptionSite2() {
+        return effectifOptionSite2;
     }
 
-    public void setEffectifParUe(int effectifParUe) {
-        this.effectifParUe = effectifParUe;
+    public void setEffectifOptionSite2(int effectifOptionSite2) {
+        this.effectifOptionSite2 = effectifOptionSite2;
+    }
+
+    public int getEffectifOptionSite3() {
+        return effectifOptionSite3;
+    }
+
+    public void setEffectifOptionSite3(int effectifOptionSite3) {
+        this.effectifOptionSite3 = effectifOptionSite3;
+    }
+
+    public int getEffectifOptionSite4() {
+        return effectifOptionSite4;
+    }
+
+    public void setEffectifOptionSite4(int effectifOptionSite4) {
+        this.effectifOptionSite4 = effectifOptionSite4;
+    }
+
+    public int getEffectifParUESite1() {
+        return effectifParUESite1;
+    }
+
+    public void setEffectifParUESite1(int effectifParUESite1) {
+        this.effectifParUESite1 = effectifParUESite1;
+    }
+
+    public int getEffectifParUESite2() {
+        return effectifParUESite2;
+    }
+
+    public void setEffectifParUESite2(int effectifParUESite2) {
+        this.effectifParUESite2 = effectifParUESite2;
+    }
+
+    public int getEffectifParUESite3() {
+        return effectifParUESite3;
+    }
+
+    public void setEffectifParUESite3(int effectifParUESite3) {
+        this.effectifParUESite3 = effectifParUESite3;
+    }
+
+    public int getEffectifParUESite4() {
+        return effectifParUESite4;
+    }
+
+    public void setEffectifParUESite4(int effectifParUESite4) {
+        this.effectifParUESite4 = effectifParUESite4;
     }
 }

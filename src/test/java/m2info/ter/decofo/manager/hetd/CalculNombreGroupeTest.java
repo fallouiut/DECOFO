@@ -21,7 +21,7 @@ public class CalculNombreGroupeTest {
     public void notNull() {
         assertNotNull(calculNombreGroupesService);
     }
-
+/*
     private Formation createFormationTest1() {
         Formation formation = new Formation();
         formation.setTailleGroupeCM(0);
@@ -167,5 +167,5 @@ public class CalculNombreGroupeTest {
         assertEquals(12,formationAfter.getUEs().get(0).getNombreGroupesTD());
         assertEquals(28,formationAfter.getUEs().get(0).getNombreGroupesTP());
 
-    }
+    }*/
 }

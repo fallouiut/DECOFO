@@ -18,58 +18,63 @@ public class CalculNombreGroupesUE {
         this.formation = formation;
 
         for(UE ue: this.formation.getUEs()) {
-
-            int nombreGroupeCM = 0;
-            int nombreGroupeTD = 0;
-            int nombreGroupeTP = 0;
-
-            for(Bloc bloc : ue.getBlocs()) {
-
-                // pour chaque site, calculer le npmbre de groupe CM, TD , TP
-                // incrémenter cette valeur à l'efectif total (CM, TD, TP) pour chaque UE
-
-                bloc.getEffectif().setNbGroupesCMSite1(this.calculerNombreGroupesCM(ue, bloc.getEffectif().getSite1()));
-                bloc.getEffectif().setNbGroupesCMSite2(this.calculerNombreGroupesCM(ue, bloc.getEffectif().getSite2()));
-                bloc.getEffectif().setNbGroupesCMSite3(this.calculerNombreGroupesCM(ue, bloc.getEffectif().getSite3()));
-                bloc.getEffectif().setNbGroupesCMSite4(this.calculerNombreGroupesCM(ue, bloc.getEffectif().getSite4()));
-
-                bloc.getEffectif().setNbGroupesTDSite1(this.calculerNombreGroupesTD(ue, bloc.getEffectif().getSite1()));
-                bloc.getEffectif().setNbGroupesTDSite2(this.calculerNombreGroupesTD(ue, bloc.getEffectif().getSite2()));
-                bloc.getEffectif().setNbGroupesTDSite3(this.calculerNombreGroupesTD(ue, bloc.getEffectif().getSite3()));
-                bloc.getEffectif().setNbGroupesTDSite4(this.calculerNombreGroupesTD(ue, bloc.getEffectif().getSite4()));
-
-                bloc.getEffectif().setNbGroupesTPSite1(this.calculerNombreGroupesTP(ue, bloc.getEffectif().getSite1()));
-                bloc.getEffectif().setNbGroupesTPSite2(this.calculerNombreGroupesTP(ue, bloc.getEffectif().getSite2()));
-                bloc.getEffectif().setNbGroupesTPSite3(this.calculerNombreGroupesTP(ue, bloc.getEffectif().getSite3()));
-                bloc.getEffectif().setNbGroupesTPSite4(this.calculerNombreGroupesTP(ue, bloc.getEffectif().getSite4()));
-
-                nombreGroupeCM = bloc.getEffectif().getNbGroupesCMSite1() +  bloc.getEffectif().getNbGroupesCMSite2() +  bloc.getEffectif().getNbGroupesCMSite3() +  bloc.getEffectif().getNbGroupesCMSite4();
-                nombreGroupeTD = bloc.getEffectif().getNbGroupesTDSite1() +  bloc.getEffectif().getNbGroupesTDSite2() +  bloc.getEffectif().getNbGroupesTDSite3() +  bloc.getEffectif().getNbGroupesTDSite4();
-                nombreGroupeTP = bloc.getEffectif().getNbGroupesTPSite1() +  bloc.getEffectif().getNbGroupesTPSite2() +  bloc.getEffectif().getNbGroupesTPSite3() +  bloc.getEffectif().getNbGroupesTPSite4();
-
-            }
-
-            // garder la valeur
-            ue.setNombreGroupesCM(nombreGroupeCM);
-            ue.setNombreGroupesTD(nombreGroupeTD);
-            ue.setNombreGroupesTP(nombreGroupeTP);
+            this.calculerNombreGroupesCMTotal(ue);
+            this.calculerNombreGroupesTDTotal(ue);
+            this.calculerNombreGroupesTPTotal(ue);
         }
 
     }
 
-    private int calculerNombreGroupesCM(UE ue, int effectifSite) {
+    /**
+     * Somme des nombres de groupe de CM de chaque site
+     */
+    private void calculerNombreGroupesCMTotal(UE ue) {
+        int nombreGroupeCM = 0;
+        nombreGroupeCM += this.calculerNombreGroupesCMSite(ue, ue.getEffectifTotalSite1());
+        nombreGroupeCM += this.calculerNombreGroupesCMSite(ue, ue.getEffectifTotalSite2());
+        nombreGroupeCM += this.calculerNombreGroupesCMSite(ue, ue.getEffectifTotalSite3());
+        nombreGroupeCM += this.calculerNombreGroupesCMSite(ue, ue.getEffectifTotalSite4());
+        ue.setNombreGroupesCM(nombreGroupeCM);
+    }
+
+    /**
+     * Somme des nombres de groupe de TD de chaque site
+     */
+    private void calculerNombreGroupesTDTotal(UE ue) {
+        int nombreGroupeTD = 0;
+        nombreGroupeTD += this.calculerNombreGroupesTDSite(ue, ue.getEffectifTotalSite1());
+        nombreGroupeTD += this.calculerNombreGroupesTDSite(ue, ue.getEffectifTotalSite2());
+        nombreGroupeTD += this.calculerNombreGroupesTDSite(ue, ue.getEffectifTotalSite3());
+        nombreGroupeTD += this.calculerNombreGroupesTDSite(ue, ue.getEffectifTotalSite4());
+        ue.setNombreGroupesTD(nombreGroupeTD);
+    }
+
+    /**
+     * Somme des nombres de groupe de TP de chaque site
+     */
+    private void calculerNombreGroupesTPTotal(UE ue) {
+        int nombreGroupeTP = 0;
+        nombreGroupeTP += this.calculerNombreGroupesTPSite(ue, ue.getEffectifTotalSite1());
+        nombreGroupeTP += this.calculerNombreGroupesTPSite(ue, ue.getEffectifTotalSite2());
+        nombreGroupeTP += this.calculerNombreGroupesTPSite(ue, ue.getEffectifTotalSite3());
+        nombreGroupeTP += this.calculerNombreGroupesTPSite(ue, ue.getEffectifTotalSite4());
+        ue.setNombreGroupesTP(nombreGroupeTP);
+    }
+
+    /**
+     * Calcul Nombre groupe TD pour un site
+     * un site = un groupe de CM
+     */
+    private int calculerNombreGroupesCMSite(UE ue, int effectifSite) {
         if(effectifSite == 0) {
             return 0;
         } else {
             return 1;
-            //int nbGroupe = effectifSite + ue.getFormationOwner().getTailleGroupeCM() - 1;
-            //nbGroupe  = nbGroupe / ue.getFormationOwner().getTailleGroupeCM();
-
-            //return nbGroupe;
         }
     }
 
     /**
+     * Calcul Nombre groupe TD pour un site
      * si effectif == 0,
      *      on renvoie 0 car 0 groupe
      * si effectif < taille_imposé
@@ -80,7 +85,7 @@ public class CalculNombreGroupesUE {
      *      sinon
      *          renvoie division exces arrondi supérieur
      */
-    private int calculerNombreGroupesTD(UE ue, int effectifSite) {
+    private int calculerNombreGroupesTDSite(UE ue, int effectifSite) {
         
         if(effectifSite == 0) {
             return 0;
@@ -101,7 +106,10 @@ public class CalculNombreGroupesUE {
         }
     }
 
-    private int calculerNombreGroupesTP(UE ue, int effectifSite) {
+    /**
+     * Calcul Nombre groupe TP pour un site
+     */
+    private int calculerNombreGroupesTPSite(UE ue, int effectifSite) {
         if(effectifSite == 0) {
             return 0;
         } else if (effectifSite < ue.getFormationOwner().getTailleGroupeTP()) {

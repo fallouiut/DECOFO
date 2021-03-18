@@ -37,7 +37,7 @@ public class DAOFormationTest {
 
     @BeforeEach
     public void befa() {
-        Formation f = new Formation("M7ILD", 250, "M3 - ILD", 5, 2, 3);
+        Formation f = new Formation("M7ILD", "M3 - ILD", 5, 2, 3);
         daoFormation.insert(f);
         formationId = f.getId();
         System.err.println("Formation ID = " + formationId);
@@ -59,7 +59,7 @@ public class DAOFormationTest {
 
     @Test
     public void insert() {
-        Formation f = new Formation("M7ILD", 250, "M3 - ILD", 5, 2, 3);
+        Formation f = new Formation("M7ILD","M3 - ILD", 5, 2, 3);
         daoFormation.insert(f);
     }
 
@@ -101,8 +101,8 @@ public class DAOFormationTest {
     @Test
     public void addBlocs() {
         Formation formationTest = daoFormation.find(formationId);
-        daoFormation.addBloc(formationTest, new Bloc("s1", "semestre", 0));
-        daoFormation.addBloc(formationTest, new Bloc("s1", "semestre", 0));
+        daoFormation.addBloc(formationTest, new Bloc("s1", "semestre"));
+        daoFormation.addBloc(formationTest, new Bloc("s1", "semestre"));
 
         Formation found = daoFormation.find(formationId);
 
@@ -113,8 +113,8 @@ public class DAOFormationTest {
     @Test
     public void addOptions() {
         Formation formationTest = daoFormation.find(formationId);
-        daoFormation.addOption(formationTest, new Option("code", "intitule", 0, 0));
-        daoFormation.addOption(formationTest, new Option("code", "intitule", 0, 0));
+        daoFormation.addOption(formationTest, new Option("code", "intitule", 0));
+        daoFormation.addOption(formationTest, new Option("code", "intitule", 0));
 
         Formation found = daoFormation.find(formationId);
 
@@ -124,8 +124,8 @@ public class DAOFormationTest {
     @Test
     public void addUE() {
         Formation formationTest = daoFormation.find(formationId);
-        daoFormation.addUE(formationTest, new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6));
-        daoFormation.addUE(formationTest, new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6));
+        daoFormation.addUE(formationTest, new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6));
+        daoFormation.addUE(formationTest, new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6));
 
         Formation found = daoFormation.find(formationId);
         assertTrue(found.getUEs().size() >= 1);
@@ -135,9 +135,9 @@ public class DAOFormationTest {
     @Test
     public void deleteCascade() {
         Formation formationTest = daoFormation.find(formationId);
-        daoFormation.addBloc(formationTest, new Bloc("s1", "semestre", 0));
-        daoFormation.addUE(formationTest, new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6));
-        daoFormation.addOption(formationTest, new Option("code", "intitule", 0, 0));
+        daoFormation.addBloc(formationTest, new Bloc("s1", "semestre"));
+        daoFormation.addUE(formationTest, new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6));
+        daoFormation.addOption(formationTest, new Option("code", "intitule", 0));
 
 
         Formation found = daoFormation.find(formationId);
@@ -158,7 +158,7 @@ public class DAOFormationTest {
     @Test
     public void deleteBloc() {
         Formation formationTest = daoFormation.find(formationId);
-        daoFormation.addBloc(formationTest, new Bloc("s1", "semestre", 0));
+        daoFormation.addBloc(formationTest, new Bloc("s1", "semestre"));
 
         Formation found = daoFormation.find(formationId);
         Bloc b = found.getBlocs().get(0);
@@ -172,7 +172,7 @@ public class DAOFormationTest {
     @Test
     public void deleteOption() {
         Formation formationTest = daoFormation.find(formationId);
-        daoFormation.addOption(formationTest, new Option("code", "intitule", 0, 0));
+        daoFormation.addOption(formationTest, new Option("code", "intitule", 0));
 
         Formation found = daoFormation.find(formationId);
         Option o = found.getOptions().get(0);
@@ -186,7 +186,7 @@ public class DAOFormationTest {
     @Test
     public void deleteUE() {
         Formation formationTest = daoFormation.find(formationId);
-        daoFormation.addUE(formationTest, new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6));
+        daoFormation.addUE(formationTest, new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6));
 
         Formation found = daoFormation.find(formationId);
         UE ue = found.getUEs().get(0);

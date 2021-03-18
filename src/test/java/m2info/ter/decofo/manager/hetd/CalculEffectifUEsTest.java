@@ -12,6 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class CalculEffectifUEsTest {
 
     @Autowired
+    RepartitionEffectifOption repartitionEffectifOption;
+
+    @Autowired
     CalculEffectifUE calculEffectifUE;
 
     @Test
@@ -22,21 +25,38 @@ public class CalculEffectifUEsTest {
     private Formation createFormationTest1() {
         Formation formation = new Formation();
 
-        Bloc bloc = new Bloc();
-        bloc.setEffectif(new Effectif(50, 20, 30, 20));
+        Bloc b1 = new Bloc();
+        b1.setEffectif(new Effectif(10, 0, 0, 0));
+
+        Bloc b2 = new Bloc();
+        b2.setEffectif(new Effectif(0, 20, 0, 0));
+
+        Bloc b3 = new Bloc();
+        b3.setEffectif(new Effectif(5, 10, 0, 0));
 
         Option option = new Option();
-        option.setEffectifParUe(20);
 
-        UE ue = new UE();
+        UE ue1 = new UE();
+        UE ue2 = new UE();
 
-        bloc.addUE(ue);
-        option.addUE(ue);
+        b1.addUE(ue1);
 
-        formation.addBloc(bloc);
-        formation.addUE(ue);
+        b2.addOption(option);
+        b3.addOption(option);
 
-        return formation;
+        option.addUE(ue1);
+        option.addUE(ue2);
+
+        formation.addBloc(b1);
+        formation.addBloc(b2);
+        formation.addBloc(b3);
+        formation.addOption(option);
+        formation.addUE(ue1);
+        formation.addUE(ue2);
+
+        repartitionEffectifOption.calculerEffectifOption(formation);
+
+        return repartitionEffectifOption.getFormation();
 
     }
 
@@ -47,28 +67,61 @@ public class CalculEffectifUEsTest {
         calculEffectifUE.calculerEffectifUEs(test);
         test = calculEffectifUE.getFormation();
 
-        assertEquals(140, test.getUEs().get(0).getEffectifTotal());
+        // assert effectif ue1
+        assertEquals(13, test.getUEs().get(0).getEffectifTotalSite1());
+        assertEquals(15, test.getUEs().get(0).getEffectifTotalSite2());
+        assertEquals(0,  test.getUEs().get(0).getEffectifTotalSite3());
+        assertEquals(0,  test.getUEs().get(0).getEffectifTotalSite4());
+
+        // assert effectif ue2
+        assertEquals(3,  test.getUEs().get(1).getEffectifTotalSite1());
+        assertEquals(15, test.getUEs().get(1).getEffectifTotalSite2());
+        assertEquals(0,  test.getUEs().get(1).getEffectifTotalSite3());
+        assertEquals(0,  test.getUEs().get(1).getEffectifTotalSite4());
+
     }
+
 
     private Formation createFormationTest2() {
         Formation formation = new Formation();
 
-        Bloc bloc1 = new Bloc();
-        bloc1.setEffectif(new Effectif(50, 50, 50, 50));
+        Bloc b1 = new Bloc();
+        b1.setEffectif(new Effectif(10, 20, 0, 0));
 
-        Bloc bloc2 = new Bloc();
-        bloc2.setEffectif(new Effectif(40, 40, 40, 40));
+        Bloc b2 = new Bloc();
+        b2.setEffectif(new Effectif(15, 5, 0, 0));
 
-        UE ue = new UE();
+        Bloc b3 = new Bloc();
+        b3.setEffectif(new Effectif(6, 12, 0, 0));
 
-        formation.addUE(ue);
-        bloc1.addUE(ue);
-        bloc2.addUE(ue);
+        Option option = new Option();
 
-        formation.addBloc(bloc1);
-        formation.addBloc(bloc2);
+        UE ue1 = new UE();
+        UE ue2 = new UE();
+        UE ue3 = new UE();
 
-        return formation;
+        b1.addUE(ue1);
+        b3.addUE(ue3);
+
+        b1.addOption(option);
+        b2.addOption(option);
+        b3.addOption(option);
+
+        option.addUE(ue1);
+        option.addUE(ue2);
+        option.addUE(ue3);
+
+        formation.addBloc(b1);
+        formation.addBloc(b2);
+        formation.addBloc(b3);
+        formation.addOption(option);
+        formation.addUE(ue1);
+        formation.addUE(ue2);
+        formation.addUE(ue3);
+
+        repartitionEffectifOption.calculerEffectifOption(formation);
+
+        return repartitionEffectifOption.getFormation();
 
     }
 
@@ -79,34 +132,65 @@ public class CalculEffectifUEsTest {
         calculEffectifUE.calculerEffectifUEs(test);
         test = calculEffectifUE.getFormation();
 
-        assertEquals(360, test.getUEs().get(0).getEffectifTotal());
+        // test effectif option par site
+        // assert effectif ue1
+        assertEquals(21, test.getUEs().get(0).getEffectifTotalSite1());
+        assertEquals(33, test.getUEs().get(0).getEffectifTotalSite2());
+        assertEquals(0,  test.getUEs().get(0).getEffectifTotalSite3());
+        assertEquals(0,  test.getUEs().get(0).getEffectifTotalSite4());
+
+        // assert effectif ue2
+        assertEquals(11, test.getUEs().get(1).getEffectifTotalSite1());
+        assertEquals(13, test.getUEs().get(1).getEffectifTotalSite2());
+        assertEquals(0,  test.getUEs().get(1).getEffectifTotalSite3());
+        assertEquals(0,  test.getUEs().get(1).getEffectifTotalSite4());
+
+        // assert effectif ue3
+        assertEquals(17, test.getUEs().get(2).getEffectifTotalSite1());
+        assertEquals(25, test.getUEs().get(2).getEffectifTotalSite2());
+        assertEquals(0,  test.getUEs().get(2).getEffectifTotalSite3());
+        assertEquals(0,  test.getUEs().get(2).getEffectifTotalSite4());
     }
+
+
 
     private Formation createFormationTest3() {
         Formation formation = new Formation();
 
-        Bloc bloc1 = new Bloc();
-        bloc1.setEffectif(new Effectif(100, 50, 100, 20));
+        Bloc b1 = new Bloc();
+        b1.setEffectif(new Effectif(50, 20, 22, 12));
 
-        Bloc bloc2 = new Bloc();
-        bloc2.setEffectif(new Effectif(70, 120, 50, 30));
+        Bloc b2 = new Bloc();
+        b2.setEffectif(new Effectif(50, 35, 37, 5));
 
-        Option option = new Option();
-        option.setEffectifParUe(20);
+        Option option1 = new Option();
+        Option option2 = new Option();
 
+        UE ue1 = new UE();
+        UE ue2 = new UE();
 
-        UE ue = new UE();
+        formation.addBloc(b1);
+        formation.addBloc(b2);
+        formation.addOption(option1);
+        formation.addOption(option2);
+        formation.addUE(ue1);
+        formation.addUE(ue2);
 
-        bloc1.addUE(ue);
-        bloc2.addUE(ue);
-        option.addUE(ue);
+        b1.addOption(option1);
+        b1.addOption(option2);
+        b2.addOption(option1);
 
-        formation.addBloc(bloc1);
-        formation.addBloc(bloc2);
-        formation.addOption(option);
-        formation.addUE(ue);
+        b1.addUE(ue2);
 
-        return formation;
+        option1.addUE(ue1);
+        option1.addUE(ue2);
+        option2.addUE(ue1);
+        option2.addUE(ue2);
+
+        repartitionEffectifOption.calculerEffectifOption(formation);
+
+        return repartitionEffectifOption.getFormation();
+
     }
 
     @Test
@@ -116,161 +200,18 @@ public class CalculEffectifUEsTest {
         calculEffectifUE.calculerEffectifUEs(test);
         test = calculEffectifUE.getFormation();
 
-        assertEquals(560, test.getUEs().get(0).getEffectifTotal());
+        // test effectif option par site
+        // assert effectif ue1
+        assertEquals(75, test.getUEs().get(0).getEffectifTotalSite1());
+        assertEquals(38, test.getUEs().get(0).getEffectifTotalSite2());
+        assertEquals(41,  test.getUEs().get(0).getEffectifTotalSite3());
+        assertEquals(15,  test.getUEs().get(0).getEffectifTotalSite4());
+
+        // assert effectif ue2
+        assertEquals(125, test.getUEs().get(1).getEffectifTotalSite1());
+        assertEquals(58, test.getUEs().get(1).getEffectifTotalSite2());
+        assertEquals(63,  test.getUEs().get(1).getEffectifTotalSite3());
+        assertEquals(27,  test.getUEs().get(1).getEffectifTotalSite4());
     }
 
-
-    private Formation createFormationTest4() {
-        Formation formation = new Formation();
-
-        Bloc bloc1 = new Bloc();
-        bloc1.setEffectif(new Effectif(50, 40, 50, 20));
-
-        Bloc bloc2 = new Bloc();
-        bloc2.setEffectif(new Effectif(35, 50, 70, 10));
-
-        Option option = new Option();
-        option.setEffectifParUe(15);
-
-
-        UE ue1 = new UE();
-        UE ue2 = new UE();
-
-        bloc1.addUE(ue1);
-        bloc2.addUE(ue2);
-        option.addUE(ue1);
-        option.addUE(ue2);
-
-        formation.addBloc(bloc1);
-        formation.addBloc(bloc2);
-        formation.addOption(option);
-        formation.addUE(ue1);
-        formation.addUE(ue2);
-
-        return formation;
-    }
-
-    @Test
-    public void test4() {
-        Formation test = this.createFormationTest4();
-
-        calculEffectifUE.calculerEffectifUEs(test);
-        test = calculEffectifUE.getFormation();
-
-        assertEquals(175, test.getUEs().get(0).getEffectifTotal());
-        assertEquals(180, test.getUEs().get(1).getEffectifTotal());
-    }
-
-
-    private Formation createFormationTest5() {
-        Formation formation = new Formation();
-
-        Bloc bloc1 = new Bloc();
-        bloc1.setEffectif(new Effectif(20, 30, 0, 0));
-
-        Bloc bloc2 = new Bloc();
-        bloc2.setEffectif(new Effectif(50, 25, 15, 7));
-
-        Option option1 = new Option();
-        option1.setEffectifParUe(15);
-
-        Option option2 = new Option();
-        option2.setEffectifParUe(22);
-
-        UE ue1 = new UE();
-        UE ue2 = new UE();
-        UE ue3 = new UE();
-        UE ue4 = new UE();
-
-        bloc1.addUE(ue1);
-        bloc2.addUE(ue1);
-        bloc2.addUE(ue3);
-
-        option1.addUE(ue1);
-        option1.addUE(ue2);
-
-        option2.addUE(ue2);
-        option2.addUE(ue3);
-
-        formation.addBloc(bloc1);
-        formation.addBloc(bloc2);
-        formation.addOption(option1);
-        formation.addOption(option2);
-
-        formation.addUE(ue1);
-        formation.addUE(ue2);
-        formation.addUE(ue3);
-        formation.addUE(ue4);
-
-        return formation;
-    }
-
-    @Test
-    public void test5() {
-        Formation test = this.createFormationTest5();
-
-        calculEffectifUE.calculerEffectifUEs(test);
-        test = calculEffectifUE.getFormation();
-
-        assertEquals(162, test.getUEs().get(0).getEffectifTotal());
-        assertEquals(37 , test.getUEs().get(1).getEffectifTotal());
-        assertEquals(119, test.getUEs().get(2).getEffectifTotal());
-        assertEquals(0  , test.getUEs().get(3).getEffectifTotal());
-    }
-    
-    private Formation createFormationTest6() {
-        Formation formation = new Formation();
-
-        Bloc bloc1 = new Bloc();
-        bloc1.setEffectif(new Effectif(0, 0, 0, 0));
-
-        Bloc bloc2 = new Bloc();
-        bloc2.setEffectif(new Effectif(0, 0, 0, 0));
-
-        Option option1 = new Option();
-        option1.setEffectifParUe(0);
-
-        Option option2 = new Option();
-        option2.setEffectifParUe(0);
-
-        UE ue1 = new UE();
-        UE ue2 = new UE();
-        UE ue3 = new UE();
-        UE ue4 = new UE();
-
-        bloc1.addUE(ue1);
-        bloc2.addUE(ue1);
-        bloc2.addUE(ue3);
-
-        option1.addUE(ue1);
-        option1.addUE(ue2);
-
-        option2.addUE(ue2);
-        option2.addUE(ue3);
-
-        formation.addBloc(bloc1);
-        formation.addBloc(bloc2);
-        formation.addOption(option1);
-        formation.addOption(option2);
-
-        formation.addUE(ue1);
-        formation.addUE(ue2);
-        formation.addUE(ue3);
-        formation.addUE(ue4);
-
-        return formation;
-    }
-
-    @Test
-    public void test6() {
-        Formation test = this.createFormationTest6();
-
-        calculEffectifUE.calculerEffectifUEs(test);
-        test = calculEffectifUE.getFormation();
-
-        assertEquals(0, test.getUEs().get(0).getEffectifTotal());
-        assertEquals(0, test.getUEs().get(1).getEffectifTotal());
-        assertEquals(0, test.getUEs().get(2).getEffectifTotal());
-        assertEquals(0, test.getUEs().get(3).getEffectifTotal());
-    }
 }

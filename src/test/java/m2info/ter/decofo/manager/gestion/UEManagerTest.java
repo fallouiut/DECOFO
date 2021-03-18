@@ -28,7 +28,7 @@ public class UEManagerTest {
 
     @BeforeEach
     public void befa() {
-        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6);
+        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6);
         ueManager.insert(ue);
         ueId = ue.getId();
         System.err.println("UE ID = " + ueId);
@@ -44,8 +44,8 @@ public class UEManagerTest {
 
     @Test
     public void testInsert() {
+        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6);
 
-        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6);
         ueManager.insert(ue);
 
         ueId = ue.getId();
@@ -63,7 +63,8 @@ public class UEManagerTest {
 
     @Test
     public void testFindAll() {
-        UE ue = new UE("Systeme embarqué","M2 - ILD", 9, 2, 3,5,5,6,7,6);
+        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6);
+
         ueManager.insert(ue);
 
         List<UE> UEList = ueManager.findAll();

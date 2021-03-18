@@ -129,10 +129,13 @@ public class FormationController {
             if (formationId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             this.formationManager.addBloc(formationId, bloc);
 
-            return new ResponseEntity(null, HttpStatus.OK);
+            List<Bloc> list = this.formationManager.findOne(formationId).getBlocs();
+            result.put("blocId", list.get(list.size()-1).getId());
+
+            return new ResponseEntity(result, HttpStatus.OK);
         } catch (DecofoException e) {
             result.put("error", e.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -151,7 +154,7 @@ public class FormationController {
             return new ResponseEntity(null, HttpStatus.OK);
         } catch (DecofoException e) {
             result.put("error", e.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -167,10 +170,13 @@ public class FormationController {
             if (formationId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             this.formationManager.addOption(formationId, option);
 
-            return new ResponseEntity(null, HttpStatus.OK);
+            List<Option> list = this.formationManager.findOne(formationId).getOptions();
+            result.put("optionId", list.get(list.size()-1).getId());
+
+            return new ResponseEntity(result, HttpStatus.OK);
         } catch (DecofoException e) {
             result.put("error", e.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -205,10 +211,13 @@ public class FormationController {
             if (formationId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             this.formationManager.addUE(formationId, ue);
 
-            return new ResponseEntity(null, HttpStatus.OK);
+            List<UE> list = this.formationManager.findOne(formationId).getUEs();
+            result.put("ueId", list.get(list.size()-1).getId());
+
+            return new ResponseEntity(result, HttpStatus.OK);
         } catch (DecofoException e) {
             result.put("error", e.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -227,7 +236,7 @@ public class FormationController {
             return new ResponseEntity(null, HttpStatus.OK);
         } catch (DecofoException e) {
             result.put("error", e.getMessage());
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);

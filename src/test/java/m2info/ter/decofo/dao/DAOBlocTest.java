@@ -34,7 +34,7 @@ public class DAOBlocTest {
 
     @BeforeEach
     public void befa() {
-        Bloc bloc = new Bloc("test ag4*6nlmgregation", "ok", 0);
+        Bloc bloc = new Bloc("test ag4*6nlmgregation", "ok");
         daoBloc.insert(bloc);
         BlocId = bloc.getId();
     }
@@ -54,7 +54,7 @@ public class DAOBlocTest {
 
     @Test
     public void insert() {
-        Bloc b = new Bloc("s1-ild", "Semestre 1 ild", 20.0);
+        Bloc b = new Bloc("s1-ild", "Semestre 1 ild");
         daoBloc.insert(b);
     }
 
@@ -98,7 +98,7 @@ public class DAOBlocTest {
      */
     private UE createAndInsertUE() {
         // ajouter ue
-        UE ueToAdd = new UE("JEE-64g64f","M2 - ILD", 5, 2, 3,5,5,6,7,6);
+        UE ueToAdd = new UE("JEE-64g64f","M2 - ILD", 5, 2, 3,5,6,7,6);
         daoUe.insert(ueToAdd);
         // récupérer ue
         UE ue = daoUe.find(ueToAdd.getId());
@@ -156,7 +156,7 @@ public class DAOBlocTest {
      */
     private Option createAndInsertOption() {
         // ajouter ue
-        Option optionToAdd = new Option("TEST CASCADE", "intitule", 0, 0);
+        Option optionToAdd = new Option("TEST CASCADE", "intitule", 0);
         daoOption.insert(optionToAdd);
         // récupérer ue
         Option option = daoOption.find(optionToAdd.getId());

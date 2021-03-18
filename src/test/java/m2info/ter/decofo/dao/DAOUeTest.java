@@ -25,7 +25,7 @@ public class DAOUeTest {
 
     @BeforeEach
     public void befa() {
-        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6);
+        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6);
         daoUe.insert(ue);
         ueId = ue.getId();
         System.err.println("UE ID = " + ueId);
@@ -47,7 +47,7 @@ public class DAOUeTest {
 
     @Test
     public void insert() {
-        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6);
+        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6);
         daoUe.insert(ue);
     }
 

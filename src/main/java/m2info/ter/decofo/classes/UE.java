@@ -42,22 +42,9 @@ public class UE implements Serializable {
     @Column(name = "ue_nombreHeureTP", length = 200, nullable = true)
     private double nombreHeureTP;
 
-    // calcul intermediaire, données non obligatoires
     @Basic()
-    @Column(name = "ue_nombreGroupesCM", length = 200, nullable = true)
-    private int nombreGroupesCM;
-
-    @Basic()
-    @Column(name = "ue_nombreGroupesTD", length = 200, nullable = true)
-    private int nombreGroupesTD;
-
-    @Basic()
-    @Column(name = "ue_nombreGroupesTP", length = 200, nullable = true)
-    private int nombreGroupesTP;
-
-    @Basic()
-    @Column(name = "ue_effectifTotal", length = 200, nullable = true)
-    private int effectifTotal;
+    @Column(name = "ue_credits", length = 200, nullable = true)
+    private int credits;
 
     @JsonIgnore
     @ManyToOne
@@ -74,21 +61,43 @@ public class UE implements Serializable {
     @ManyToMany(mappedBy = "ues", fetch = FetchType.LAZY)
     List<Option> options = new ArrayList<>();
 
+
+
+    // calcul intermediaire, données non obligatoires
+    @Basic()
+    @Column(name = "ue_nombreGroupesCM", length = 200, nullable = true)
+    private int nombreGroupesCM;
+
+    @Basic()
+    @Column(name = "ue_nombreGroupesTD", length = 200, nullable = true)
+    private int nombreGroupesTD;
+
+    @Basic()
+    @Column(name = "ue_nombreGroupesTP", length = 200, nullable = true)
+    private int nombreGroupesTP;
+
+    // ----------------------- //
+    // Valeurs intermédiaires UE //
+    int effectifTotalSite1; // somme des effectifs des blocs (pour le site 1)
+    int effectifTotalSite2; // somme des effectifs des blocs (pour le site 2)
+    int effectifTotalSite3; // somme des effectifs des blocs (pour le site 3)
+    int effectifTotalSite4; // somme des effectifs des blocs (pour le site 4)
+    // ----------------------- //
+
     public UE() {
 
     }
 
-    public UE(String code, String intitule, double cout, double nombreHeureCM, double nombreHeureTD, double nombreHeureTP, int nombreGroupesCM, int nombreGroupesTD, int nombreGroupesTP, int effectifTotal) {
+    public UE(String code, String intitule, double nombreHeureCM, double nombreHeureTD, double nombreHeureTP, int nombreGroupesCM, int nombreGroupesTD, int nombreGroupesTP, int credits) {
         this.code = code;
         this.intitule = intitule;
-        this.cout = cout;
         this.nombreHeureCM = nombreHeureCM;
         this.nombreHeureTD = nombreHeureTD;
         this.nombreHeureTP = nombreHeureTP;
         this.nombreGroupesCM = nombreGroupesCM;
         this.nombreGroupesTD = nombreGroupesTD;
         this.nombreGroupesTP = nombreGroupesTP;
-        this.effectifTotal = effectifTotal;
+        this.credits = credits;
     }
 
     @Override
@@ -104,7 +113,7 @@ public class UE implements Serializable {
                 ", nombreGroupesCM=" + nombreGroupesCM +
                 ", nombreGroupesTD=" + nombreGroupesTD +
                 ", nombreGroupesTP=" + nombreGroupesTP +
-                ", effectifTotal=" + effectifTotal +
+                ", credits=" + credits +
                 '}';
     }
 
@@ -257,11 +266,43 @@ public class UE implements Serializable {
         this.nombreGroupesTP = nombreGroupesTP;
     }
 
-    public int getEffectifTotal() {
-        return effectifTotal;
+    public int getCredits() {
+        return credits;
     }
 
-    public void setEffectifTotal(int effectifTotal) {
-        this.effectifTotal = effectifTotal;
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
+
+    public int getEffectifTotalSite1() {
+        return effectifTotalSite1;
+    }
+
+    public void setEffectifTotalSite1(int effectifTotalSite1) {
+        this.effectifTotalSite1 = effectifTotalSite1;
+    }
+
+    public int getEffectifTotalSite2() {
+        return effectifTotalSite2;
+    }
+
+    public void setEffectifTotalSite2(int effectifTotalSite2) {
+        this.effectifTotalSite2 = effectifTotalSite2;
+    }
+
+    public int getEffectifTotalSite3() {
+        return effectifTotalSite3;
+    }
+
+    public void setEffectifTotalSite3(int effectifTotalSite3) {
+        this.effectifTotalSite3 = effectifTotalSite3;
+    }
+
+    public int getEffectifTotalSite4() {
+        return effectifTotalSite4;
+    }
+
+    public void setEffectifTotalSite4(int effectifTotalSite4) {
+        this.effectifTotalSite4 = effectifTotalSite4;
     }
 }

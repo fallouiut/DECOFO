@@ -42,7 +42,7 @@ public class BlocManagerTest {
 
     @BeforeEach
     public void befa() {
-        Bloc b = new Bloc("test", "test", 0);
+        Bloc b = new Bloc("test", "test");
         manager.insert(b);
         blocId = b.getId();
         System.err.println("Bloc ID = " + b);
@@ -61,7 +61,7 @@ public class BlocManagerTest {
     }
 
     @Test public void insertOne() {
-        Bloc b = new Bloc("s1-ild", "Semestre 1 ild", 20.0);
+        Bloc b = new Bloc("s1-ild", "Semestre 1 ild");
         manager.insert(b);
     }
 
@@ -82,8 +82,8 @@ public class BlocManagerTest {
 
     @Test
     public void findAll() {
-        Bloc b1 = new Bloc("M1-ild", "Master 1 ild", 1000.0);
-        Bloc b2 = new Bloc("M2-ild", "Master 2 ild", 1000.0);
+        Bloc b1 = new Bloc("M1-ild", "Master 1 ild");
+        Bloc b2 = new Bloc("M2-ild", "Master 2 ild");
 
         manager.insert(b1);
         manager.insert(b2);
@@ -106,9 +106,9 @@ public class BlocManagerTest {
     @Test
     public void addUEWorks() throws Exception {
         // crée et insère une formation avec bloc et ue
-        Formation f = new Formation("M7ILD", 250, "M3 - ILD", 5, 2, 3);
-        f.addBloc(new Bloc("M2-ild", "Master 2 ild", 1000.0));
-        f.addUE(new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6));
+        Formation f = new Formation("M7ILD", "M3 - ILD",250, 2, 3);
+        f.addBloc(new Bloc("M2-ild", "Master 2 ild"));
+        f.addUE(new UE("JEE","M2 - ILD", 2, 3,5,5,6,7,6));
         formationManager.insert(f);
 
         // s'assurer que le lien est fait
@@ -141,7 +141,7 @@ public class BlocManagerTest {
      */
     @Test
     public void linkUENotWorking2() throws Exception {
-        Bloc b  = new Bloc("code", "intitulé", 0);
+        Bloc b  = new Bloc("code", "intitulé");
         manager.insert(b);
         assertThrows(NotFoundObjectException.class, ()-> {
             manager.linkUE(b.getId(), 51645642);
@@ -156,9 +156,9 @@ public class BlocManagerTest {
      */
     @Test
     public void linkUENotWorking3() throws Exception {
-        Bloc b  = new Bloc("code", "intitulé", 0);
+        Bloc b  = new Bloc("code", "intitulé");
         manager.insert(b);
-        UE ueToAdd = new UE("JEE-64g64f","M2 - ILD", 5, 2, 3,5,5,6,7,6);
+        UE ueToAdd = new UE("JEE-64g64f","M2 - ILD", 5, 2, 3,5,5,7,6);
         ueManager.insert(ueToAdd);
 
         assertThrows(FormationParentNotFoundException.class, () -> {
@@ -175,9 +175,9 @@ public class BlocManagerTest {
     @Test
     public void linkUENotWorking4() throws Exception {
         // créer
-        Formation f = new Formation("M7ILD", 250, "M3 - ILD", 5, 2, 3);
-        f.addBloc(new Bloc("M2-ild", "Master 2 ild", 1000.0));
-        f.addUE(new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6));
+        Formation f = new Formation("M7ILD", "M3 - ILD", 5, 2, 3);
+        f.addBloc(new Bloc("M2-ild", "Master 2 ild"));
+        f.addUE(new UE("JEE","M2 - ILD", 5, 2, 3,5,5,7,6));
         formationManager.insert(f);
 
         // LIER
@@ -197,9 +197,9 @@ public class BlocManagerTest {
     @Test
     public void unlinkUEWorks() throws Exception {
         // créer
-        Formation f = new Formation("M7ILD", 250, "M3 - ILD", 5, 2, 3);
-        f.addBloc(new Bloc("M2-ild", "Master 2 ild", 1000.0));
-        f.addUE(new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6));
+        Formation f = new Formation("M7ILD", "M3 - ILD", 5, 2, 3);
+        f.addBloc(new Bloc("M2-ild", "Master 2 ild"));
+        f.addUE(new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6));
         formationManager.insert(f);
 
         // LIER
@@ -235,7 +235,7 @@ public class BlocManagerTest {
      */
     @Test
     public void unlinkUENotWorking2() throws Exception {
-        Bloc b = new Bloc("intitule", "code", 0);
+        Bloc b = new Bloc("intitule", "code");
         manager.insert(b);
         assertThrows(NotFoundObjectException.class, () -> {
             manager.unlinkUE(b.getId(), 0);
@@ -249,9 +249,9 @@ public class BlocManagerTest {
      */
     @Test
     public void unlinkUENotWorking3() throws Exception {
-        Bloc b = new Bloc("intitule", "code", 0);
+        Bloc b = new Bloc("intitule", "code");
         manager.insert(b);
-        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,5,6,7,6);
+        UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6);
         ueManager.insert(ue);
 
         assertThrows(NotFoundObjectException.class, () -> {
@@ -269,9 +269,9 @@ public class BlocManagerTest {
     @Test
     public void addOptionWorks() throws Exception {
         // crée et insère une formation avec bloc et ue
-        Formation f = new Formation("M7ILD", 250, "M3 - ILD", 5, 2, 3);
-        f.addBloc(new Bloc("M2-ild", "Master 2 ild", 1000.0));
-        f.addOption(new Option("test1","Test1.1",5, 8));
+        Formation f = new Formation("M7ILD",  "M3 - ILD", 5, 2, 3);
+        f.addBloc(new Bloc("M2-ild", "Master 2 ild"));
+        f.addOption(new Option("test1","Test1.1", 8));
         formationManager.insert(f);
 
         // s'assurer que le lien est fait
@@ -304,7 +304,7 @@ public class BlocManagerTest {
      */
     @Test
     public void linkOptionNotWorking2() throws Exception {
-        Bloc b  = new Bloc("code", "intitulé", 0);
+        Bloc b  = new Bloc("code", "intitulé");
         manager.insert(b);
         assertThrows(NotFoundObjectException.class, ()-> {
             manager.linkOption(b.getId(), 51645642);
@@ -319,9 +319,9 @@ public class BlocManagerTest {
      */
     @Test
     public void linkOptionNotWorking3() throws Exception {
-        Bloc b  = new Bloc("code", "intitulé", 0);
+        Bloc b  = new Bloc("code", "intitulé");
         manager.insert(b);
-        Option optionToAdd = new Option("test1","Test1.1",5, 8);
+        Option optionToAdd = new Option("test1","Test1.1", 8);
         optionManager.insert(optionToAdd);
 
         assertThrows(FormationParentNotFoundException.class, () -> {
@@ -338,9 +338,9 @@ public class BlocManagerTest {
     @Test
     public void linkOptionNotWorking4() throws Exception {
         // créer
-        Formation f = new Formation("M7ILD", 250, "M3 - ILD", 5, 2, 3);
-        f.addBloc(new Bloc("M2-ild", "Master 2 ild", 1000.0));
-        f.addOption(new Option("test1","Test1.1",5, 8));
+        Formation f = new Formation("M7ILD", "M3 - ILD", 5, 2, 3);
+        f.addBloc(new Bloc("M2-ild", "Master 2 ild"));
+        f.addOption(new Option("test1","Test1.1", 8));
         formationManager.insert(f);
 
         // LIER
@@ -360,9 +360,9 @@ public class BlocManagerTest {
     @Test
     public void unlinkOptionWorks() throws Exception {
         // créer
-        Formation f = new Formation("M7ILD", 250, "M3 - ILD", 5, 2, 3);
-        f.addBloc(new Bloc("M2-ild", "Master 2 ild", 1000.0));
-        f.addOption(new Option("test1","Test1.1",5, 8));
+        Formation f = new Formation("M7ILD", "M3 - ILD", 5, 2, 3);
+        f.addBloc(new Bloc("M2-ild", "Master 2 ild"));
+        f.addOption(new Option("test1","Test1.1",8));
         formationManager.insert(f);
 
         // LIER
@@ -398,7 +398,7 @@ public class BlocManagerTest {
      */
     @Test
     public void unlinkOptionNotWorking2() throws Exception {
-        Bloc b = new Bloc("intitule", "code", 0);
+        Bloc b = new Bloc("intitule", "code");
         manager.insert(b);
         assertThrows(NotFoundObjectException.class, () -> {
             manager.unlinkOption(b.getId(), 0);
@@ -411,9 +411,9 @@ public class BlocManagerTest {
      */
     @Test
     public void unlinkOptionNotWorking3() throws Exception {
-        Bloc b = new Bloc("intitule", "code", 0);
+        Bloc b = new Bloc("intitule", "code");
         manager.insert(b);
-        Option o = new Option("test1","Test1.1",5, 8);
+        Option o = new Option("test1","Test1.1", 8);
         optionManager.insert(o);
 
         assertThrows(NotFoundObjectException.class, () -> {

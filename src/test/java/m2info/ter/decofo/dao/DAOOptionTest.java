@@ -30,7 +30,7 @@ public class DAOOptionTest {
 
     @BeforeEach
     public void befa() {
-        Option o = new Option("cide", "intitule, ", 0, 0);
+        Option o = new Option("cide", "intitule, ", 0);
         dapOption.insert(o);
         optionId = o.getId();
         System.err.println("Option ID = " + optionId);
@@ -51,7 +51,7 @@ public class DAOOptionTest {
 
     @Test
     public void insert() {
-        Option o = new Option("test1","Test1.1",5, 8);
+        Option o = new Option("test1","Test1.1", 8);
         dapOption.insert(o);
     }
 
@@ -96,7 +96,7 @@ public class DAOOptionTest {
      */
     private UE createAndInsertUE() {
         // ajouter ue
-        UE ueToAdd = new UE("JEE-64g64f","M2 - ILD", 5, 2, 3,5,5,6,7,6);
+        UE ueToAdd = new UE("JEE-64g64f","M2 - ILD", 5, 2, 3,5,6,7,6);
         daoUe.insert(ueToAdd);
         // récupérer ue
         UE ue = daoUe.find(ueToAdd.getId());

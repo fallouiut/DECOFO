@@ -40,16 +40,16 @@ public class EstimationHETD {
 
         calculNombreGroupesUE.calculerNombreGroupesCMTDTP(this.formation);
         this.formation = calculNombreGroupesUE.getFormation();
-        */
+
 
 
         calculerHETDUEs();
         calculerHETDUOption();
         calculerHETDUBlocs();
         calculerHETDUFormation();
-
+*/
     }
-
+/*
     private void calculerHETDUEs() {
         for(UE ue: this.formation.getUEs()) {
             double coutCM = 1.5 * ue.getNombreGroupesCM() * ue.getNombreHeureCM();
@@ -92,5 +92,5 @@ public class EstimationHETD {
         }
         this.formation.setCout(coutFormation);
     }
-
+*/
 }
