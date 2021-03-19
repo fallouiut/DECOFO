@@ -27,7 +27,7 @@ public class CalculNombreGroupeTest {
 
     private Formation createFormationTest1() {
         Formation formation = new Formation();
-        formation.setTailleGroupeCM(0);
+        formation.setTailleGroupeCM(100);
         formation.setTailleGroupeTD(30);
         formation.setTailleGroupeTP(30);
 
@@ -80,7 +80,7 @@ public class CalculNombreGroupeTest {
 
     private Formation createFormationTest2() {
         Formation formation = new Formation();
-        formation.setTailleGroupeCM(0);
+        formation.setTailleGroupeCM(100);
         formation.setTailleGroupeTD(30);
         formation.setTailleGroupeTP(15);
 
@@ -132,7 +132,7 @@ public class CalculNombreGroupeTest {
 
     private Formation createFormationTest3() {
         Formation formation = new Formation();
-        formation.setTailleGroupeCM(0);
+        formation.setTailleGroupeCM(150);
         formation.setTailleGroupeTD(25);
         formation.setTailleGroupeTP(15);
 
@@ -191,7 +191,7 @@ public class CalculNombreGroupeTest {
 
     private Formation createFormationTest4() {
         Formation formation = new Formation();
-        formation.setTailleGroupeCM(0);
+        formation.setTailleGroupeCM(150);
         formation.setTailleGroupeTD(25);
         formation.setTailleGroupeTP(20);
 

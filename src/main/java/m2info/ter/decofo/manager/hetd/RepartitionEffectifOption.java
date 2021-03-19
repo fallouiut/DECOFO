@@ -1,6 +1,7 @@
 package m2info.ter.decofo.manager.hetd;
 
 import m2info.ter.decofo.classes.Bloc;
+import m2info.ter.decofo.classes.Effectif;
 import m2info.ter.decofo.classes.Formation;
 import m2info.ter.decofo.classes.Option;
 import org.springframework.stereotype.Service;
@@ -17,36 +18,38 @@ public class RepartitionEffectifOption {
     public void calculerEffectifOption(Formation formation) {
         this.formation = formation;
 
-        for(Option option: formation.getOptions()) {
-            int effectifParOptionSite1 = 0;
-            int effectifParOptionSite2 = 0;
-            int effectifParOptionSite3 = 0;
-            int effectifParOptionSite4 = 0;
+        System.err.println("----------------------------------------------");
+        System.err.println("1 / Calcul Effectif Option + répartition sur UEs");
 
+        for(Option option: formation.getOptions()) {
+
+            Effectif effectifTotalParSite = option.getEffectifTotalParSite();
+            Effectif effectifParUE = option.getEffectifParUE();
+
+            /**
+             * fais la somme des effectifs par site
+             * de tout les options appartenant au bloc
+             */
             for(Bloc blocs: option.getBlocs()) {
-                effectifParOptionSite1 += blocs.getEffectif().getSite1();
-                effectifParOptionSite2 += blocs.getEffectif().getSite2();
-                effectifParOptionSite3 += blocs.getEffectif().getSite3();
-                effectifParOptionSite4 += blocs.getEffectif().getSite4();
+                effectifTotalParSite.setSite1(effectifTotalParSite.getSite1() + blocs.getEffectif().getSite1());
+                effectifTotalParSite.setSite2(effectifTotalParSite.getSite2() + blocs.getEffectif().getSite2());
+                effectifTotalParSite.setSite3(effectifTotalParSite.getSite3() + blocs.getEffectif().getSite3());
+                effectifTotalParSite.setSite4(effectifTotalParSite.getSite4() + blocs.getEffectif().getSite4());
             }
 
             int nombreUEs = option.getUes().size();
 
-            int effectifParUESitet1 = this.calculerEffectifParSiteUE(effectifParOptionSite1, nombreUEs);
-            int effectifParUESitet2 = this.calculerEffectifParSiteUE(effectifParOptionSite2, nombreUEs);
-            int effectifParUESitet3 = this.calculerEffectifParSiteUE(effectifParOptionSite3, nombreUEs);
-            int effectifParUESitet4 = this.calculerEffectifParSiteUE(effectifParOptionSite4, nombreUEs);
+            /**
+             * calcule effectif repartition par UE
+             *  effectif / nombre UE pour chaque site
+             */
+            effectifParUE.setSite1(this.calculerEffectifParSiteUE(effectifTotalParSite.getSite1(), nombreUEs));
+            effectifParUE.setSite2(this.calculerEffectifParSiteUE(effectifTotalParSite.getSite2(), nombreUEs));
+            effectifParUE.setSite3(this.calculerEffectifParSiteUE(effectifTotalParSite.getSite3(), nombreUEs));
+            effectifParUE.setSite4(this.calculerEffectifParSiteUE(effectifTotalParSite.getSite4(), nombreUEs));
 
-            // enregistre les valeurs pour la suite du calcul
-            option.setEffectifOptionSite1(effectifParOptionSite1);
-            option.setEffectifOptionSite2(effectifParOptionSite2);
-            option.setEffectifOptionSite3(effectifParOptionSite3);
-            option.setEffectifOptionSite4(effectifParOptionSite4);
-
-            option.setEffectifParUESite1(effectifParUESitet1);
-            option.setEffectifParUESite2(effectifParUESitet2);
-            option.setEffectifParUESite3(effectifParUESitet3);
-            option.setEffectifParUESite4(effectifParUESitet4);
+            System.err.println("Effectif Option (: " + option.getCode() + "): " + option.getEffectifTotalParSite());
+            System.err.println("Effectif par UE (: " + option.getCode() + "): " + option.getEffectifParUE());
         }
 
     }
@@ -55,7 +58,7 @@ public class RepartitionEffectifOption {
 
         if(effectif == 0) return 0;
 
-        double effectifParSiteUE = (double)effectif / nombreUE;
+        double effectifParSiteUE = (double) effectif / nombreUE;
 
         if((effectif % nombreUE) == 0) {
             return (int) effectifParSiteUE;

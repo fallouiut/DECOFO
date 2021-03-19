@@ -4,13 +4,16 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
-
+import java.util.Objects;
 
 @Embeddable
 public class Effectif implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
+    // methode addition d'effectifs (Effectif eff)
+    // methode total (tout site confondus)
+
     @Basic()
     @Column(name = "eff_site1")
     private int site1 = 0;
@@ -70,5 +73,25 @@ public class Effectif implements Serializable {
         this.site4 = site4;
     }
 
-    // ne pas mettre dans constructeur
+
+    public int getEffectifTotal() {
+        return site1 + site2 + site3 + site4;
+    }
+
+    public void additionParSite(Effectif effectif) {
+        site1 += effectif.getSite1();
+        site2 += effectif.getSite2();
+        site3 += effectif.getSite3();
+        site4 += effectif.getSite4();
+    }
+
+    @Override
+    public String toString() {
+        return "Effectif{" +
+                "site1=" + site1 +
+                ", site2=" + site2 +
+                ", site3=" + site3 +
+                ", site4=" + site4 +
+                '}';
+    }
 }

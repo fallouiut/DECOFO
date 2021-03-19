@@ -50,25 +50,22 @@ public class Option implements Serializable {
 
     // ----------------------- //
     // récupération des effectifs par site //
-    @Transient
-    private int effectifOptionSite1;
-    @Transient
-    private int effectifOptionSite2;
-    @Transient
-    private int effectifOptionSite3;
-    @Transient
-    private int effectifOptionSite4;
 
-    // effectifs par UE
+    /**
+     * Effectif total pour chaque site
+     */
     @Transient
-    private int effectifParUESite1;
+    @JsonIgnore
+    @Embedded
+    private Effectif effectifTotalParSite = new Effectif();
+
+    /**
+     * effectif divisé par nombre d'ues
+     */
     @Transient
-    private int effectifParUESite2;
-    @Transient
-    private int effectifParUESite3;
-    @Transient
-    private int effectifParUESite4;
-    // ----------------------- //
+    @JsonIgnore
+    @Embedded
+    private Effectif effectifParUE = new Effectif();
 
     public Option() {
 
@@ -203,76 +200,19 @@ public class Option implements Serializable {
         this.cout = cout;
     }
 
-    public int getEffectifOptionSite1() {
-        return effectifOptionSite1;
+    public Effectif getEffectifTotalParSite() {
+        return effectifTotalParSite;
     }
 
-    public void setEffectifOptionSite1(int effectifOptionSite1) {
-        this.effectifOptionSite1 = effectifOptionSite1;
+    public void setEffectifTotalParSite(Effectif effectifTotalParSite) {
+        this.effectifTotalParSite = effectifTotalParSite;
     }
 
-    public int getEffectifOptionSite2() {
-        return effectifOptionSite2;
+    public Effectif getEffectifParUE() {
+        return effectifParUE;
     }
 
-    public void setEffectifOptionSite2(int effectifOptionSite2) {
-        this.effectifOptionSite2 = effectifOptionSite2;
+    public void setEffectifParUE(Effectif effectifParUE) {
+        this.effectifParUE = effectifParUE;
     }
-
-    public int getEffectifOptionSite3() {
-        return effectifOptionSite3;
-    }
-
-    public void setEffectifOptionSite3(int effectifOptionSite3) {
-        this.effectifOptionSite3 = effectifOptionSite3;
-    }
-
-    public int getEffectifOptionSite4() {
-        return effectifOptionSite4;
-    }
-
-    public void setEffectifOptionSite4(int effectifOptionSite4) {
-        this.effectifOptionSite4 = effectifOptionSite4;
-    }
-
-    public int getEffectifParUESite1() {
-        return effectifParUESite1;
-    }
-
-    public void setEffectifParUESite1(int effectifParUESite1) {
-        this.effectifParUESite1 = effectifParUESite1;
-    }
-
-    public int getEffectifParUESite2() {
-        return effectifParUESite2;
-    }
-
-    public void setEffectifParUESite2(int effectifParUESite2) {
-        this.effectifParUESite2 = effectifParUESite2;
-    }
-
-    public int getEffectifParUESite3() {
-        return effectifParUESite3;
-    }
-
-    public void setEffectifParUESite3(int effectifParUESite3) {
-        this.effectifParUESite3 = effectifParUESite3;
-    }
-
-    public int getEffectifParUESite4() {
-        return effectifParUESite4;
-    }
-
-    public void setEffectifParUESite4(int effectifParUESite4) {
-        this.effectifParUESite4 = effectifParUESite4;
-    }
-
-    public int getEffectifTotalParUE() {
-        return effectifParUESite1 + effectifParUESite2 + effectifParUESite3 + effectifParUESite4;
-    }
-
-    public int getEffectifTotal() {
-        return effectifOptionSite1 + effectifOptionSite2 + effectifOptionSite3 + effectifOptionSite4;
-    }
-
 }

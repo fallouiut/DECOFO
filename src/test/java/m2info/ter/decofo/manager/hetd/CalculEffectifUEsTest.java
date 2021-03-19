@@ -25,13 +25,13 @@ public class CalculEffectifUEsTest {
     private Formation createFormationTest1() {
         Formation formation = new Formation();
 
-        Bloc b1 = new Bloc();
+        Bloc b1 = new Bloc("Bloc1", "B1");
         b1.setEffectif(new Effectif(10, 0, 0, 0));
 
-        Bloc b2 = new Bloc();
+        Bloc b2 = new Bloc("Bloc2", "B2");
         b2.setEffectif(new Effectif(0, 20, 0, 0));
 
-        Bloc b3 = new Bloc();
+        Bloc b3 = new Bloc("Bloc3", "B3");
         b3.setEffectif(new Effectif(5, 10, 0, 0));
 
         Option option = new Option();
@@ -68,16 +68,16 @@ public class CalculEffectifUEsTest {
         test = calculEffectifUE.getFormation();
 
         // assert effectif ue1
-        assertEquals(13, test.getUEs().get(0).getEffectifTotalSite1());
-        assertEquals(15, test.getUEs().get(0).getEffectifTotalSite2());
-        assertEquals(0,  test.getUEs().get(0).getEffectifTotalSite3());
-        assertEquals(0,  test.getUEs().get(0).getEffectifTotalSite4());
+        assertEquals(13, test.getUEs().get(0).getEffectifTotalParSite().getSite1());
+        assertEquals(15, test.getUEs().get(0).getEffectifTotalParSite().getSite2());
+        assertEquals(0,  test.getUEs().get(0).getEffectifTotalParSite().getSite3());
+        assertEquals(0,  test.getUEs().get(0).getEffectifTotalParSite().getSite4());
 
         // assert effectif ue2
-        assertEquals(3,  test.getUEs().get(1).getEffectifTotalSite1());
-        assertEquals(15, test.getUEs().get(1).getEffectifTotalSite2());
-        assertEquals(0,  test.getUEs().get(1).getEffectifTotalSite3());
-        assertEquals(0,  test.getUEs().get(1).getEffectifTotalSite4());
+        assertEquals(3,  test.getUEs().get(1).getEffectifTotalParSite().getSite1());
+        assertEquals(15, test.getUEs().get(1).getEffectifTotalParSite().getSite2());
+        assertEquals(0,  test.getUEs().get(1).getEffectifTotalParSite().getSite3());
+        assertEquals(0,  test.getUEs().get(1).getEffectifTotalParSite().getSite4());
 
     }
 
@@ -85,16 +85,16 @@ public class CalculEffectifUEsTest {
     private Formation createFormationTest2() {
         Formation formation = new Formation();
 
-        Bloc b1 = new Bloc();
+        Bloc b1 = new Bloc("Bloc1", "B1");
         b1.setEffectif(new Effectif(10, 20, 0, 0));
 
-        Bloc b2 = new Bloc();
+        Bloc b2 = new Bloc("Bloc2", "B2");
         b2.setEffectif(new Effectif(15, 5, 0, 0));
 
-        Bloc b3 = new Bloc();
+        Bloc b3 = new Bloc("Bloc3", "B3");
         b3.setEffectif(new Effectif(6, 12, 0, 0));
 
-        Option option = new Option();
+        Option option = new Option("Option 1", "o1", 6);
 
         UE ue1 = new UE();
         UE ue2 = new UE();
@@ -134,22 +134,22 @@ public class CalculEffectifUEsTest {
 
         // test effectif option par site
         // assert effectif ue1
-        assertEquals(21, test.getUEs().get(0).getEffectifTotalSite1());
-        assertEquals(33, test.getUEs().get(0).getEffectifTotalSite2());
-        assertEquals(0,  test.getUEs().get(0).getEffectifTotalSite3());
-        assertEquals(0,  test.getUEs().get(0).getEffectifTotalSite4());
+        assertEquals(21, test.getUEs().get(0).getEffectifTotalParSite().getSite1());
+        assertEquals(33, test.getUEs().get(0).getEffectifTotalParSite().getSite2());
+        assertEquals(0,  test.getUEs().get(0).getEffectifTotalParSite().getSite3());
+        assertEquals(0,  test.getUEs().get(0).getEffectifTotalParSite().getSite4());
 
         // assert effectif ue2
-        assertEquals(11, test.getUEs().get(1).getEffectifTotalSite1());
-        assertEquals(13, test.getUEs().get(1).getEffectifTotalSite2());
-        assertEquals(0,  test.getUEs().get(1).getEffectifTotalSite3());
-        assertEquals(0,  test.getUEs().get(1).getEffectifTotalSite4());
+        assertEquals(11, test.getUEs().get(1).getEffectifTotalParSite().getSite1());
+        assertEquals(13, test.getUEs().get(1).getEffectifTotalParSite().getSite2());
+        assertEquals(0,  test.getUEs().get(1).getEffectifTotalParSite().getSite3());
+        assertEquals(0,  test.getUEs().get(1).getEffectifTotalParSite().getSite4());
 
         // assert effectif ue3
-        assertEquals(17, test.getUEs().get(2).getEffectifTotalSite1());
-        assertEquals(25, test.getUEs().get(2).getEffectifTotalSite2());
-        assertEquals(0,  test.getUEs().get(2).getEffectifTotalSite3());
-        assertEquals(0,  test.getUEs().get(2).getEffectifTotalSite4());
+        assertEquals(17, test.getUEs().get(2).getEffectifTotalParSite().getSite1());
+        assertEquals(25, test.getUEs().get(2).getEffectifTotalParSite().getSite2());
+        assertEquals(0,  test.getUEs().get(2).getEffectifTotalParSite().getSite3());
+        assertEquals(0,  test.getUEs().get(2).getEffectifTotalParSite().getSite4());
     }
 
 
@@ -202,16 +202,16 @@ public class CalculEffectifUEsTest {
 
         // test effectif option par site
         // assert effectif ue1
-        assertEquals(75, test.getUEs().get(0).getEffectifTotalSite1());
-        assertEquals(38, test.getUEs().get(0).getEffectifTotalSite2());
-        assertEquals(41,  test.getUEs().get(0).getEffectifTotalSite3());
-        assertEquals(15,  test.getUEs().get(0).getEffectifTotalSite4());
+        assertEquals(75, test.getUEs().get(0).getEffectifTotalParSite().getSite1());
+        assertEquals(38, test.getUEs().get(0).getEffectifTotalParSite().getSite2());
+        assertEquals(41,  test.getUEs().get(0).getEffectifTotalParSite().getSite3());
+        assertEquals(15,  test.getUEs().get(0).getEffectifTotalParSite().getSite4());
 
         // assert effectif ue2
-        assertEquals(125, test.getUEs().get(1).getEffectifTotalSite1());
-        assertEquals(58, test.getUEs().get(1).getEffectifTotalSite2());
-        assertEquals(63,  test.getUEs().get(1).getEffectifTotalSite3());
-        assertEquals(27,  test.getUEs().get(1).getEffectifTotalSite4());
+        assertEquals(125, test.getUEs().get(1).getEffectifTotalParSite().getSite1());
+        assertEquals(58, test.getUEs().get(1).getEffectifTotalParSite().getSite2());
+        assertEquals(63,  test.getUEs().get(1).getEffectifTotalParSite().getSite3());
+        assertEquals(27,  test.getUEs().get(1).getEffectifTotalParSite().getSite4());
     }
 
 }

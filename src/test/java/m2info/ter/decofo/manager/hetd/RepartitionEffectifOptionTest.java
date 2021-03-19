@@ -49,15 +49,15 @@ public class RepartitionEffectifOptionTest {
         test = repartitionEffectifOption.getFormation();
 
         // test effectif option par site
-        assertEquals(5, test.getOptions() .get(0).getEffectifOptionSite1());
-        assertEquals(30,test.getOptions() .get(0).getEffectifOptionSite2());
-        assertEquals(0, test.getOptions() .get(0).getEffectifOptionSite3());
-        assertEquals(0, test.getOptions() .get(0).getEffectifOptionSite4());
+        assertEquals(5, test.getOptions() .get(0).getEffectifTotalParSite().getSite1());
+        assertEquals(30,test.getOptions() .get(0).getEffectifTotalParSite().getSite2());
+        assertEquals(0, test.getOptions() .get(0).getEffectifTotalParSite().getSite3());
+        assertEquals(0, test.getOptions() .get(0).getEffectifTotalParSite().getSite4());
         // test effectif par UE
-        assertEquals(3, test.getOptions() .get(0).getEffectifParUESite1());
-        assertEquals(15,test.getOptions() .get(0).getEffectifParUESite2());
-        assertEquals(0, test.getOptions() .get(0).getEffectifParUESite3());
-        assertEquals(0, test.getOptions() .get(0).getEffectifParUESite4());
+        assertEquals(3, test.getOptions() .get(0).getEffectifParUE().getSite1());
+        assertEquals(15,test.getOptions() .get(0).getEffectifParUE().getSite2());
+        assertEquals(0, test.getOptions() .get(0).getEffectifParUE().getSite3());
+        assertEquals(0, test.getOptions() .get(0).getEffectifParUE().getSite4());
     }
 
     private Formation createFormationTest2() {
@@ -90,15 +90,15 @@ public class RepartitionEffectifOptionTest {
         test = repartitionEffectifOption.getFormation();
 
         // test effectif option par site
-        assertEquals(0, test.getOptions() .get(0).getEffectifOptionSite1());
-        assertEquals(0,test.getOptions() .get(0).getEffectifOptionSite2());
-        assertEquals(0, test.getOptions() .get(0).getEffectifOptionSite3());
-        assertEquals(0, test.getOptions() .get(0).getEffectifOptionSite4());
+        assertEquals(0, test.getOptions() .get(0).getEffectifTotalParSite().getSite1());
+        assertEquals(0,test.getOptions() .get(0).getEffectifTotalParSite().getSite2());
+        assertEquals(0, test.getOptions() .get(0).getEffectifTotalParSite().getSite3());
+        assertEquals(0, test.getOptions() .get(0).getEffectifTotalParSite().getSite4());
         // test effectif par UE
-        assertEquals(0, test.getOptions() .get(0).getEffectifParUESite1());
-        assertEquals(0,test.getOptions() .get(0).getEffectifParUESite2());
-        assertEquals(0, test.getOptions() .get(0).getEffectifParUESite3());
-        assertEquals(0, test.getOptions() .get(0).getEffectifParUESite4());
+        assertEquals(0, test.getOptions() .get(0).getEffectifParUE().getSite1());
+        assertEquals(0,test.getOptions() .get(0).getEffectifParUE().getSite2());
+        assertEquals(0, test.getOptions() .get(0).getEffectifParUE().getSite3());
+        assertEquals(0, test.getOptions() .get(0).getEffectifParUE().getSite4());
     }
 
 
@@ -137,15 +137,15 @@ public class RepartitionEffectifOptionTest {
         test = repartitionEffectifOption.getFormation();
 
         // test effectif option par site
-        assertEquals(31, test.getOptions() .get(0).getEffectifOptionSite1());
-        assertEquals(37,test.getOptions() .get(0).getEffectifOptionSite2());
-        assertEquals(0, test.getOptions() .get(0).getEffectifOptionSite3());
-        assertEquals(0, test.getOptions() .get(0).getEffectifOptionSite4());
+        assertEquals(31, test.getOptions() .get(0).getEffectifTotalParSite().getSite1());
+        assertEquals(37,test.getOptions() .get(0).getEffectifTotalParSite().getSite2());
+        assertEquals(0, test.getOptions() .get(0).getEffectifTotalParSite().getSite3());
+        assertEquals(0, test.getOptions() .get(0).getEffectifTotalParSite().getSite4());
         // test effectif par UE
-        assertEquals(11, test.getOptions() .get(0).getEffectifParUESite1());
-        assertEquals(13,test.getOptions() .get(0).getEffectifParUESite2());
-        assertEquals(0, test.getOptions() .get(0).getEffectifParUESite3());
-        assertEquals(0, test.getOptions() .get(0).getEffectifParUESite4());
+        assertEquals(11, test.getOptions() .get(0).getEffectifParUE().getSite1());
+        assertEquals(13,test.getOptions() .get(0).getEffectifParUE().getSite2());
+        assertEquals(0, test.getOptions() .get(0).getEffectifParUE().getSite3());
+        assertEquals(0, test.getOptions() .get(0).getEffectifParUE().getSite4());
     }
 
 
@@ -186,26 +186,26 @@ public class RepartitionEffectifOptionTest {
         test = repartitionEffectifOption.getFormation();
 
         // test effectif option par site option 1
-        assertEquals(100, test.getOptions() .get(0).getEffectifOptionSite1());
-        assertEquals(55,test.getOptions() .get(0).getEffectifOptionSite2());
-        assertEquals(59, test.getOptions() .get(0).getEffectifOptionSite3());
-        assertEquals(17, test.getOptions() .get(0).getEffectifOptionSite4());
+        assertEquals(100, test.getOptions() .get(0).getEffectifTotalParSite().getSite1());
+        assertEquals(55,test.getOptions() .get(0).getEffectifTotalParSite().getSite2());
+        assertEquals(59, test.getOptions() .get(0).getEffectifTotalParSite().getSite3());
+        assertEquals(17, test.getOptions() .get(0).getEffectifTotalParSite().getSite4());
         // test effectif par UE
-        assertEquals(50, test.getOptions() .get(0).getEffectifParUESite1());
-        assertEquals(28,test.getOptions() .get(0).getEffectifParUESite2());
-        assertEquals(30, test.getOptions() .get(0).getEffectifParUESite3());
-        assertEquals(9, test.getOptions() .get(0).getEffectifParUESite4());
+        assertEquals(50, test.getOptions() .get(0).getEffectifParUE().getSite1());
+        assertEquals(28,test.getOptions() .get(0).getEffectifParUE().getSite2());
+        assertEquals(30, test.getOptions() .get(0).getEffectifParUE().getSite3());
+        assertEquals(9, test.getOptions() .get(0).getEffectifParUE().getSite4());
 
         // test effectif option par site option 2
-        assertEquals(50, test.getOptions() .get(1).getEffectifOptionSite1());
-        assertEquals(20,test.getOptions() .get(1).getEffectifOptionSite2());
-        assertEquals(22, test.getOptions() .get(1).getEffectifOptionSite3());
-        assertEquals(12, test.getOptions() .get(1).getEffectifOptionSite4());
+        assertEquals(50, test.getOptions() .get(1).getEffectifTotalParSite().getSite1());
+        assertEquals(20,test.getOptions() .get(1).getEffectifTotalParSite().getSite2());
+        assertEquals(22, test.getOptions() .get(1).getEffectifTotalParSite().getSite3());
+        assertEquals(12, test.getOptions() .get(1).getEffectifTotalParSite().getSite4());
         // test effectif par UE
-        assertEquals(25, test.getOptions() .get(1).getEffectifParUESite1());
-        assertEquals(10,test.getOptions() .get(1).getEffectifParUESite2());
-        assertEquals(11, test.getOptions() .get(1).getEffectifParUESite3());
-        assertEquals(6, test.getOptions() .get(1).getEffectifParUESite4());
+        assertEquals(25, test.getOptions() .get(1).getEffectifParUE().getSite1());
+        assertEquals(10,test.getOptions() .get(1).getEffectifParUE().getSite2());
+        assertEquals(11, test.getOptions() .get(1).getEffectifParUE().getSite3());
+        assertEquals(6, test.getOptions() .get(1).getEffectifParUE().getSite4());
     }
 
 }

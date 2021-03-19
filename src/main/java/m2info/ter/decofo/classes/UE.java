@@ -79,13 +79,11 @@ public class UE implements Serializable {
     // ----------------------- //
     // Valeurs intermédiaires UE //
     @Transient
-    int effectifTotalSite1; // somme des effectifs des blocs (pour le site 1)
-    @Transient
-    int effectifTotalSite2; // somme des effectifs des blocs (pour le site 2)
-    @Transient
-    int effectifTotalSite3; // somme des effectifs des blocs (pour le site 3)
-    @Transient
-    int effectifTotalSite4; // somme des effectifs des blocs (pour le site 4)
+    @JsonIgnore
+    @Embedded
+    private Effectif effectifTotalParSite = new Effectif();
+
+
     // ----------------------- //
     @Transient
     int nombreGroupeCMSite1;
@@ -313,39 +311,6 @@ public class UE implements Serializable {
         this.credits = credits;
     }
 
-    public int getEffectifTotalSite1() {
-        return effectifTotalSite1;
-    }
-
-    public void setEffectifTotalSite1(int effectifTotalSite1) {
-        this.effectifTotalSite1 = effectifTotalSite1;
-    }
-
-    public int getEffectifTotalSite2() {
-        return effectifTotalSite2;
-    }
-
-    public void setEffectifTotalSite2(int effectifTotalSite2) {
-        this.effectifTotalSite2 = effectifTotalSite2;
-    }
-
-    public int getEffectifTotalSite3() {
-        return effectifTotalSite3;
-    }
-
-    public void setEffectifTotalSite3(int effectifTotalSite3) {
-        this.effectifTotalSite3 = effectifTotalSite3;
-    }
-
-    public int getEffectifTotalSite4() {
-        return effectifTotalSite4;
-    }
-
-    public void setEffectifTotalSite4(int effectifTotalSite4) {
-        this.effectifTotalSite4 = effectifTotalSite4;
-    }
-
-
     public int getNombreGroupeCMSite1() {
         return nombreGroupeCMSite1;
     }
@@ -442,8 +407,11 @@ public class UE implements Serializable {
         this.nombreGroupeTPSite4 = nombreGroupeTPSite4;
     }
 
-    public int getEffectifTotal () {
-        return effectifTotalSite1 + effectifTotalSite2 + effectifTotalSite3 + effectifTotalSite4;
+    public Effectif getEffectifTotalParSite() {
+        return effectifTotalParSite;
     }
 
+    public void setEffectifTotalParSite(Effectif effectifTotalParSite) {
+        this.effectifTotalParSite = effectifTotalParSite;
+    }
 }

@@ -38,6 +38,10 @@ public class EstimationHETD {
 
         this.formation = calculNombreGroupesUE.getFormation();
 
+
+        System.err.println("----------------------------------------------");
+        System.err.println("4 / HETD");
+
         calculerHETDUEs();
         calculerHETDUOption();
         calculerHETDUBlocs();
@@ -45,6 +49,10 @@ public class EstimationHETD {
 
     }
 
+    /**
+     * HETD UE
+     * parametrer 1.5 (sur fichier ou BD)
+     */
     private void calculerHETDUEs() {
         for(UE ue: this.formation.getUEs()) {
             double coutCM = 1.5 * ue.getNombreGroupesCM() * ue.getNombreHeureCM();
@@ -55,41 +63,59 @@ public class EstimationHETD {
         }
     }
 
+    /**
+     * HETD Option
+     */
     private void calculerHETDUOption() {
         for(Option option: this.formation.getOptions()) {
             double coutOption = 0;
             for(UE ue: option.getUes()) {
-                double coutUe = ue.getCout() * ((double)option.getEffectifTotalParUE() / ue.getEffectifTotal());
+                double coutUe = ue.getCout() * ((double)option.getEffectifParUE().getEffectifTotal() / ue.getEffectifTotalParSite().getEffectifTotal());
                 coutOption += coutUe;
             }
             option.setCout(coutOption);
             System.err.println("HETD ("+ option.getCode() + "): " + option.getCout());
         }
     }
+
+    /**
+     * HETD Bloc
+     */
     private void calculerHETDUBlocs() {
         for(Bloc b: this.formation.getBlocs()) {
             double coutBloc = 0;
             int effectifTotalBloc = b.getEffectifTotal();
 
             for(UE ue: b.getUes()) {
-                double coutUe = ue.getCout() * ((double)effectifTotalBloc / ue.getEffectifTotal());
+                double coutUe = ue.getCout() * ((double)effectifTotalBloc / ue.getEffectifTotalParSite().getEffectifTotal());
                 coutBloc += coutUe;
             }
 
             for (Option option: b.getOptions()) {
-                double coutOption = option.getCout() * ((double)effectifTotalBloc / option.getEffectifTotal());
+                double coutOption = option.getCout() * ((double)effectifTotalBloc / option.getEffectifTotalParSite().getEffectifTotal());
                 coutBloc += coutOption;
             }
+
             b.setCout(coutBloc);
             System.err.println("HETD ("+ b.getCode() + "): " + b.getCout());
         }
     }
 
+    /**
+     * HETD Formation
+     * // foreach
+     */
     private void calculerHETDUFormation() {
         double coutFormation = 0;
         for(Bloc bloc: this.formation.getBlocs()) {
             coutFormation += bloc.getCout();
         }
+
+        formation.setCout(0);
+        formation.getBlocs().forEach((bloc) -> {
+            formation.setCout(formation.getCout() + bloc.getCout());
+        });
+
         this.formation.setCout(coutFormation);
         System.err.println("HETD ("+ formation.getCode() + "): " + formation.getCout());
     }
