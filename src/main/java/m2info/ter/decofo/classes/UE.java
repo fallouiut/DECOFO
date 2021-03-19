@@ -118,6 +118,15 @@ public class UE implements Serializable {
 
     }
 
+    public UE(String code, String intitule, double nombreHeureCM, double nombreHeureTD, double nombreHeureTP, int credits) {
+        this.code = code;
+        this.intitule = intitule;
+        this.nombreHeureCM = nombreHeureCM;
+        this.nombreHeureTD = nombreHeureTD;
+        this.nombreHeureTP = nombreHeureTP;
+        this.credits = credits;
+    }
+
     public UE(String code, String intitule, double nombreHeureCM, double nombreHeureTD, double nombreHeureTP, int nombreGroupesCM, int nombreGroupesTD, int nombreGroupesTP, int credits) {
         this.code = code;
         this.intitule = intitule;

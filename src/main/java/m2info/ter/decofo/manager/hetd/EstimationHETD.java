@@ -51,7 +51,7 @@ public class EstimationHETD {
             double coutTD = ue.getNombreGroupesTD() * ue.getNombreHeureTD();
             double coutTP = ue.getNombreGroupesTP() * ue.getNombreHeureTP();
             ue.setCout(coutCM + coutTD + coutTP);
-            System.err.println("HETD ("+ ue.getIntitule() + "): " + ue.getCout());
+            System.err.println("HETD ("+ ue.getCode() + "): " + ue.getCout());
         }
     }
 
@@ -63,7 +63,7 @@ public class EstimationHETD {
                 coutOption += coutUe;
             }
             option.setCout(coutOption);
-            System.err.println("HETD ("+ option.getIntitule() + "): " + option.getCout());
+            System.err.println("HETD ("+ option.getCode() + "): " + option.getCout());
         }
     }
     private void calculerHETDUBlocs() {
@@ -81,7 +81,7 @@ public class EstimationHETD {
                 coutBloc += coutOption;
             }
             b.setCout(coutBloc);
-            System.err.println("HETD ("+ b.getIntitule() + "): " + b.getCout());
+            System.err.println("HETD ("+ b.getCode() + "): " + b.getCout());
         }
     }
 
@@ -91,6 +91,7 @@ public class EstimationHETD {
             coutFormation += bloc.getCout();
         }
         this.formation.setCout(coutFormation);
+        System.err.println("HETD ("+ formation.getCode() + "): " + formation.getCout());
     }
 
 }

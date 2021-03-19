@@ -42,7 +42,12 @@ public class BlocManager {
 
             bloc.setCode(object.getCode());
             bloc.setIntitule(object.getIntitule());
-            bloc.setEffectif(bloc.getEffectif());
+//            bloc.setEffectif(bloc.getEffectif());
+
+            bloc.getEffectif().setSite1(object.getEffectif().getSite1());
+            bloc.getEffectif().setSite2(object.getEffectif().getSite2());
+            bloc.getEffectif().setSite3(object.getEffectif().getSite3());
+            bloc.getEffectif().setSite4(object.getEffectif().getSite4());
 
             daoBloc.update(bloc);
         } else {
