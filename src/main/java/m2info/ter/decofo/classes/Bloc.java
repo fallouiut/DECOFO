@@ -87,13 +87,7 @@ public class Bloc implements Serializable {
     }
 
     public void removeUE(UE ue) {
-        List<UE> newUes = new ArrayList<>();
-
-        for(UE myUe: ues)
-            if(ue.getId() != myUe.getId())
-                newUes.add(myUe);
-
-        this.ues = newUes;
+        this.ues.remove(ue);
         ue.removeBloc(this);
     }
 
@@ -112,13 +106,7 @@ public class Bloc implements Serializable {
     }
 
     public void removeOption(Option option) {
-        List<Option> newOption = new ArrayList<>();
-
-        for(Option myOption: options)
-            if(option.getId() != myOption.getId())
-                newOption.add(option);
-
-        this.options = newOption;
+        this.options.remove(option);
         option.removeBloc(this);
     }
 

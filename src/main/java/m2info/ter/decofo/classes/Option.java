@@ -115,13 +115,7 @@ public class Option implements Serializable {
     }
 
     public void removeBloc(Bloc bloc) {
-        List<Bloc> newBlocs = new ArrayList<>();
-
-        for(Bloc myBloc: blocs)
-            if(bloc.getId() != myBloc.getId())
-                newBlocs.add(myBloc);
-
-        this.blocs = newBlocs;
+        this.blocs.remove(bloc);
     }
 
     public List<Bloc> getBlocs() {
@@ -136,13 +130,7 @@ public class Option implements Serializable {
     }
 
     public void removeUE(UE ue) {
-        List<UE> newUes = new ArrayList<>();
-
-        for(UE myUe: ues)
-            if(ue.getId() != myUe.getId())
-                newUes.add(myUe);
-
-        this.ues = newUes;
+        this.ues.remove(ue);
         ue.removeOption(this);
     }
 

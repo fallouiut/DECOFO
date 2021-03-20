@@ -160,6 +160,8 @@ public class BlocManager {
         if(option == null) throw new NotFoundObjectException("option, "+ optionId + " pn'exite pas ");
         if(!bloc.getOptions().contains(option)) throw new NotFoundObjectException("option, "+ optionId + " pn'exite pas dans le bloc " + blocId);
 
+        System.err.println("Unlink b " + bloc.getCode() + ", et o " + option.getCode());
+
         daoBloc.unlinkOption(bloc, option);
     }
 }

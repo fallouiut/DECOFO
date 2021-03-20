@@ -41,7 +41,7 @@ JSON UE:
 {"code": "JEE","intitule": "JEE_ILD", "cout": "8", "nombreHeureCM": "12", "nombreHeureTD": "6", "nombreHeureTP": "6", "nombreGroupesCM":"1","nombreGroupesTD":"2","nombreGroupesTP":"2", "effectifTotal":"20" }
 {"code": "Architecture Application","intitule": "AA_ILD", "cout": "12", "nombreHeureCM": "6", "nombreHeureTD": "6", "nombreHeureTP": "6", "nombreGroupesCM":"1","nombreGroupesTD":"3","nombreGroupesTP":"3", "effectifTotal":"30" }
 {"code": "JEE","intitule": "JEE_ILD", "nombreHeureCM": "12", "nombreHeureTD": "6", "nombreHeureTP": "6", "nombreGroupesCM":"1" }
-
+op
 
 JSON Option:
 {"code":"Cloud Computing", "intitule": "CC_ILD", "cout":"10", "effectifTotal":"17" }

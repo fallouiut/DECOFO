@@ -173,13 +173,7 @@ public class UE implements Serializable {
     }
 
     public void removeBloc(Bloc bloc) {
-        List<Bloc> newBlocs = new ArrayList<>();
-
-        for(Bloc myBloc: blocs)
-            if(bloc.getId() != myBloc.getId())
-                newBlocs.add(myBloc);
-
-        this.blocs = newBlocs;
+        blocs.remove(bloc);
     }
 
     public List<Bloc> getBlocs() {
@@ -192,13 +186,7 @@ public class UE implements Serializable {
     }
 
     public void removeOption(Option option) {
-        List<Option> newOption = new ArrayList<>();
-
-        for(Option myOption: options)
-            if(option.getId() != myOption.getId())
-                newOption.add(option);
-
-        this.options = newOption;
+        options.remove(option);
     }
 
     public List<Option> getOptions() {
