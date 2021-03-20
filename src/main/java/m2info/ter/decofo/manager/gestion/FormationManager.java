@@ -98,6 +98,15 @@ public class FormationManager implements Manager<Formation> {
         if(bloc == null) throw new NotFoundObjectException("bloc "+ blocId + " pas trouvé");
         if(!formation.getBlocs().contains(bloc)) throw new NotFoundObjectException("bloc "+ blocId + " pas trouvé dans la formation");
 
+        // unlink
+        bloc.getUes().forEach((ue) -> {
+            daoBloc.unlinkUE(bloc, ue);
+        });
+
+        bloc.getOptions().forEach((option) -> {
+            daoBloc.unlinkOption(bloc, option);
+        });
+
         daoFormation.removeBloc(formation, bloc);
 
     }
@@ -117,18 +126,6 @@ public class FormationManager implements Manager<Formation> {
         }
     }
 
-    /*
-    public void removeOption(int formationId, int optionId) throws NotFoundObjectException {
-        Formation formation = daoFormation.find(formationId);
-        if(formation == null) throw new NotFoundObjectException("formation " + formationId+ " n'existe pas");
-
-        Option option = daoOption.find(optionId);
-        if(option == null) throw new NotFoundObjectException("option, "+ optionId + " pas trouvé");
-        if(!formation.getOptions().contains(option)) throw new NotFoundObjectException("option, "+ optionId + " pas trouvé dans la formation");
-
-        daoFormation.removeOption(formation, option);
-    }*/
-
     /**
      * vérifier que la formation existe
      * que le noeud n'existe pas dnas la formation
@@ -142,9 +139,14 @@ public class FormationManager implements Manager<Formation> {
         if(option == null) throw new NotFoundObjectException("option, "+ optionId + " pas trouvé");
         if(!formation.getOptions().contains(option)) throw new NotFoundObjectException("option, "+ optionId + " pas trouvé dans la formation");
 
-        for(Bloc b: option.getBlocs()) {
-            daoBloc.unlinkOption(b, option);
-        }
+        // unlink
+        option.getBlocs().forEach((bloc -> {
+            daoBloc.unlinkOption(bloc, option);
+        }));
+
+        option.getUes().forEach((ue) -> {
+            daoOption.unlinkUE(option, ue);
+        });
 
         daoFormation.removeOption(formation, option);
     }
@@ -164,20 +166,6 @@ public class FormationManager implements Manager<Formation> {
         }
     }
 
-    /*
-    public void removeUE(int formationId, int ueId) throws NotFoundObjectException {
-        Formation formation = daoFormation.find(formationId);
-        if(formation == null) throw new NotFoundObjectException("formation " + formationId+ " n'existe pas");
-
-        UE ue = daoUe.find(ueId);
-        if(ue == null) throw new NotFoundObjectException("ue, "+ ueId + " pas trouvé");
-
-        System.err.println("Taille formation ! " + formation.getUEs().size());
-        if(!formation.getUEs().contains(ue)) throw new NotFoundObjectException("ue, "+ ueId + " pas trouvé dans la formation");
-
-        daoFormation.removeUE(formation, ue);
-    }*/
-
     /**
      * vérifier que la formation existe
      * que le noeud n'existe pas dnas la formation
@@ -193,14 +181,14 @@ public class FormationManager implements Manager<Formation> {
         System.err.println("Taille formation ! " + formation.getUEs().size());
         if(!formation.getUEs().contains(ue)) throw new NotFoundObjectException("ue, "+ ueId + " pas trouvé dans la formation");
 
-        for(Bloc b: ue.getBlocs()) {
-            daoBloc.unlinkUE(b,ue);
-        }
+        // unlink
+        ue.getBlocs().forEach((bloc -> {
+            daoBloc.unlinkUE(bloc,ue);
+        }));
 
-        for (Option option : ue.getOptions()){
-            daoOption.unlinkUE(option,ue);
-        }
-
+        ue.getOptions().forEach((option -> {
+            daoOption.unlinkUE(option, ue);
+        }));
 
         daoFormation.removeUE(formation, ue);
     }
