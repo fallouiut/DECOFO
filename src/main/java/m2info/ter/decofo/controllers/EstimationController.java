@@ -34,22 +34,17 @@ public class EstimationController {
 
         try {
             if(formationId < 0) throw new DecofoException("Numéro de formation n'existe pas");
-
             Formation formation = formationManager.findOne(formationId);
-
             if(formation == null) throw new DecofoException("Formation n'existe pas");
 
             estimationHETD.calculerHETD(formation);
             formationManager.update(estimationHETD.getFormation());
 
             result.put(String.valueOf(formation.getId()), formation.getCout());
-
             for(Bloc b: formation.getBlocs())
                 result.put(String.valueOf(b.getId()), b.getCout());
-
             for(Option o: formation.getOptions())
                 result.put(String.valueOf(o.getId()), o.getCout());
-
             for(UE ue: formation.getUEs())
                 result.put(String.valueOf(ue.getId()), ue.getCout());
 

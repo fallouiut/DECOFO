@@ -19,15 +19,12 @@ public class CalculNombreGroupesUE {
         System.err.println("----------------------------------------------");
         System.err.println("3 / Calcul Nombre groupes UEs");
 
-        for(UE ue: this.formation.getUEs()) {
-            this.calculerNombreGroupesCMTotal(ue);
-            this.calculerNombreGroupesTDTotal(ue);
-            this.calculerNombreGroupesTPTotal(ue);
-
+        formation.getUEs().forEach((ue) -> {
+            calculerNombreGroupesCMTotal(ue);
+            calculerNombreGroupesTDTotal(ue);
+            calculerNombreGroupesTPTotal(ue);
             System.err.println("Nombre Groupes CM/TD/TP UE (" + ue.getCode() + "): (" + ue.getNombreGroupesCM() + ", " + ue.getNombreGroupesTD() + ", " + ue.getNombreGroupesTP() + ")");
-
-        }
-
+        });
     }
 
     /**

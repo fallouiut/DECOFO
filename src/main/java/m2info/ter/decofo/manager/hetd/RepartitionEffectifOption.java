@@ -21,8 +21,7 @@ public class RepartitionEffectifOption {
         System.err.println("----------------------------------------------");
         System.err.println("1 / Calcul Effectif Option + répartition sur UEs");
 
-        for(Option option: formation.getOptions()) {
-
+        formation.getOptions().forEach((option) -> {
             Effectif effectifTotalParSite = option.getEffectifTotalParSite();
             Effectif effectifParUE = option.getEffectifParUE();
 
@@ -30,28 +29,28 @@ public class RepartitionEffectifOption {
              * fais la somme des effectifs par site
              * de tout les options appartenant au bloc
              */
-            for(Bloc blocs: option.getBlocs()) {
-                effectifTotalParSite.setSite1(effectifTotalParSite.getSite1() + blocs.getEffectif().getSite1());
-                effectifTotalParSite.setSite2(effectifTotalParSite.getSite2() + blocs.getEffectif().getSite2());
-                effectifTotalParSite.setSite3(effectifTotalParSite.getSite3() + blocs.getEffectif().getSite3());
-                effectifTotalParSite.setSite4(effectifTotalParSite.getSite4() + blocs.getEffectif().getSite4());
-            }
+            option.getBlocs().forEach((bloc -> {
+                effectifTotalParSite.setSite1(effectifTotalParSite.getSite1() + bloc.getEffectif().getSite1());
+                effectifTotalParSite.setSite2(effectifTotalParSite.getSite2() + bloc.getEffectif().getSite2());
+                effectifTotalParSite.setSite3(effectifTotalParSite.getSite3() + bloc.getEffectif().getSite3());
+                effectifTotalParSite.setSite4(effectifTotalParSite.getSite4() + bloc.getEffectif().getSite4());
 
-            int nombreUEs = option.getUes().size();
+                int nombreUEs = option.getUes().size();
 
-            /**
-             * calcule effectif repartition par UE
-             *  effectif / nombre UE pour chaque site
-             */
-            effectifParUE.setSite1(this.calculerEffectifParSiteUE(effectifTotalParSite.getSite1(), nombreUEs));
-            effectifParUE.setSite2(this.calculerEffectifParSiteUE(effectifTotalParSite.getSite2(), nombreUEs));
-            effectifParUE.setSite3(this.calculerEffectifParSiteUE(effectifTotalParSite.getSite3(), nombreUEs));
-            effectifParUE.setSite4(this.calculerEffectifParSiteUE(effectifTotalParSite.getSite4(), nombreUEs));
+                /**
+                 * calcule effectif repartition par UE
+                 *  effectif / nombre UE pour chaque site
+                 */
+                effectifParUE.setSite1(this.calculerEffectifParSiteUE(effectifTotalParSite.getSite1(), nombreUEs));
+                effectifParUE.setSite2(this.calculerEffectifParSiteUE(effectifTotalParSite.getSite2(), nombreUEs));
+                effectifParUE.setSite3(this.calculerEffectifParSiteUE(effectifTotalParSite.getSite3(), nombreUEs));
+                effectifParUE.setSite4(this.calculerEffectifParSiteUE(effectifTotalParSite.getSite4(), nombreUEs));
 
-            System.err.println("Effectif Option (: " + option.getCode() + "): " + option.getEffectifTotalParSite());
-            System.err.println("Effectif par UE (: " + option.getCode() + "): " + option.getEffectifParUE());
-        }
+                System.err.println("Effectif Option (: " + option.getCode() + "): " + option.getEffectifTotalParSite());
+                System.err.println("Effectif par UE (: " + option.getCode() + "): " + option.getEffectifParUE());
+            }));
 
+        });
     }
 
     private int calculerEffectifParSiteUE(int effectif, int nombreUE) {

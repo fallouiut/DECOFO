@@ -1,9 +1,6 @@
 package m2info.ter.decofo.manager.gestion;
 
-import m2info.ter.decofo.classes.Bloc;
-import m2info.ter.decofo.classes.Formation;
-import m2info.ter.decofo.classes.Option;
-import m2info.ter.decofo.classes.UE;
+import m2info.ter.decofo.classes.*;
 import m2info.ter.decofo.exceptions.FormationParentNotFoundException;
 import m2info.ter.decofo.exceptions.ItemExistInListException;
 import m2info.ter.decofo.exceptions.NotFoundObjectException;
@@ -43,6 +40,7 @@ public class BlocManagerTest {
     @BeforeEach
     public void befa() {
         Bloc b = new Bloc("test", "test");
+        b.setEffectif(new Effectif(0, 0, 0, 0));
         manager.insert(b);
         blocId = b.getId();
         System.err.println("Bloc ID = " + b);

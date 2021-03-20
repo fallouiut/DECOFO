@@ -15,25 +15,22 @@ public class CalculEffectifUE {
     public void calculerEffectifUEs(Formation formation) {
         this.formation = formation;
 
-
         System.err.println("----------------------------------------------");
         System.err.println("2 / Calcul Effectif UEs");
 
-        for(UE ue : formation.getUEs())  {
-            this.calculerEffectifParSite(ue);
-        }
+        formation.getUEs().forEach(this::calculerEffectifParSite);
     }
 
     private void calculerEffectifParSite(UE ue) {
         // pour somme effectif pa site pour chaque bloc
-        for(Bloc bloc: ue.getBlocs()) {
+
+        ue.getBlocs().forEach((bloc -> {
             ue.getEffectifTotalParSite().additionParSite(bloc.getEffectif());
+        }));
 
-        }
-
-        for(Option option: ue.getOptions()) {
+        ue.getOptions().forEach((option -> {
             ue.getEffectifTotalParSite().additionParSite(option.getEffectifParUE());
-        }
+        }));
 
         System.err.println("UE : (" + ue.getCode() + "): " + ue.getEffectifTotalParSite());
     }
