@@ -61,6 +61,22 @@ public class DAOUserTest {
     }
 
     @Test
+    public void findOneByIdsWorks() {
+        var trial = new User("decofo.test@gmail.com", "motDePasse");
+
+        assertNotNull(daoUser.findByEmailAndPassword(trial));
+    }
+
+    @Test
+    public void findOneByIdsFails() {
+        var trial = new User("decofo.test@gmail.fr", "motDePasse");
+        var trial1 = new User("decofo.test@gmail.com", "motDePasse2");
+
+        assertNull(daoUser.findByEmailAndPassword(trial));
+        assertNull(daoUser.findByEmailAndPassword(trial1));
+    }
+
+    @Test
     public void addFormation() {
         //userTest.getFormations().add(formation);
         //daoUser.update(userTest);

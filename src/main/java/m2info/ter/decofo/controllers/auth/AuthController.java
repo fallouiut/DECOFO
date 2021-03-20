@@ -33,36 +33,33 @@ public class AuthController {
 	public ResponseEntity<Map<String, Object>> getUserData(HttpRequest request, @PathVariable("data") String data) throws Exception {
 
         // déclare header et réponses
-        Map<String, Object> body = new HashMap<String, Object>();
+        Map<String, Object> body = new HashMap();
         HttpHeaders headers = new HttpHeaders();
 
         try {
+
             // décode données reçu de la requête
             User userEssai = authManager.decoder(data);
+            // vérifie que l"utilisateur existe (exception lancée dans le manager si erreur
+            User userVerifie = userManager.findByEmailAndPassword(userEssai);
 
-            // vérifie que l"utilisateur existe
-            User userVerifie = userManager.findAndCheck(userEssai);
+            // recup token
+            String accessToken = Objects.requireNonNull(request.getHeaders().get("authorization")).get(1);
 
-            // si user n'existe pas on, renvoie erreur
-            if(userVerifie == null) {
-                body.put("type","error");
-                body.put("msg", "Vos identifiants sont incorrects");
-            } else {
-                // récupère le token
-                String accessToken = Objects.requireNonNull(request.getHeaders().get("authorization")).get(1);
+            // sinon on authentifie et on renvoie le token
+            authManager.authentifier(userVerifie, "token");
 
-                // sinon on authentifie et on renvoie le token
-                authManager.authentifier(userVerifie, "token");
-                headers.set("Authorization", "Basic " + accessToken);
-            }
+            // renvoie reponse
+            headers.set("Authorization", "Basic " + accessToken);
+            return new ResponseEntity<Map<String, Object>>(body, headers, HttpStatus.OK);
+
         } catch (DecofoException e) {
             body.put("error", e.getMessage());
-            return new ResponseEntity<Map<String, Object>>(body, headers, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity(body, headers, HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
-            return new ResponseEntity<Map<String, Object>>(null, headers, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(null, headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
 	}
-	
-	
 
 }
