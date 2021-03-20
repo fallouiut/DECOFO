@@ -1,4 +1,4 @@
-package m2info.ter.decofo.controllers;
+package m2info.ter.decofo.controllers.hetd;
 
 import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Formation;
@@ -10,16 +10,14 @@ import m2info.ter.decofo.manager.hetd.EstimationHETD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/estimation")
+@RequestMapping("/hetd")
 public class EstimationController {
 
     @Autowired
@@ -28,8 +26,8 @@ public class EstimationController {
     @Autowired
     FormationManager formationManager;
 
-    @GetMapping("/hetd/{formationId}")
-    public ResponseEntity<Formation> deleteFormation(@PathVariable("formationId") int formationId) {
+    @GetMapping("/{formationId}")
+    public ResponseEntity<Map<String, Formation>> deleteFormation(@PathVariable("formationId") int formationId) {
         Map<String, Object> result = new HashMap<>();
 
         try {
@@ -40,13 +38,7 @@ public class EstimationController {
             estimationHETD.calculerHETD(formation);
             formationManager.update(estimationHETD.getFormation());
 
-            result.put(String.valueOf(formation.getId()), formation.getCout());
-            for(Bloc b: formation.getBlocs())
-                result.put(String.valueOf(b.getId()), b.getCout());
-            for(Option o: formation.getOptions())
-                result.put(String.valueOf(o.getId()), o.getCout());
-            for(UE ue: formation.getUEs())
-                result.put(String.valueOf(ue.getId()), ue.getCout());
+            result.put("formation", formation);
 
             return new ResponseEntity(result, HttpStatus.OK);
         } catch (DecofoException e) {

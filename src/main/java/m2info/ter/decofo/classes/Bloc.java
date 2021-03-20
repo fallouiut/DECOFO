@@ -178,8 +178,4 @@ public class Bloc implements Serializable {
     public void setEffectif(Effectif effectif) {
         this.effectif = effectif;
     }
-
-    public int getEffectifTotal() {
-        return this.effectif.getSite1() + this.effectif.getSite2() + this.effectif.getSite3() + this.effectif.getSite4();
-    }
 }

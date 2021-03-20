@@ -4,6 +4,9 @@ import m2info.ter.decofo.classes.Formation;
 import m2info.ter.decofo.classes.UE;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CalculNombreGroupesUE {
 
@@ -12,6 +15,8 @@ public class CalculNombreGroupesUE {
     public Formation getFormation () {
         return this.formation;
     }
+
+    List<String> alertMessages = new ArrayList<>();
 
     public void calculerNombreGroupesCMTDTP(Formation formation) {
         this.formation = formation;
@@ -40,6 +45,11 @@ public class CalculNombreGroupesUE {
 
         nombreGroupeCMTotal = ue.getNombreGroupeCMSite1() + ue.getNombreGroupeCMSite2() + ue.getNombreGroupeCMSite3() + ue.getNombreGroupeCMSite4() ;
         ue.setNombreGroupesCM(nombreGroupeCMTotal);
+
+        if(ue.getNombreGroupesCM() == 0) {
+            alertMessages.add("UE (" + ue.getCode() + ") n'a pas de groupe de CM (0)");
+        }
+
     }
 
     /**
@@ -56,6 +66,10 @@ public class CalculNombreGroupesUE {
 
         nombreGroupeTDTotal = ue.getNombreGroupeTDSite1() + ue.getNombreGroupeTDSite2() + ue.getNombreGroupeTDSite3() + ue.getNombreGroupeTDSite4() ;
         ue.setNombreGroupesTD(nombreGroupeTDTotal);
+
+        if(ue.getNombreGroupesTD() == 0) {
+            alertMessages.add("UE (" + ue.getCode() + ") n'a pas de groupe de TD (0)");
+        }
     }
 
     /**
@@ -73,8 +87,11 @@ public class CalculNombreGroupesUE {
 
         nombreGroupeTPTotal = ue.getNombreGroupeTPSite1() + ue.getNombreGroupeTPSite2() + ue.getNombreGroupeTPSite3() + ue.getNombreGroupeTPSite4() ;
         ue.setNombreGroupesTP(nombreGroupeTPTotal);
-    }
 
+        if(ue.getNombreGroupesTP() == 0) {
+            alertMessages.add("UE (" + ue.getCode() + ") n'a pas de groupe de TP (0)");
+        }
+    }
 
     /**
      * Calcul Nombre groupe TD pour un site

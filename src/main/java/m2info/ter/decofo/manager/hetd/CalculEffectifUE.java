@@ -3,6 +3,9 @@ package m2info.ter.decofo.manager.hetd;
 import m2info.ter.decofo.classes.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CalculEffectifUE {
 
@@ -11,6 +14,8 @@ public class CalculEffectifUE {
     public Formation getFormation () {
         return this.formation;
     }
+
+    List<String> alertMessages = new ArrayList<>();
 
     public void calculerEffectifUEs(Formation formation) {
         this.formation = formation;

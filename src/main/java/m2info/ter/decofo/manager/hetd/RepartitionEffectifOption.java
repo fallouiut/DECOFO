@@ -6,6 +6,9 @@ import m2info.ter.decofo.classes.Formation;
 import m2info.ter.decofo.classes.Option;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class RepartitionEffectifOption {
 
@@ -14,6 +17,8 @@ public class RepartitionEffectifOption {
     public Formation getFormation () {
         return this.formation;
     }
+
+    List<String> alertMessages = new ArrayList<>();
 
     public void calculerEffectifOption(Formation formation) {
         this.formation = formation;
@@ -37,6 +42,10 @@ public class RepartitionEffectifOption {
 
                 int nombreUEs = option.getUes().size();
 
+                if(nombreUEs == 0) {
+                    alertMessages.add("Option (" + option.getCode() + ") n'a pas d'UEs");
+                }
+
                 /**
                  * calcule effectif repartition par UE
                  *  effectif / nombre UE pour chaque site
@@ -48,6 +57,7 @@ public class RepartitionEffectifOption {
 
                 System.err.println("Effectif Option (: " + option.getCode() + "): " + option.getEffectifTotalParSite());
                 System.err.println("Effectif par UE (: " + option.getCode() + "): " + option.getEffectifParUE());
+
             }));
 
         });

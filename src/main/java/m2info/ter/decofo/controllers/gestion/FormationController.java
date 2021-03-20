@@ -1,4 +1,4 @@
-package m2info.ter.decofo.controllers;
+package m2info.ter.decofo.controllers.gestion;
 
 import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Formation;
@@ -58,6 +58,25 @@ public class FormationController {
             Formation formation = formationManager.findOne(formationId);
             if(formation == null) throw new NotFoundObjectException("Formation n'existe pas");
 
+            System.err.println("F: " + formation);
+
+            formation.getBlocs().forEach((bloc -> {
+                System.err.println(" - b : " + bloc);
+
+                bloc.getUes().forEach((ue -> {
+                    System.err.println("  -- ue : " + ue);
+                }));
+
+            }));
+
+            formation.getOptions().forEach((option -> {
+                System.err.println(" - o : " + option);
+            }));
+
+            formation.getUEs().forEach((ue -> {
+                System.err.println(" - ue : " + ue);
+            }));
+
             result.put("formation", formation);
             return new ResponseEntity(result, HttpStatus.OK);
         } catch (DecofoException e) {
@@ -65,6 +84,7 @@ public class FormationController {
             return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
         }catch (Exception e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

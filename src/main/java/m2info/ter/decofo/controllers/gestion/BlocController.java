@@ -1,4 +1,4 @@
-package m2info.ter.decofo.controllers;
+package m2info.ter.decofo.controllers.gestion;
 
 import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Formation;
