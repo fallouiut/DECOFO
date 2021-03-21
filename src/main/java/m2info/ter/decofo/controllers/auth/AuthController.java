@@ -25,17 +25,12 @@ public class AuthController {
 
 	@Autowired
     AuthManager authManager;
-
-	// Expiration fixée à 10 mins
-	private static long TOKEN_EXPIRATION_TIME_IN_MILLIS = 10*60*1000;
 	
 	@GetMapping("/auth/{data}")
 	public ResponseEntity<Map<String, Object>> getUserData(HttpRequest request, @PathVariable("data") String data) throws Exception {
-
         // déclare header et réponses
-        Map<String, Object> body = new HashMap();
+        Map<String, Object> body = new HashMap<String, Object>();
         HttpHeaders headers = new HttpHeaders();
-
         try {
 
             // décode données reçu de la requête
@@ -44,10 +39,10 @@ public class AuthController {
             User userVerifie = userManager.findByEmailAndPassword(userEssai);
 
             // recup token
-            String accessToken = Objects.requireNonNull(request.getHeaders().get("authorization")).get(1);
-
+            String accessToken = Objects.requireNonNull(request.getHeaders().get("Authorization")).get(1);
+            
             // sinon on authentifie et on renvoie le token
-            authManager.authentifier(userVerifie, "token");
+            accessToken = authManager.authentifier(userVerifie, accessToken);
 
             // renvoie reponse
             headers.set("Authorization", "Basic " + accessToken);

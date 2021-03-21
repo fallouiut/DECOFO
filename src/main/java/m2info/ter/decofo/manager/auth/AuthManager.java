@@ -60,21 +60,16 @@ public class AuthManager {
      *
      * @return
      */
-    public void authentifier(User userVerifie, String accessToken) throws Exception {
+    public String authentifier(User userVerifie, String accessToken) throws Exception {
 
         boolean tokenFound = authentificatedUsers.containsKey(accessToken);
 
         // Si le token existe
         // soit expiré, soit déjà connecté
-        if(!tokenFound) {
-            // S'il a expiré, on rafraichit le token
-            if(isTokenExpired(accessToken)) {
-                // génération d'un token
-                accessToken = generateToken();
-
-                // On stocke le token pour plus tard
-                authentificatedUsers.put(accessToken, userVerifie.getId());
-            }
+        if(tokenFound) {
+            // S'il a expiré, on rafraichit le token sinon on renvoie le token courant
+            return refreshToken(userVerifie, accessToken);
+            
             // si token n'existe pas
             // on authentifie
         } else {
@@ -83,7 +78,32 @@ public class AuthManager {
 
             // On stocke le token pour plus tard
             authentificatedUsers.put(accessToken, userVerifie.getId());
+            
+            // On renvoie le nouveau token
+            return accessToken;
         }
+    }
+    
+    /**
+     * Rafraichit le token s'il a expiré sinon renvoie le token courant
+     * @return
+     */
+    public String refreshToken(User user, String accessToken) {
+        if(isTokenExpired(accessToken)) {
+        	// On supprime le token
+        	authentificatedUsers.remove(accessToken);
+        	
+            // génération d'un token
+            accessToken = generateToken();
+
+            // On stocke le token pour plus tard
+            authentificatedUsers.put(accessToken, user.getId());
+            
+            // On renvoie le nouveau token
+            return accessToken;
+        }
+        
+        return accessToken;
     }
 
 
