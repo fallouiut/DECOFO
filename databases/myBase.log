@@ -26,31 +26,3 @@ alter table tbloc_ues add constraint FKoa5ppj1b2d013c4ti8o6g2v4r foreign key (bl
 alter table toption add constraint FKsphwq6j53vi6qtliusxjobk1i foreign key (f_id) references tformation
 alter table toption_ues add constraint FKfk1lnjsureywfm79q1mmms6w0 foreign key (ues_id) references t_ue
 alter table toption_ues add constraint FKg7rc83e6gqs1n60wa9b00s7ql foreign key (options_o_id) references toption
-drop table if exists t_ue CASCADE 
-drop table if exists tbloc CASCADE 
-drop table if exists tbloc_options CASCADE 
-drop table if exists tbloc_ues CASCADE 
-drop table if exists tformation CASCADE 
-drop table if exists toption CASCADE 
-drop table if exists toption_ues CASCADE 
-drop table if exists tuser CASCADE 
-drop sequence hibernate_sequence if exists
-DISCONNECT
-/*C13*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C14*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C15*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C16*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C17*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C18*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C19*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C20*/SET SCHEMA PUBLIC
-DISCONNECT
-/*C21*/SET SCHEMA PUBLIC
-DISCONNECT

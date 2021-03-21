@@ -60,7 +60,7 @@ public class AuthManager {
      *
      * @return
      */
-    public String authentifier(User userVerifie, String accessToken) throws Exception {
+    public String authentifier(User userVerifie, String accessToken){
 
         boolean tokenFound = authentificatedUsers.containsKey(accessToken);
 
@@ -82,6 +82,17 @@ public class AuthManager {
             // On renvoie le nouveau token
             return accessToken;
         }
+    }
+    
+    public boolean logout(String accessToken) throws Exception{
+    	boolean isTokenExist = authentificatedUsers.containsKey(accessToken);
+    	
+    	// Si le token existe on peut le supprimer et renvoyer true pour indiquer la destruction de la session
+    	if(isTokenExist) {
+    		authentificatedUsers.remove(accessToken);
+    		return true;
+    	}
+    	throw new DecofoException("Vous n'êtes pas authentifié");
     }
     
     /**

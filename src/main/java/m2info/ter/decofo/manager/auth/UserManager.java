@@ -21,7 +21,7 @@ public class UserManager {
 
 		User userFound = daoUser.findByEmailAndPassword(user);
 
-		if(user == null) throw new DecofoException("Identifiants incorrects");
+		if(user == null) throw new DecofoException("Vos Identifiants sont incorrects");
 
 		// à compléter
 		return new User("decofo@gmail.com", "motDePasse");

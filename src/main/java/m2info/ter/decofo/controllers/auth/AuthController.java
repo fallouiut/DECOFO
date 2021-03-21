@@ -1,10 +1,5 @@
 package m2info.ter.decofo.controllers.auth;
 
-import m2info.ter.decofo.classes.AuthBean;
-import m2info.ter.decofo.classes.User;
-import m2info.ter.decofo.exceptions.DecofoException;
-import m2info.ter.decofo.manager.auth.AuthManager;
-import m2info.ter.decofo.manager.auth.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
@@ -20,12 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import m2info.ter.decofo.classes.User;
+import m2info.ter.decofo.exceptions.DecofoException;
+import m2info.ter.decofo.manager.auth.AuthManager;
+import m2info.ter.decofo.manager.auth.UserManager;
+
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin()
 @RequestMapping
 public class AuthController {
 
@@ -35,27 +36,29 @@ public class AuthController {
 	@Autowired
     AuthManager authManager;
 	
-	@PostMapping("/auth")
-	public ResponseEntity<Map<String, Object>> getUserData(@RequestHeader(name = "Authorization", required = false) String authorization, @RequestBody AuthBean data) throws Exception {
+	@PostMapping("/login")
+	public ResponseEntity<Map<String, Object>> login(@RequestHeader(name = "Authorization") String authorization, @RequestParam(name = "accessToken", required = false) String token) throws Exception {
         // déclare header et réponses
         Map<String, Object> body = new HashMap<String, Object>();
         HttpHeaders headers = new HttpHeaders();
         try {
+        	String encryptedData = authorization.split("Basic ")[1];
+        	
             // décode données reçu de la requête
-            User userEssai = authManager.decoder(data.getData());
+            User userEssai = authManager.decoder(encryptedData);
 
             // vérifie que l"utilisateur existe (exception lancée dans le manager si erreur
             User userVerifie = userManager.findByEmailAndPassword(userEssai);
 
             // recup token
-            String accessToken = authorization == null ? "" : authorization.split("Basic ")[0];
+            String accessToken = token == null ? "" : token;
 
             // sinon on authentifie et on renvoie le token
             accessToken = authManager.authentifier(userVerifie, accessToken);
 
             // renvoie reponse
-            headers.set(HttpHeaders.AUTHORIZATION, "Basic " + accessToken);
-            return ResponseEntity.ok().headers(headers).build();
+            body.put("accessToken", accessToken);
+            return ResponseEntity.ok().body(body);
 
         } catch (DecofoException e) {
             body.put("error", e.getMessage());
@@ -65,6 +68,26 @@ public class AuthController {
             return new ResponseEntity(body, headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+	}
+	
+	@GetMapping("/logout")
+	public ResponseEntity<Map<String, Object>> logout(@RequestParam(name = "accessToken") String accessToken){
+        // déclare header et réponses
+        Map<String, Object> body = new HashMap<String, Object>();
+        HttpHeaders headers = new HttpHeaders();
+        
+        try {
+			if(authManager.logout(accessToken)) {
+				 return ResponseEntity.ok().body(body);
+			}
+		} catch (DecofoException e) {
+			return new ResponseEntity<Map<String,Object>>(body,headers, HttpStatus.UNAUTHORIZED);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return new ResponseEntity(body, headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        
 	}
 
 }
