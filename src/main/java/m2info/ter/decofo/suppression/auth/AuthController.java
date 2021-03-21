@@ -1,4 +1,4 @@
-package m2info.ter.decofo.controllers.auth;
+package m2info.ter.decofo.suppression.auth;
 
 import m2info.ter.decofo.classes.User;
 import m2info.ter.decofo.exceptions.DecofoException;

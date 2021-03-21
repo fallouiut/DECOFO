@@ -38,7 +38,7 @@ public class Bloc implements Serializable {
     private Formation formationOwner;
 
     // ues
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private List<UE> ues = new ArrayList<>();
 
     // options
@@ -88,7 +88,6 @@ public class Bloc implements Serializable {
 
     public void removeUE(UE ue) {
         this.ues.remove(ue);
-        ue.removeBloc(this);
     }
 
     public List<UE> getUes() {
@@ -107,7 +106,6 @@ public class Bloc implements Serializable {
 
     public void removeOption(Option option) {
         this.options.remove(option);
-        option.removeBloc(this);
     }
 
     public List<Option> getOptions() {

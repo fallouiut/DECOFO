@@ -131,7 +131,6 @@ public class Option implements Serializable {
 
     public void removeUE(UE ue) {
         this.ues.remove(ue);
-        ue.removeOption(this);
     }
 
     public List<UE> getUes() {

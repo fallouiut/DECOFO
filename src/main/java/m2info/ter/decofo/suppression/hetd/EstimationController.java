@@ -1,9 +1,6 @@
-package m2info.ter.decofo.controllers.hetd;
+package m2info.ter.decofo.suppression.hetd;
 
-import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Formation;
-import m2info.ter.decofo.classes.Option;
-import m2info.ter.decofo.classes.UE;
 import m2info.ter.decofo.exceptions.DecofoException;
 import m2info.ter.decofo.manager.gestion.FormationManager;
 import m2info.ter.decofo.manager.hetd.EstimationHETD;

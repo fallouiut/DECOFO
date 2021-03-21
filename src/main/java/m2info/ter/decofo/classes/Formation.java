@@ -90,7 +90,6 @@ public class Formation implements Serializable {
         this.ues.remove(ue);
     }
 
-
     @Override
     public String toString() {
         return "Formation{" +

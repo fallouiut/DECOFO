@@ -46,6 +46,7 @@ public class DAOOption extends DAO<Option> {
     }
 
     public void unlinkUE(Option o, UE ue) {
+        o = this.find(o.getId());
         o.removeUE(ue);
         this.update(o);
     }

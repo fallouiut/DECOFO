@@ -138,7 +138,8 @@ public class DAOBlocTest {
 
         // enlever ue=
         daoBloc.unlinkUE(blocWithUE, ue);
-        assertTrue(blocWithUE.getUes().size() == 0);
+        Bloc assertBloc = daoBloc.find(BlocId);
+        assertTrue(assertBloc.getUes().size() == 0);
 
         // vérifier ue est détaché
         Bloc blocWithoutUE = daoBloc.find(bloc.getId());
@@ -197,7 +198,8 @@ public class DAOBlocTest {
 
         // enlever option=
         daoBloc.unlinkOption(blocWithOption, o);
-        assertTrue(blocWithOption.getOptions().size() == 0);
+        Bloc BlocWithOptionAssert = daoBloc.find(bloc.getId());
+        assertTrue(BlocWithOptionAssert.getOptions().size() == 0);
 
         // vérifier option est détaché
         Bloc blocWithoutUE = daoBloc.find(bloc.getId());

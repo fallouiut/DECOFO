@@ -137,7 +137,8 @@ public class DAOOptionTest {
 
         // enlever ue=
         dapOption.unlinkUE(optionWithUE, ue);
-        assertTrue(optionWithUE.getUes().size() == 0);
+        Option option1Assert = dapOption.find(optionId);
+        assertTrue(option1Assert.getUes().size() == 0);
 
         // vérifier ue est détaché
         Option optionWithoutUE = dapOption.find(option.getId());

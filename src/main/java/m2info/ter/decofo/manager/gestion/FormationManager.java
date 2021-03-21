@@ -108,7 +108,6 @@ public class FormationManager implements Manager<Formation> {
         });
 
         daoFormation.removeBloc(formation, bloc);
-
     }
 
     /**
@@ -183,7 +182,7 @@ public class FormationManager implements Manager<Formation> {
 
         // unlink
         ue.getBlocs().forEach((bloc -> {
-            daoBloc.unlinkUE(bloc,ue);
+            daoBloc.unlinkUE(bloc, ue);
         }));
 
         ue.getOptions().forEach((option -> {

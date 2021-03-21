@@ -1,4 +1,4 @@
-package m2info.ter.decofo.controllers.gestion;
+package m2info.ter.decofo.suppression.gestion;
 
 import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Formation;
