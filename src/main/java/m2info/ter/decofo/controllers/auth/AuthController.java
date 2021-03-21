@@ -58,6 +58,7 @@ public class AuthController {
 
             // renvoie reponse
             body.put("accessToken", accessToken);
+            body.put("user", userVerifie);
             return ResponseEntity.ok().body(body);
 
         } catch (DecofoException e) {
