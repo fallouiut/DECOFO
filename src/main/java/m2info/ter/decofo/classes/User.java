@@ -23,11 +23,14 @@ public class User implements Serializable {
     @Basic()
     @Column(name = "u_mot_de_passe", length = 200, nullable = false)
     String motDePasse;
-/*
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name="f_id", referencedColumnName = "u_id")
-    private List<Formation> formations = new ArrayList<>();
-*/
+
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<Formation> ownedFormations = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Formation> visitedFormations = new ArrayList<>();
+
+
     public User() {
 
     }
@@ -69,12 +72,28 @@ public class User implements Serializable {
     public void setMotDePasse(String motDePasse) {
         this.motDePasse = motDePasse;
     }
-/*
-    public List<Formation> getFormations() {
-        return formations;
+
+    public List<Formation> getOwnedFormations() {
+        return ownedFormations;
     }
 
-    public void setFormations(List<Formation> formations) {
-        this.formations = formations;
-    }*/
+    public void addOwnedFormation(Formation formation) {
+        this.ownedFormations.add(formation);
+        formation.setOwner(this);
+    }
+
+    public void addVisitedFormation(Formation formation) {
+        this.visitedFormations.add(formation);
+        formation.addVisitor(this);
+    }
+
+    public void removeVisitedFormation(Formation formation) {
+        System.err.println("contient ?: " + this.visitedFormations.contains(formation));
+        this.visitedFormations.remove(formation);
+        System.err.println("size of this: " + this.visitedFormations.size());
+    }
+
+    public List<Formation> getVisitedFormations() {
+        return visitedFormations;
+    }
 }

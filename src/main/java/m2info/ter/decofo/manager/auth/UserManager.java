@@ -20,10 +20,14 @@ public class UserManager {
 		// String password = service.crypt(password);
 
 		User userFound = daoUser.findByEmailAndPassword(user);
+		if(user == null) throw new DecofoException("Vos Identifiants sont incorrects");
 
-		if(user == null) throw new DecofoException("Identifiants incorrects");
-
+		return userFound;
 		// à compléter
-		return new User("decofo@gmail.com", "motDePasse");
+		//return new User("decofo@gmail.com", "motDePasse");
+	}
+
+	public void updatePassword(String userTrial, String newPassword) {
+		// vérifier que user existe bien avec ce mdp puis changer
 	}
 }

@@ -1,4 +1,4 @@
-package m2info.ter.decofo.suppression;
+package m2info.ter.decofo.controllers;
 
 import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Formation;
@@ -12,17 +12,12 @@ import m2info.ter.decofo.manager.gestion.BlocManager;
 import m2info.ter.decofo.manager.gestion.FormationManager;
 import m2info.ter.decofo.manager.gestion.OptionManager;
 import m2info.ter.decofo.manager.gestion.UEManager;
-import m2info.ter.decofo.suppression.gestion.BlocController;
-import m2info.ter.decofo.suppression.gestion.FormationController;
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
-
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

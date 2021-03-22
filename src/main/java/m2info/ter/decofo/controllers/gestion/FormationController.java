@@ -1,4 +1,4 @@
-package m2info.ter.decofo.suppression.gestion;
+package m2info.ter.decofo.controllers.gestion;
 
 import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Formation;
@@ -7,6 +7,7 @@ import m2info.ter.decofo.classes.UE;
 import m2info.ter.decofo.exceptions.DecofoException;
 import m2info.ter.decofo.exceptions.NotFoundObjectException;
 import m2info.ter.decofo.manager.Generation;
+import m2info.ter.decofo.manager.auth.AuthManager;
 import m2info.ter.decofo.manager.gestion.FormationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ import java.util.Map;
 public class FormationController {
 
     @Autowired
+    AuthManager authManager;
+
+    @Autowired
     FormationManager formationManager;
 
     @Autowired
@@ -32,14 +36,18 @@ public class FormationController {
      * Créer une formation
      */
     @PostMapping("/create")
-    public ResponseEntity<Map<String, Object>> createFormation(@RequestBody Formation formation) {
+    public ResponseEntity<Map<String, Object>> createFormation(@RequestBody Formation formation, @RequestHeader(name = "Authorization") String authorization, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
 
         try {
+            formation.setOwner(authManager.getAuthentifiedUserId(token));
             this.formationManager.insert(formation);
 
             result.put("formationId", formation.getId());
             return new ResponseEntity(result, HttpStatus.OK);
+        } catch (DecofoException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

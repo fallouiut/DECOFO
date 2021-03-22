@@ -1,4 +1,4 @@
-package m2info.ter.decofo.suppression.hetd;
+package m2info.ter.decofo.controllers.hetd;
 
 import m2info.ter.decofo.classes.Formation;
 import m2info.ter.decofo.exceptions.DecofoException;

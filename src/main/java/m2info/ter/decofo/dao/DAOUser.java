@@ -14,12 +14,10 @@ import java.util.List;
 public class DAOUser extends DAO<User> {
 
     @Override
-    User find(int id) {
+    public User find(int id) {
         User user = this.em.find(User.class, id);
 
         if(user == null) return null;
-
-        //user.getFormations().size();
 
         return user;
     }
@@ -31,10 +29,17 @@ public class DAOUser extends DAO<User> {
 
             return q.setParameter("email", trial.getEmail())
                     .setParameter("motDePasse", trial.getMotDePasse())
-                    .getSingleResult();
+                    .getResultList().get(0);
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public void unlinkVisitedFormation(User user, Formation formation) {
+        user = this.find(user.getId());
+
+        user.removeVisitedFormation(formation);
+        this.update(user);
     }
 
     @Override

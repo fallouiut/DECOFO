@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity(name = "Formation")
 @Table(name = "TFormation")
@@ -42,6 +43,8 @@ public class Formation implements Serializable {
     @Column(name = "f_Tp")
     int tailleGroupeTP = 0;
 
+    /////////////////////// LISTES //////////////////////////:
+
     @OneToMany(mappedBy = "formationOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Bloc> blocs = new ArrayList<>();
 
@@ -50,6 +53,18 @@ public class Formation implements Serializable {
 
     @OneToMany(mappedBy = "formationOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UE> ues = new ArrayList<>();
+
+    /////////////////////// ROLES //////////////////////////:
+
+    @ManyToOne
+    @JoinColumn(name = "u_id", nullable = true)
+    private User owner;
+
+    @ManyToMany(mappedBy = "visitedFormations", fetch = FetchType.EAGER)
+    private List<User> visitors = new ArrayList<>();
+
+    ////////////////////////////////////////////////////////:
+
 
     public void addBloc(Bloc b) {
         this.blocs.add(b);
@@ -105,6 +120,19 @@ public class Formation implements Serializable {
 
     public Formation() {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Formation formation = (Formation) o;
+        return id == formation.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     /**
@@ -172,5 +200,21 @@ public class Formation implements Serializable {
 
     public void setTailleGroupeTP(int tailleGroupeTP) {
         this.tailleGroupeTP = tailleGroupeTP;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public void addVisitor(User user) {
+        this.visitors.add(user);
+    }
+
+    public List<User> getVisitors() {
+        return visitors;
     }
 }

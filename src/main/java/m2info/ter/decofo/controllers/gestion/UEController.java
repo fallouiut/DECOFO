@@ -1,4 +1,4 @@
-package m2info.ter.decofo.suppression.gestion;
+package m2info.ter.decofo.controllers.gestion;
 
 import m2info.ter.decofo.classes.Formation;
 import m2info.ter.decofo.classes.UE;
