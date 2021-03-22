@@ -123,6 +123,7 @@ public class AuthManager {
     }
 
     public User getAuthentifiedUserId(String token) throws DecofoException {
+        if(token == null) throw  new DecofoException("Non authentifié");
         int userId = this.authentificatedUsers.get(token);
         User user = daoUser.find(userId);
         if(user == null) throw new DecofoException("User non identifié");

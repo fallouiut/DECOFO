@@ -6,6 +6,7 @@ import m2info.ter.decofo.exceptions.DecofoException;
 import m2info.ter.decofo.exceptions.NotFoundObjectException;
 import m2info.ter.decofo.manager.Generation;
 import m2info.ter.decofo.manager.auth.AuthManager;
+import m2info.ter.decofo.manager.auth.RolesFilter;
 import m2info.ter.decofo.manager.gestion.FormationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,9 @@ public class FormationController {
 
     @Autowired
     DAOUser daoUser;
+
+    @Autowired
+    RolesFilter rolesFilter;
 
     /**
      * Créer une formation
@@ -122,9 +126,11 @@ public class FormationController {
     }
 
     @PostMapping("/update/{formationId}")
-    public ResponseEntity<Object> updateFormation(@RequestBody Formation formation, @PathVariable("formationId") int formationId) {
+    public ResponseEntity<Object> updateFormation(@RequestBody Formation formation, @PathVariable("formationId") int formationId, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
         try {
+            rolesFilter.assertOwner(formationId, authManager.getAuthentifiedUserId(token).getId());
+
             if (formationId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             formation.setId(formationId);
             this.formationManager.update(formation);
@@ -282,10 +288,13 @@ public class FormationController {
         try{
             User user = new User("user.test@gmail.com", "userMdp");
             daoUser.insert(user);
+            User user2 = new User("user2.test@gmail.com", "userMdp2");
+            daoUser.insert(user2);
 
-            result.put("user", user);
+            result.put("user1", user);
+            result.put("user2", user2);
             //this.generation.generate();
-            return new ResponseEntity(user, HttpStatus.OK);
+            return new ResponseEntity(result, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
