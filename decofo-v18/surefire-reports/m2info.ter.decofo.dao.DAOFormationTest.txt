@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: m2info.ter.decofo.dao.DAOFormationTest
--------------------------------------------------------------------------------
-Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.228 s - in m2info.ter.decofo.dao.DAOFormationTest
