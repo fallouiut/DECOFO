@@ -284,8 +284,7 @@ public class FormationController {
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
+    
     @GetMapping("/generate")
     public ResponseEntity<Map<String,Object>> generation() {
         Map <String, Object> result = new HashMap<>();

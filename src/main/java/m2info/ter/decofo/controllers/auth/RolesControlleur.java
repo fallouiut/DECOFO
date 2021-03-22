@@ -43,7 +43,6 @@ public class RolesControlleur {
             e.printStackTrace();
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
 
     @GetMapping("/remove-visitor")

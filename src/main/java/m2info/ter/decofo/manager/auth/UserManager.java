@@ -16,18 +16,28 @@ public class UserManager {
 	DAOUser daoUser;
 
 	public User findByEmailAndPassword(User user) throws Exception {
-
 		// String password = service.crypt(password);
-
 		User userFound = daoUser.findByEmailAndPassword(user);
 		if(user == null) throw new DecofoException("Vos Identifiants sont incorrects");
 
 		return userFound;
-		// à compléter
-		//return new User("decofo@gmail.com", "motDePasse");
 	}
 
-	public void updatePassword(String userTrial, String newPassword) {
-		// vérifier que user existe bien avec ce mdp puis changer
+	public void updatePassword(User userTrial, String ancientMdp, String newPassword) throws DecofoException {
+		User userFound = daoUser.find(userTrial.getId());
+		if (userFound == null) throw new DecofoException("User pas trouvé ");
+		if(userFound.getMotDePasse().equals(ancientMdp)){
+			userFound.setMotDePasse(newPassword);
+			daoUser.update(userFound);
+		} else {
+			throw new DecofoException("Les deux mots de passes ne correspondent pas");
+		}
 	}
+
+	public User findByEmail(String email) throws DecofoException {
+		User found = daoUser.findByEmail(email);
+		if(found == null) throw new DecofoException("Utilisateur '" + email + "'" + " pas trouvé");
+		return found;
+	}
+
 }

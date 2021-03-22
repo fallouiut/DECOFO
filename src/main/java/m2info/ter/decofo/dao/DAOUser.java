@@ -35,6 +35,16 @@ public class DAOUser extends DAO<User> {
         }
     }
 
+    public User findByEmail(String email) {
+        try {
+            String query = "SELECT u FROM User u WHERE u.email = :email";
+            TypedQuery<User> q = this.em.createQuery(query, User.class);
+            return q.setParameter("email", email).getResultList().get(0);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public void unlinkVisitedFormation(User user, Formation formation) {
         user = this.find(user.getId());
 
