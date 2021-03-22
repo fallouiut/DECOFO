@@ -50,6 +50,8 @@ public class AuthController {
             // vérifie que l"utilisateur existe (exception lancée dans le manager si erreur
             User userVerifie = userManager.findByEmailAndPassword(userEssai);
 
+            if(userVerifie == null) throw new DecofoException("Vos identifiants sont incorrects");
+
             // recup token
             String accessToken = token == null ? "" : token;
 

@@ -37,11 +37,12 @@ public class FormationController {
      * Créer une formation
      */
     @PostMapping("/create")
-    public ResponseEntity<Map<String, Object>> createFormation(@RequestBody Formation formation, @RequestHeader(name = "Authorization") String authorization, @RequestParam(name = "accessToken", required = false) String token) {
+    public ResponseEntity<Map<String, Object>> createFormation(@RequestBody Formation formation, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
 
         try {
-            formation.setOwner(authManager.getAuthentifiedUserId(token));
+            User owner = authManager.getAuthentifiedUserId(token);
+            formation.setOwner(owner);
             this.formationManager.insert(formation);
 
             result.put("formationId", formation.getId());
@@ -50,7 +51,8 @@ public class FormationController {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -186,6 +188,7 @@ public class FormationController {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

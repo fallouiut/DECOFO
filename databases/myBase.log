@@ -34,3 +34,6 @@ alter table tuser_visited_formations add constraint FKcswksxu5fh1bb8p7rm7k3waom 
 INSERT INTO TUSER VALUES(1,'user.test@gmail.com','userMdp')
 ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
 COMMIT
+INSERT INTO TFORMATION VALUES(2,'DIM',0.0E0,'Diplome infirmerie marseille',100,15,15,1)
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT

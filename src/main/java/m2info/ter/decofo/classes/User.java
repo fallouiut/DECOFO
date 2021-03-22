@@ -1,5 +1,7 @@
 package m2info.ter.decofo.classes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,9 +26,11 @@ public class User implements Serializable {
     @Column(name = "u_mot_de_passe", length = 200, nullable = false)
     String motDePasse;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = false)
     private List<Formation> ownedFormations = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Formation> visitedFormations = new ArrayList<>();
 

@@ -11,7 +11,7 @@ curl --header "Content-Type: application/json" \
     http://localhost:8080/formations/update/16
 
 curl localhost:8080/formations/all
-curl localhost:8080/formations/details/2
+curl localhost:8080/formations/details/2<
 curl localhost:8080/formations/delete/2
 
 
