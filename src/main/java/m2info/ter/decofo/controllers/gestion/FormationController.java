@@ -1,9 +1,7 @@
 package m2info.ter.decofo.controllers.gestion;
 
-import m2info.ter.decofo.classes.Bloc;
-import m2info.ter.decofo.classes.Formation;
-import m2info.ter.decofo.classes.Option;
-import m2info.ter.decofo.classes.UE;
+import m2info.ter.decofo.classes.*;
+import m2info.ter.decofo.dao.DAOUser;
 import m2info.ter.decofo.exceptions.DecofoException;
 import m2info.ter.decofo.exceptions.NotFoundObjectException;
 import m2info.ter.decofo.manager.Generation;
@@ -31,6 +29,9 @@ public class FormationController {
 
     @Autowired
     Generation generation;
+
+    @Autowired
+    DAOUser daoUser;
 
     /**
      * Créer une formation
@@ -274,11 +275,17 @@ public class FormationController {
 
     @GetMapping("/generate")
     public ResponseEntity<Map<String,Object>> generation() {
+        Map <String, Object> result = new HashMap<>();
         try{
-            this.generation.generate();
-            return new ResponseEntity(null, HttpStatus.OK);
+            User user = new User("user.test@gmail.com", "userMdp");
+            daoUser.insert(user);
+
+            result.put("user", user);
+            //this.generation.generate();
+            return new ResponseEntity(user, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
