@@ -4,6 +4,8 @@ import m2info.ter.decofo.classes.Formation;
 import m2info.ter.decofo.classes.UE;
 import m2info.ter.decofo.exceptions.DecofoException;
 import m2info.ter.decofo.exceptions.NotFoundObjectException;
+import m2info.ter.decofo.manager.auth.AuthManager;
+import m2info.ter.decofo.manager.auth.RolesFilter;
 import m2info.ter.decofo.manager.gestion.UEManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,10 +23,19 @@ public class UEController {
     @Autowired
     UEManager ueManager;
 
+
+    @Autowired
+    RolesFilter rolesFilter;
+
+    @Autowired
+    AuthManager authManager;
+
     @GetMapping("/read-one/{UEId}")
-    public ResponseEntity<Formation> getOneUE(@PathVariable("UEId") int UEId) {
+    public ResponseEntity<Formation> getOneUE(@PathVariable("UEId") int UEId, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
         try {
+            rolesFilter.assertVisitor(ueManager.findOne(UEId).getFormationOwner().getId(), authManager.getAuthentifiedUserId(token).getId());
+
             if (UEId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             UE ue = ueManager.findOne(UEId);
             if(ue == null) throw new NotFoundObjectException("ue n'existe pas");
@@ -40,9 +51,11 @@ public class UEController {
     }
 
     @PostMapping("/update/{UEId}")
-    public ResponseEntity<Object> updateUE(@RequestBody UE ue, @PathVariable("UEId") int UEId) throws Exception {
+    public ResponseEntity<Object> updateUE(@RequestBody UE ue, @PathVariable("UEId") int UEId, @RequestParam(name = "accessToken", required = false) String token) throws Exception {
         Map <String, Object> result = new HashMap<>();
         try {
+            rolesFilter.assertOwner(ueManager.findOne(UEId).getFormationOwner().getId(), authManager.getAuthentifiedUserId(token).getId());
+
             if (UEId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             ue.setId(UEId);
             this.ueManager.update(ue);

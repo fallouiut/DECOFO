@@ -3,6 +3,8 @@ package m2info.ter.decofo.controllers.gestion;
 import m2info.ter.decofo.classes.Option;
 import m2info.ter.decofo.exceptions.DecofoException;
 import m2info.ter.decofo.exceptions.NotFoundObjectException;
+import m2info.ter.decofo.manager.auth.AuthManager;
+import m2info.ter.decofo.manager.auth.RolesFilter;
 import m2info.ter.decofo.manager.gestion.OptionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,10 +22,18 @@ public class OptionController {
     @Autowired
     OptionManager optionManager;
 
+    @Autowired
+    RolesFilter rolesFilter;
+
+    @Autowired
+    AuthManager authManager;
+
     @GetMapping("/read-one/{optionId}")
-    public ResponseEntity<Option> getOneOption(@PathVariable("optionId") int optionId) {
+    public ResponseEntity<Option> getOneOption(@PathVariable("optionId") int optionId, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
         try {
+            rolesFilter.assertVisitor(optionManager.findOne(optionId).getFormationOwner().getId(), authManager.getAuthentifiedUserId(token).getId());
+
             if (optionId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             Option option = optionManager.findOne(optionId);
             if(option == null) throw new NotFoundObjectException("Option n'existe pas");
@@ -41,9 +51,11 @@ public class OptionController {
     }
 
     @PostMapping("/update/{optionId}")
-    public ResponseEntity<Object> updateOption(@RequestBody Option option, @PathVariable("optionId") int optionId) throws Exception {
+    public ResponseEntity<Object> updateOption(@RequestBody Option option, @PathVariable("optionId") int optionId, @RequestParam(name = "accessToken", required = false) String token) throws Exception {
         Map <String, Object> result = new HashMap<>();
         try {
+            rolesFilter.assertOwner(optionManager.findOne(optionId).getFormationOwner().getId(), authManager.getAuthentifiedUserId(token).getId());
+
             if (optionId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             option.setId(optionId);
             this.optionManager.update(option);
@@ -60,9 +72,11 @@ public class OptionController {
 
     // ajouter une ue
     @GetMapping("/link-ue/")
-    public ResponseEntity<Map<String, Object>> linkUE(@RequestParam("optionId") int optionId, @RequestParam("ueId") int ueId) {
+    public ResponseEntity<Map<String, Object>> linkUE(@RequestParam("optionId") int optionId, @RequestParam("ueId") int ueId, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
         try{
+            rolesFilter.assertOwner(optionManager.findOne(optionId).getFormationOwner().getId(), authManager.getAuthentifiedUserId(token).getId());
+
             if(optionId < 0) throw new NotFoundObjectException("Mauvais ID Option");
             if(ueId < 0)   throw new NotFoundObjectException("Mauvais ID UE");
 
@@ -80,10 +94,12 @@ public class OptionController {
 
     // enlever une ue
     @GetMapping("/unlink-ue/")
-    public ResponseEntity<Map<String, Object>> unlinkUE(@RequestParam("optionId") int optionId, @RequestParam("ueId") int ueId){
+    public ResponseEntity<Map<String, Object>> unlinkUE(@RequestParam("optionId") int optionId, @RequestParam("ueId") int ueId, @RequestParam(name = "accessToken", required = false) String token){
 
         Map <String, Object> result = new HashMap<>();
         try{
+            rolesFilter.assertOwner(optionManager.findOne(optionId).getFormationOwner().getId(), authManager.getAuthentifiedUserId(token).getId());
+
             if(optionId < 0) throw new NotFoundObjectException("Mauvais ID Option");
             if(ueId < 0)   throw new NotFoundObjectException("Mauvais ID UE");
 

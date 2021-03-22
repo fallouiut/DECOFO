@@ -3,6 +3,8 @@ package m2info.ter.decofo.controllers.gestion;
 import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.exceptions.DecofoException;
 import m2info.ter.decofo.exceptions.NotFoundObjectException;
+import m2info.ter.decofo.manager.auth.AuthManager;
+import m2info.ter.decofo.manager.auth.RolesFilter;
 import m2info.ter.decofo.manager.gestion.BlocManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,13 +22,21 @@ public class BlocController {
     @Autowired
     BlocManager blocManager;
 
+    @Autowired
+    RolesFilter rolesFilter;
+
+    @Autowired
+    AuthManager authManager;
+
     @GetMapping("/read-one/{blocId}")
-    public ResponseEntity<Bloc> getBlocDetails(@PathVariable("blocId") int blocId) {
+    public ResponseEntity<Bloc> getBlocDetails(@PathVariable("blocId") int blocId, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
 
         try {
-            if (blocId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
+
             Bloc bloc = blocManager.findOne(blocId);
+            rolesFilter.assertVisitor(bloc.getFormationOwner().getId(), authManager.getAuthentifiedUserId(token).getId());
+
             if(bloc == null) throw new NotFoundObjectException("Bloc n'existe pas");
 
             result.put("bloc", bloc);
@@ -41,11 +51,11 @@ public class BlocController {
     }
 
     @PostMapping("/update/{blocId}")
-    public ResponseEntity<Map<String, Object>> updateBloc(@RequestBody Bloc bloc, @PathVariable("blocId") int blocId) {
+    public ResponseEntity<Map<String, Object>> updateBloc(@RequestBody Bloc bloc, @PathVariable("blocId") int blocId, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
         try {
-            if (blocId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             bloc.setId(blocId);
+            rolesFilter.assertOwner(blocManager.findOne(blocId).getFormationOwner().getId(), authManager.getAuthentifiedUserId(token).getId());
             this.blocManager.update(bloc);
 
             return new ResponseEntity<>(null, HttpStatus.OK);
@@ -60,11 +70,10 @@ public class BlocController {
 
     // ajouter une ue
     @GetMapping("/link-ue/")
-    public ResponseEntity<Map<String, Object>> linkUE(@RequestParam("blocId") int blocId, @RequestParam("ueId") int ueId) {
+    public ResponseEntity<Map<String, Object>> linkUE(@RequestParam("blocId") int blocId, @RequestParam("ueId") int ueId, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
         try{
-            if(blocId < 0) throw new NotFoundObjectException("Mauvais ID Bloc");
-            if(ueId < 0)   throw new NotFoundObjectException("Mauvais ID UE");
+            rolesFilter.assertOwner(blocManager.findOne(blocId).getFormationOwner().getId(), authManager.getAuthentifiedUserId(token).getId());
 
             this.blocManager.linkUE(blocId,ueId);
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -80,12 +89,11 @@ public class BlocController {
 
     // enlever une ue
     @GetMapping("/unlink-ue/")
-    public ResponseEntity<Map<String, Object>> unlinkUE(@RequestParam("blocId") int blocId, @RequestParam("ueId") int ueId){
+    public ResponseEntity<Map<String, Object>> unlinkUE(@RequestParam("blocId") int blocId, @RequestParam("ueId") int ueId, @RequestParam(name = "accessToken", required = false) String token){
         Map <String, Object> result = new HashMap<>();
 
         try{
-            if(blocId < 0) throw new NotFoundObjectException("Mauvais ID Bloc");
-            if(ueId < 0)   throw new NotFoundObjectException("Mauvais ID UE");
+            rolesFilter.assertOwner(blocManager.findOne(blocId).getFormationOwner().getId(), authManager.getAuthentifiedUserId(token).getId());
 
             this.blocManager.unlinkUE(blocId,ueId);
 
@@ -104,11 +112,10 @@ public class BlocController {
 
     // ajouter une option
     @GetMapping("/link-option/")
-    public ResponseEntity<Map<String, Object>> linkOption(@RequestParam("blocId") int blocId, @RequestParam("optionId") int optionId) {
+    public ResponseEntity<Map<String, Object>> linkOption(@RequestParam("blocId") int blocId, @RequestParam("optionId") int optionId, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
         try{
-            if(blocId < 0)   throw new NotFoundObjectException("Mauvais ID Bloc");
-            if(optionId < 0) throw new NotFoundObjectException("Mauvais ID Option");
+            rolesFilter.assertOwner(blocManager.findOne(blocId).getFormationOwner().getId(), authManager.getAuthentifiedUserId(token).getId());
 
             this.blocManager.linkOption(blocId,optionId);
             result.put("success", true);
@@ -127,12 +134,11 @@ public class BlocController {
 
     // enlever une option
     @GetMapping("/unlink-option/")
-    public ResponseEntity<Map<String, Object>> unlinkOption(@RequestParam("blocId") int blocId, @RequestParam("optionId") int optionId){
+    public ResponseEntity<Map<String, Object>> unlinkOption(@RequestParam("blocId") int blocId, @RequestParam("optionId") int optionId, @RequestParam(name = "accessToken", required = false) String token){
         Map <String, Object> result = new HashMap<>();
 
         try{
-            if(blocId < 0)   throw new NotFoundObjectException("Mauvais ID Bloc");
-            if(optionId < 0) throw new NotFoundObjectException("Mauvais ID Option");
+            rolesFilter.assertOwner(blocManager.findOne(blocId).getFormationOwner().getId(), authManager.getAuthentifiedUserId(token).getId());
 
             this.blocManager.unlinkOption(blocId,optionId);
 

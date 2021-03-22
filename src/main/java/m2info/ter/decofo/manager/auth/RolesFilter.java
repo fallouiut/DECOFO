@@ -36,7 +36,8 @@ public class RolesFilter {
         Formation formation = daoFormation.find(formationId);
         if(formation == null) throw new DecofoException("Formation " + formationId + " introuvable");
 
-        boolean isVisitor = formation.getOwner().equals(user);
+        boolean isVisitor = formation.getVisitors().contains(user) || formation.getOwner().equals(user);
+        System.err.println("User : " + user.getId() + " est visitor de la formation " + formation + ": " + isVisitor );
         if(!isVisitor) throw new DecofoException("Vous n'avez pas le droit de visiter la formation " + formationId);
 
     }

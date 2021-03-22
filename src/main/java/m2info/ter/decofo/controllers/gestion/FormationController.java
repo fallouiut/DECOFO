@@ -65,10 +65,11 @@ public class FormationController {
      * Obtenir detail d'une formation
      */
     @GetMapping("/read-one/{formationId}")
-    public ResponseEntity<Formation> getOneFormation(@PathVariable("formationId") int formationId) {
+    public ResponseEntity<Formation> getOneFormation(@PathVariable("formationId") int formationId, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
 
         try {
+            rolesFilter.assertVisitor(formationId, authManager.getAuthentifiedUserId(token).getId());
             if (formationId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             Formation formation = formationManager.findOne(formationId);
             if(formation == null) throw new NotFoundObjectException("Formation n'existe pas");
@@ -95,6 +96,7 @@ public class FormationController {
         Map <String, Object> result = new HashMap<>();
 
         try {
+            // retourner que les formations visiteurs
             List<Formation> formations = this.formationManager.findAll();
 
             result.put("formations", formations);
@@ -129,8 +131,9 @@ public class FormationController {
     }
 
     @GetMapping("/delete/{formationId}")
-    public ResponseEntity<Object> deleteFormation(@PathVariable("formationId") int formationId) {
+    public ResponseEntity<Object> deleteFormation(@PathVariable("formationId") int formationId, @RequestParam(name = "accessToken", required = false) String token) {
         try {
+            rolesFilter.assertOwner(formationId, authManager.getAuthentifiedUserId(token).getId());
             if (formationId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             this.formationManager.delete(formationId);
 
@@ -144,9 +147,11 @@ public class FormationController {
 
     // création bloc
     @PostMapping("/create-bloc/{formationId}")
-    public ResponseEntity<Map<String, Object>> createBlocOnFormation(@PathVariable("formationId") int formationId, @RequestBody Bloc bloc) {
+    public ResponseEntity<Map<String, Object>> createBlocOnFormation(@PathVariable("formationId") int formationId, @RequestBody Bloc bloc, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
         try {
+            rolesFilter.assertOwner(formationId, authManager.getAuthentifiedUserId(token).getId());
+
             if (formationId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             this.formationManager.addBloc(formationId, bloc);
 
@@ -166,9 +171,11 @@ public class FormationController {
 
     // suppression bloc
     @GetMapping("/delete-bloc/")
-    public ResponseEntity<Map<String, Object>> deleteBlocOnFormation(@RequestParam("formationId") int formationId, @RequestParam("blocId") int blocId) {
+    public ResponseEntity<Map<String, Object>> deleteBlocOnFormation(@RequestParam("formationId") int formationId, @RequestParam("blocId") int blocId, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
         try {
+            rolesFilter.assertOwner(formationId, authManager.getAuthentifiedUserId(token).getId());
+
             if (formationId < 0) throw new NotFoundObjectException("Mauvais ID Formation saisit");
             if (blocId < 0) throw new NotFoundObjectException("Mauvais ID Bloc saisit");
             this.formationManager.removeBloc(formationId, blocId);
@@ -187,9 +194,11 @@ public class FormationController {
 
     // création option
     @PostMapping("/create-option/{formationId}")
-    public ResponseEntity<Map<String, Object>> createOptionOnFormation(@PathVariable("formationId") int formationId, @RequestBody Option option) {
+    public ResponseEntity<Map<String, Object>> createOptionOnFormation(@PathVariable("formationId") int formationId, @RequestBody Option option, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
         try {
+            rolesFilter.assertOwner(formationId, authManager.getAuthentifiedUserId(token).getId());
+
             if (formationId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             this.formationManager.addOption(formationId, option);
 
@@ -209,9 +218,11 @@ public class FormationController {
 
     // suppression option
     @GetMapping("/delete-option/")
-    public ResponseEntity<Map<String, Object>> deleteOptionOnFormation(@RequestParam("formationId") int formationId, @RequestParam("optionId") int optionId) {
+    public ResponseEntity<Map<String, Object>> deleteOptionOnFormation(@RequestParam("formationId") int formationId, @RequestParam("optionId") int optionId, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
         try {
+            rolesFilter.assertOwner(formationId, authManager.getAuthentifiedUserId(token).getId());
+
             if (formationId < 0) throw new NotFoundObjectException("Mauvais ID Formation saisit");
             if (optionId < 0) throw new NotFoundObjectException("Mauvais ID Option saisit");
             this.formationManager.removeOption(formationId, optionId);
@@ -230,9 +241,11 @@ public class FormationController {
 
     // création ue
     @PostMapping("/create-ue/{formationId}")
-    public ResponseEntity<Map<String, Object>> createUEOnFormation(@PathVariable("formationId") int formationId, @RequestBody UE ue) {
+    public ResponseEntity<Map<String, Object>> createUEOnFormation(@PathVariable("formationId") int formationId, @RequestBody UE ue, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
         try {
+            rolesFilter.assertOwner(formationId, authManager.getAuthentifiedUserId(token).getId());
+
             if (formationId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             this.formationManager.addUE(formationId, ue);
 
@@ -252,9 +265,11 @@ public class FormationController {
 
     // suppression ue
     @GetMapping("/delete-ue/")
-    public ResponseEntity<Map<String, Object>> deleteUEOnFormation(@RequestParam("formationId") int formationId, @RequestParam("ueId") int ueId) {
+    public ResponseEntity<Map<String, Object>> deleteUEOnFormation(@RequestParam("formationId") int formationId, @RequestParam("ueId") int ueId, @RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
         try {
+            rolesFilter.assertOwner(formationId, authManager.getAuthentifiedUserId(token).getId());
+
             if (formationId < 0) throw new NotFoundObjectException("Mauvais ID Formation saisit");
             if (ueId < 0) throw new NotFoundObjectException("Mauvais ID UE saisit");
             this.formationManager.removeUE(formationId, ueId);
@@ -279,9 +294,12 @@ public class FormationController {
             daoUser.insert(user);
             User user2 = new User("user2.test@gmail.com", "userMdp2");
             daoUser.insert(user2);
+            User user3 = new User("user3.test@gmail.com", "userMdp2");
+            daoUser.insert(user3);
 
             result.put("user1", user);
             result.put("user2", user2);
+            result.put("user3", user3);
             //this.generation.generate();
             return new ResponseEntity(result, HttpStatus.OK);
         } catch (Exception e) {
