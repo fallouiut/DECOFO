@@ -92,12 +92,15 @@ public class FormationController {
      * @return
      */
     @GetMapping("/read-all")
-    public ResponseEntity<List<Formation>> getAllFormations() {
+    public ResponseEntity<List<Formation>> getAllFormations(@RequestParam(name = "accessToken", required = false) String token) {
         Map <String, Object> result = new HashMap<>();
 
         try {
             // retourner que les formations visiteurs
-            List<Formation> formations = this.formationManager.findAll();
+            User user = authManager.getAuthentifiedUserId(token);
+
+            List<Formation> formations = user.getVisitedFormations();
+            formations.addAll(user.getOwnedFormations());
 
             result.put("formations", formations);
             return new ResponseEntity<>(formations, HttpStatus.OK);
@@ -284,7 +287,7 @@ public class FormationController {
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @GetMapping("/generate")
     public ResponseEntity<Map<String,Object>> generation() {
         Map <String, Object> result = new HashMap<>();
