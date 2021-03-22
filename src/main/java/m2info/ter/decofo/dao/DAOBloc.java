@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -46,12 +47,30 @@ public class DAOBloc extends DAO<Bloc> {
     }
 
     public void unlinkUE(Bloc b, UE ue) {
-        b = this.find(b.getId()); // a faire sinon erreur lazy
+        Bloc obj = this.find(b.getId()); // a faire sinon erreur lazy
 
-        b.removeUE(ue);
-        this.update(b);
+        obj.removeUE(ue);
+        this.update(obj);
     }
 
+    public void unlinkAll(Bloc b) {
+        Bloc obj = this.find(b.getId());
+
+        // enlever liaisons
+        for(UE ue: obj.getUes()) {
+            ue.getBlocs().size();
+            ue.removeBloc(obj);
+        }
+
+        // enlever liaisons
+        for(Option option: obj.getOptions()) {
+            option.getBlocs().size();
+            option.removeBloc(obj);
+        }
+
+        obj.setUes(new ArrayList<>());
+        obj.setOptions(new ArrayList<>());
+    }
 
     public void linkOption(Bloc b, Option o) {
         b.addOption(o);
@@ -59,10 +78,9 @@ public class DAOBloc extends DAO<Bloc> {
     }
 
     public void unlinkOption(Bloc b, Option o) {
-        b = this.find(b.getId());
+        Bloc obj = this.find(b.getId()); // a faire sinon erreur lazy
 
-        b.removeOption(o);
-        this.update(b);
-        System.err.println("Option supprimé");
+        obj.removeOption(o);
+        this.update(obj);
     }
 }

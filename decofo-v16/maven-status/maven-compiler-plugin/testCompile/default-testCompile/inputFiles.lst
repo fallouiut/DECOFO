@@ -1,0 +1,14 @@
+/home/fallou/mywork/M2/TER/decofo/src/test/java/m2info/ter/decofo/manager/gestion/BlocManagerTest.java
+/home/fallou/mywork/M2/TER/decofo/src/test/java/m2info/ter/decofo/manager/gestion/UEManagerTest.java
+/home/fallou/mywork/M2/TER/decofo/src/test/java/m2info/ter/decofo/manager/gestion/FormationManagerTest.java
+/home/fallou/mywork/M2/TER/decofo/src/test/java/m2info/ter/decofo/dao/DAOFormationTest.java
+/home/fallou/mywork/M2/TER/decofo/src/test/java/m2info/ter/decofo/manager/gestion/OptionManagerTest.java
+/home/fallou/mywork/M2/TER/decofo/src/test/java/m2info/ter/decofo/dao/DAOUserTest.java
+/home/fallou/mywork/M2/TER/decofo/src/test/java/m2info/ter/decofo/dao/DAOUeTest.java
+/home/fallou/mywork/M2/TER/decofo/src/test/java/m2info/ter/decofo/dao/DAOOptionTest.java
+/home/fallou/mywork/M2/TER/decofo/src/test/java/m2info/ter/decofo/manager/hetd/CalculEffectifUEsTest.java
+/home/fallou/mywork/M2/TER/decofo/src/test/java/m2info/ter/decofo/dao/DAOBlocTest.java
+/home/fallou/mywork/M2/TER/decofo/src/test/java/m2info/ter/decofo/manager/hetd/CalculNombreGroupeTest.java
+/home/fallou/mywork/M2/TER/decofo/src/test/java/m2info/ter/decofo/manager/hetd/EstimationHETDTest.java
+/home/fallou/mywork/M2/TER/decofo/src/test/java/m2info/ter/decofo/controllers/FormationControllerTest.java
+/home/fallou/mywork/M2/TER/decofo/src/test/java/m2info/ter/decofo/manager/hetd/RepartitionEffectifOptionTest.java

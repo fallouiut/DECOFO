@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -46,9 +47,28 @@ public class DAOOption extends DAO<Option> {
     }
 
     public void unlinkUE(Option o, UE ue) {
-        o = this.find(o.getId());
-        o.removeUE(ue);
-        this.update(o);
+        Option obj = this.find(o.getId());
+        obj.removeUE(ue);
+        this.update(obj);
+    }
+
+    public void unlinkAll(Option o) {
+        Option obj = this.find(o.getId());
+
+        // enlever liaisons
+        for(UE ue: obj.getUes()) {
+            ue.getOptions().size();
+            ue.removeOption(obj);
+        }
+
+        // enlever liaisons
+        for(Bloc bloc: obj.getBlocs()) {
+            bloc.getOptions().size();
+            bloc.removeOption(obj);
+        }
+
+        obj.setUes(new ArrayList<>());
+        obj.setBlocs(new ArrayList<>());
     }
 
 }

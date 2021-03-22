@@ -216,4 +216,16 @@ public class FormationControllerTest {
 
     }
 
+    @Test
+    public void deleteBlocWithChilds() throws NotFoundObjectException, ItemExistInListException, FormationParentNotFoundException {
+        int blocId = formationTest.getBlocs().get(0).getId();
+        int ueId1  = formationTest.getUEs().get(0).getId();
+
+        blocManager.linkUE(blocId, ueId1);
+
+
+        formationManager.removeBloc(formationTest.getId(), blocId);
+
+    }
+
 }

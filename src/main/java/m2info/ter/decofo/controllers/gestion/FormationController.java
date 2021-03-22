@@ -51,10 +51,10 @@ public class FormationController {
 
             result.put("formationId", formation.getId());
             return new ResponseEntity(result, HttpStatus.OK);
-        } catch (DecofoException e) {
+        } /*catch (DecofoException e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (Exception e) {
+        }*/ catch (Exception e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -72,25 +72,6 @@ public class FormationController {
             if (formationId < 0) throw new NotFoundObjectException("Mauvais ID saisit");
             Formation formation = formationManager.findOne(formationId);
             if(formation == null) throw new NotFoundObjectException("Formation n'existe pas");
-
-            System.err.println("F: " + formation);
-
-            formation.getBlocs().forEach((bloc -> {
-                System.err.println(" - b : " + bloc);
-
-                bloc.getUes().forEach((ue -> {
-                    System.err.println("  -- ue : " + ue);
-                }));
-
-            }));
-
-            formation.getOptions().forEach((option -> {
-                System.err.println(" - o : " + option);
-            }));
-
-            formation.getUEs().forEach((ue -> {
-                System.err.println(" - ue : " + ue);
-            }));
 
             result.put("formation", formation);
             return new ResponseEntity(result, HttpStatus.OK);
@@ -120,7 +101,8 @@ public class FormationController {
             return new ResponseEntity<>(formations, HttpStatus.OK);
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -140,7 +122,8 @@ public class FormationController {
             result.put("error", e.getMessage());
             return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -153,7 +136,8 @@ public class FormationController {
 
             return new ResponseEntity<>(null, HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -175,6 +159,7 @@ public class FormationController {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -217,6 +202,7 @@ public class FormationController {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -236,6 +222,7 @@ public class FormationController {
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -258,6 +245,7 @@ public class FormationController {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -277,6 +265,7 @@ public class FormationController {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

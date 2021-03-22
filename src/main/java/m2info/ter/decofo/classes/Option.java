@@ -41,11 +41,11 @@ public class Option implements Serializable {
     private Formation formationOwner;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "options", fetch = FetchType.LAZY)
-    List<Bloc> blocs = new ArrayList<>();
+    @ManyToMany(mappedBy = "options", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    private List<Bloc> blocs = new ArrayList<>();
 
     // ues
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private List<UE> ues = new ArrayList<>();
 
     // ----------------------- //
@@ -131,6 +131,7 @@ public class Option implements Serializable {
 
     public void removeUE(UE ue) {
         this.ues.remove(ue);
+        //ue.getOptions().remove(this);
     }
 
     public List<UE> getUes() {

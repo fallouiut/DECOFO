@@ -1,10 +1,13 @@
 package m2info.ter.decofo.dao;
 
+import m2info.ter.decofo.classes.Bloc;
+import m2info.ter.decofo.classes.Option;
 import m2info.ter.decofo.classes.UE;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -42,7 +45,6 @@ public class DAOUe extends DAO<UE> {
         return null;
     }
 
-
     public List<UE> findAllByBloc(int blocId) {
         return null;
     }
@@ -50,5 +52,25 @@ public class DAOUe extends DAO<UE> {
     public List<UE> findAllByOption(int optionId) {
         return null;
     }
+
+    public void unlinkAll(UE ue) {
+        UE obj = this.find(ue.getId());
+
+        // enlever liaisons
+        for(Option option: obj.getOptions()) {
+            option.getUes().size();
+            option.removeUE(obj);
+        }
+
+        // enlever liaisons
+        for(Bloc bloc: obj.getBlocs()) {
+            bloc.getUes().size();
+            bloc.removeUE(obj);
+        }
+
+        obj.setOptions(new ArrayList<>());
+        obj.setBlocs(new ArrayList<>());
+    }
+
 
 }

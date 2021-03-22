@@ -53,12 +53,12 @@ public class UE implements Serializable {
 
     // ue parent
     @JsonIgnore
-    @ManyToMany(mappedBy = "ues", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "ues", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     List<Bloc> blocs = new ArrayList<>();
 
     // option parent
     @JsonIgnore
-    @ManyToMany(mappedBy = "ues", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "ues", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     List<Option> options = new ArrayList<>();
 
 

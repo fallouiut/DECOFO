@@ -42,7 +42,7 @@ public class Bloc implements Serializable {
     private List<UE> ues = new ArrayList<>();
 
     // options
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     private List<Option> options = new ArrayList<>();
 
     @Embedded
@@ -88,6 +88,7 @@ public class Bloc implements Serializable {
 
     public void removeUE(UE ue) {
         this.ues.remove(ue);
+        //ue.getBlocs().remove(this);
     }
 
     public List<UE> getUes() {
@@ -106,6 +107,7 @@ public class Bloc implements Serializable {
 
     public void removeOption(Option option) {
         this.options.remove(option);
+        //option.getBlocs().remove(this);
     }
 
     public List<Option> getOptions() {

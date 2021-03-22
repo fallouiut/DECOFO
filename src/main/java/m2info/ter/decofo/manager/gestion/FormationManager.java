@@ -11,6 +11,7 @@ import m2info.ter.decofo.exceptions.ServerErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -95,15 +96,7 @@ public class FormationManager implements Manager<Formation> {
         if(bloc == null) throw new NotFoundObjectException("bloc "+ blocId + " pas trouvé");
         if(!formation.getBlocs().contains(bloc)) throw new NotFoundObjectException("bloc "+ blocId + " pas trouvé dans la formation");
 
-        // unlink
-        bloc.getUes().forEach((ue) -> {
-            daoBloc.unlinkUE(bloc, ue);
-        });
-
-        bloc.getOptions().forEach((option) -> {
-            daoBloc.unlinkOption(bloc, option);
-        });
-
+        daoBloc.unlinkAll(bloc);
         daoFormation.removeBloc(formation, bloc);
     }
 
@@ -135,15 +128,7 @@ public class FormationManager implements Manager<Formation> {
         if(option == null) throw new NotFoundObjectException("option, "+ optionId + " pas trouvé");
         if(!formation.getOptions().contains(option)) throw new NotFoundObjectException("option, "+ optionId + " pas trouvé dans la formation");
 
-        // unlink
-        option.getBlocs().forEach((bloc -> {
-            daoBloc.unlinkOption(bloc, option);
-        }));
-
-        option.getUes().forEach((ue) -> {
-            daoOption.unlinkUE(option, ue);
-        });
-
+        daoOption.unlinkAll(option);
         daoFormation.removeOption(formation, option);
     }
 
@@ -177,15 +162,7 @@ public class FormationManager implements Manager<Formation> {
         System.err.println("Taille formation ! " + formation.getUEs().size());
         if(!formation.getUEs().contains(ue)) throw new NotFoundObjectException("ue, "+ ueId + " pas trouvé dans la formation");
 
-        // unlink
-        ue.getBlocs().forEach((bloc -> {
-            daoBloc.unlinkUE(bloc, ue);
-        }));
-
-        ue.getOptions().forEach((option -> {
-            daoOption.unlinkUE(option, ue);
-        }));
-
+        daoUe.unlinkAll(ue);
         daoFormation.removeUE(formation, ue);
     }
 
