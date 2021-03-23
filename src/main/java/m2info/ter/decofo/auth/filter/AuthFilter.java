@@ -35,6 +35,7 @@ public class AuthFilter implements Filter {
         }
 
         ((HttpServletResponse)servletResponse).addHeader("Access-Control-Allow-Origin", "*");
+        ((HttpServletResponse)servletResponse).addHeader("Access-Control-Allow-Methods", "GET,OPTIONS,HEAD,PUT,POST");
 
 
         filterChain.doFilter(servletRequest, servletResponse);
