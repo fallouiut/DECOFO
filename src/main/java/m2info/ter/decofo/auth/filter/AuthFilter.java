@@ -27,15 +27,8 @@ public class AuthFilter implements Filter {
 
         // vérifier
         if (!req.getRequestURI().contains("/login") && !req.getRequestURI().contains("generate")) {
-            try {
-                if(authManager.getAuthentifiedUserId(token) != null) {
-                    User authUser = authManager.getAuthentifiedUserId(token);
-                    authManager.refreshToken(authUser, token);
-                }
-            } catch (DecofoException e) {
-                e.printStackTrace();
-                throw new ServletException(e.getMessage());
-            }
+            if(token == null) throw new ServletException("Non Authentifié");
+            if(authManager.isTokenExpired(token)) throw new ServletException("Token expiré");
         }
 
 

@@ -25,7 +25,7 @@ public class AuthManager {
     // Expiration fixée à 10 mins
     private static long TOKEN_EXPIRATION_TIME_IN_MILLIS = 10*60*1000;
 
-    private boolean isTokenExpired(String accessToken) {
+    public boolean isTokenExpired(String accessToken) {
         long now = System.currentTimeMillis();
         long timestamp = Long.parseLong(accessToken.split(":")[1]);
 
