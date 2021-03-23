@@ -292,18 +292,23 @@ public class FormationController {
     public ResponseEntity<Map<String,Object>> generation() {
         Map <String, Object> result = new HashMap<>();
         try{
-            User user = new User("user.test@gmail.com", "userMdp");
+            User user = new User("rich.soufiane@gmail.com", "soufiane");
             daoUser.insert(user);
-            User user2 = new User("user2.test@gmail.com", "userMdp2");
+
+            User user1 = new User("ndiaye.aziz@gmail.com", "aboudlaziz");
+            daoUser.insert(user1);
+
+            User user2 = new User("seye.fallou@gmail.com", "fallou");
             daoUser.insert(user2);
-            User user3 = new User("user3.test@gmail.com", "userMdp2");
+
+            User user3 = new User("can.ozmen@gmail.com", "can");
             daoUser.insert(user3);
 
-            result.put("user1", user);
-            result.put("user2", user2);
-            result.put("user3", user3);
-            //this.generation.generate();
-            return new ResponseEntity(result, HttpStatus.OK);
+            User user4 = new User("barakat.julien@gmail.com", "julien");
+            daoUser.insert(user4);
+
+            this.generation.generate();
+            return new ResponseEntity(null, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

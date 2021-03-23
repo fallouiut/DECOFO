@@ -56,8 +56,25 @@ public class Generation {
 
     public void generate() throws NotFoundObjectException, ItemExistInListException, FormationParentNotFoundException {
 
+        Formation formationfinal = new Formation("M2-Info","M2 informatique",20, 20 - 2, 15 -2 );
+        formationManager.insert(formationfinal);
 
-        for(int i=0;i<50;i++) {
+        Bloc bloc1 = new Bloc("S3","Semestre 3");
+        bloc1.setEffectif(new Effectif(30,30,0,0));
+        blocManager.insert(bloc1);
+        formationManager.addBloc(formationfinal.getId(), bloc1);
+        System.err.println("Bloc code = " + bloc1.getCode());
+
+        Bloc bloc2 = new Bloc("S4","Semestre 4");
+        bloc1.setEffectif(new Effectif(20,30,0,0));
+        blocManager.insert(bloc2);
+        formationManager.addBloc(formationfinal.getId(), bloc2);
+        System.err.println("Bloc code = " + bloc2.getCode());
+
+
+        for(int i=0;i<10;i++) {
+
+
             int effectif1 = random(0, 50);
             int effectif2 = random(0, 50);
             int effectif3 = random(0, 50);
@@ -71,7 +88,7 @@ public class Generation {
             formationManager.insert(formation);
             System.err.println("formation code = " + formation.getCode());
 
-            for(int j=0; j <4 ; j++){
+            for(int j=0; j <2 ; j++){
                 Bloc bloc = new Bloc("Bloc_code"+ i + "." + j,"Bloc_intitule"+ i + "." + j);
                 bloc.setEffectif(new Effectif(effectif1,effectif2,effectif3,effectif4));
                 blocManager.insert(bloc);
@@ -80,7 +97,7 @@ public class Generation {
 
 
 
-                for(int g = 0 ; g < 2 ; g++){
+                for(int g = 0 ; g < 3 ; g++){
                         int effectif_total = random(20,50);
                         int effectifParUe = random(10,30);
                         Option option = new Option("Option_code"+ j + "." + g, "Option_Intitule"+ j + "." + g,0 );
@@ -91,7 +108,7 @@ public class Generation {
 
                     }
 
-                    for(int z= 0; z <2; z++){
+                    for(int z= 0; z <5; z++){
                         int CM = random(10,14);
                         int TP_TD = random(6,10);
                         int effectif_total = random(20,30);
@@ -100,6 +117,7 @@ public class Generation {
                         formationManager.addUE(formation.getId(),ue);
                         System.err.println("UE code = " + ue.getCode());
                         blocManager.linkUE(bloc.getId(), ue.getId());
+
                     }
 
 

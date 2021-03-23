@@ -5,11 +5,14 @@ import m2info.ter.decofo.exceptions.DecofoException;
 import m2info.ter.decofo.manager.auth.AuthManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@CrossOrigin(origins = "*")
 @Component
 public class AuthFilter implements Filter {
 
@@ -31,6 +34,7 @@ public class AuthFilter implements Filter {
             if(authManager.isTokenExpired(token)) throw new ServletException("Token expiré");
         }
 
+        ((HttpServletResponse)servletResponse).addHeader("Access-Control-Allow-Origin", "*");
 
 
         filterChain.doFilter(servletRequest, servletResponse);
