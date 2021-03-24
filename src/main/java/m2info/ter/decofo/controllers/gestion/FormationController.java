@@ -1,6 +1,7 @@
 package m2info.ter.decofo.controllers.gestion;
 
 import m2info.ter.decofo.classes.*;
+import m2info.ter.decofo.dao.DAOBloc;
 import m2info.ter.decofo.dao.DAOFormation;
 import m2info.ter.decofo.dao.DAOUser;
 import m2info.ter.decofo.exceptions.DecofoException;
@@ -40,6 +41,9 @@ public class FormationController {
 
     @Autowired
     DAOFormation daoFormation;
+
+    @Autowired
+    DAOBloc daoBloc;
 
     /**
      * Créer une formation
@@ -296,38 +300,7 @@ public class FormationController {
     public ResponseEntity<Map<String,Object>> generation() {
         Map <String, Object> result = new HashMap<>();
         try{
-            User user = new User("rich.soufiane@gmail.com", "soufiane");
-            daoUser.insert(user);
-
-            User user1 = new User("ndiaye.aziz@gmail.com", "aboudlaziz");
-            daoUser.insert(user1);
-
-            User user2 = new User("seye.fallou@gmail.com", "fallou");
-            daoUser.insert(user2);
-
-            User user3 = new User("can.ozmen@gmail.com", "can");
-            daoUser.insert(user3);
-
-            User user4 = new User("barakat.julien@gmail.com", "julien");
-            daoUser.insert(user4);
-
-
-            Formation formation = new Formation();
-            formation.setIntitule("Master info");
-            formation.setCode("M1I");
-
-            formation.addOption(new Option("Op1", "Option 1", 6));
-            formation.addOption(new Option("Op2", "Option 2", 6));
-            formation.addOption(new Option("Op3", "Option 3", 6));
-            formation.addUE(new UE("UE1", "UE 1", 6, 6, 6, 6));
-            formation.addUE(new UE("UE2", "UE 2", 6, 6, 6, 6));
-            formation.addUE(new UE("UE3", "UE 3", 6, 6, 6, 6));
-
-            formation.setOwner(user2);
-            daoFormation.insert(formation);
-
-
-            //this.generation.generate();
+            this.generation.generate();
             return new ResponseEntity(null, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e.getMessage());

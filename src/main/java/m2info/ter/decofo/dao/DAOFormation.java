@@ -76,9 +76,15 @@ public class DAOFormation extends DAO<Formation> {
         this.update(f);
     }
 
-    public void removeUE(Formation f, UE ue) {
-        f.removeUE(ue);
-        this.update(f);
+    public void removeUE(int fId, int ueId) {
+        Formation f2 = this.find(fId);
+
+        UE ue2 = this.em.find(UE.class, ueId);
+
+        System.err.println("UE blocs nulls: " + (ue2.getBlocs() == null));
+        System.err.println("UE a des blocs: " + ue2.getBlocs().size());
+
+        f2.removeUE(ue2);
     }
 
 }

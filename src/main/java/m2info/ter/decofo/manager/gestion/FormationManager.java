@@ -5,6 +5,7 @@ import m2info.ter.decofo.classes.Formation;
 import m2info.ter.decofo.classes.Option;
 import m2info.ter.decofo.classes.UE;
 import m2info.ter.decofo.dao.*;
+import m2info.ter.decofo.exceptions.DecofoException;
 import m2info.ter.decofo.exceptions.ItemExistInListException;
 import m2info.ter.decofo.exceptions.NotFoundObjectException;
 import m2info.ter.decofo.exceptions.ServerErrorResponse;
@@ -88,7 +89,7 @@ public class FormationManager implements Manager<Formation> {
      * vérifier que la formation existe
      * que le noeud n'existe pas dnas la formation
      */
-    public void removeBloc(int formationId, int blocId) throws NotFoundObjectException, ItemExistInListException {
+    public void removeBloc(int formationId, int blocId) throws DecofoException {
         Formation formation = daoFormation.find(formationId);
         if(formation == null) throw new NotFoundObjectException("formation " + formationId+ " n'existe pas");
 
@@ -96,14 +97,15 @@ public class FormationManager implements Manager<Formation> {
         if(bloc == null) throw new NotFoundObjectException("bloc "+ blocId + " pas trouvé");
         if(!formation.getBlocs().contains(bloc)) throw new NotFoundObjectException("bloc "+ blocId + " pas trouvé dans la formation");
 
-        daoBloc.unlinkAll(bloc);
+        if(bloc.getOptions().size() > 0 || bloc.getUes().size() > 0) throw new DecofoException("Bloc '" + bloc.getCode() + "' ne peut être supprimée car elle est liée à des blocs ou options");
+
+        //daoBloc.unlinkAll(bloc);
         daoFormation.removeBloc(formation, bloc);
-
-
+/*
         System.err.println("----------------------------------");
         System.err.println("Action: Bloc '" + bloc.getCode() + "' supprimé de formation '" + formation.getCode());
         System.err.println("Bloc '" + bloc.getCode() + "' retrouvé dans la BD '" + bloc.getCode());
-        System.err.println("Bloc '" + bloc.getCode() + "' retrouvé dans la formation ? " + daoFormation.find(formationId).getBlocs().contains(bloc));
+        System.err.println("Bloc '" + bloc.getCode() + "' retrouvé dans la formation ? " + daoFormation.find(formationId).getOptions().contains(bloc));*/
     }
 
     /**
@@ -125,7 +127,7 @@ public class FormationManager implements Manager<Formation> {
      * vérifier que la formation existe
      * que le noeud n'existe pas dnas la formation
      */
-    public void removeOption(int formationId, int optionId) throws NotFoundObjectException {
+    public void removeOption(int formationId, int optionId) throws DecofoException {
         Formation formation = daoFormation.find(formationId);
         if(formation == null) throw new NotFoundObjectException("formation " + formationId+ " n'existe pas");
 
@@ -134,13 +136,14 @@ public class FormationManager implements Manager<Formation> {
         if(option == null) throw new NotFoundObjectException("option, "+ optionId + " pas trouvé");
         if(!formation.getOptions().contains(option)) throw new NotFoundObjectException("option, "+ optionId + " pas trouvé dans la formation");
 
-        daoOption.unlinkAll(option);
-        daoFormation.removeOption(formation, option);
+        if(option.getBlocs().size() > 0 || option.getUes().size() > 0) throw new DecofoException("Option '" + option.getCode() + "' ne peut être supprimée car elle est liée à des blocs ou options");
 
+        daoFormation.removeOption(formation, option);
+/*
         System.err.println("----------------------------------");
         System.err.println("Action: Option '" + option.getCode() + "' supprimé de formation '" + formation.getCode());
         System.err.println("Option '" + option.getCode() + "' retrouvé dans la BD '" + option.getCode());
-        System.err.println("Option '" + option.getCode() + "' retrouvé dans la formation ? " + daoFormation.find(formationId).getOptions().contains(option));
+        System.err.println("Option '" + option.getCode() + "' retrouvé dans la formation ? " + daoFormation.find(formationId).getOptions().contains(option));*/
     }
 
     /**
@@ -162,7 +165,7 @@ public class FormationManager implements Manager<Formation> {
      * vérifier que la formation existe
      * que le noeud n'existe pas dnas la formation
      */
-    public void removeUE(int formationId, int ueId) throws NotFoundObjectException {
+    public void removeUE(int formationId, int ueId) throws DecofoException {
         Formation formation = daoFormation.find(formationId);
         if(formation == null) throw new NotFoundObjectException("formation " + formationId+ " n'existe pas");
 
@@ -173,14 +176,16 @@ public class FormationManager implements Manager<Formation> {
         System.err.println("Taille formation ! " + formation.getUEs().size());
         if(!formation.getUEs().contains(ue)) throw new NotFoundObjectException("ue, "+ ueId + " pas trouvé dans la formation");
 
-        daoUe.unlinkAll(ue);
-        daoFormation.removeUE(formation, ue);
+        if(ue.getBlocs().size() > 0 || ue.getOptions().size() > 0) throw new DecofoException("UE '" + ue.getCode() + "' ne peut être supprimée car elle est liée à des blocs ou options");
 
+
+        daoFormation.removeUE(formation.getId(), ue.getId());
+/*
         System.err.println("----------------------------------");
         System.err.println("Action: Ue '" + ue.getCode() + "' supprimé de formation '" + formation.getCode());
         System.err.println("Ue '" + ue.getCode() + "' retrouvé dans la BD '" + ue.getCode());
         System.err.println("Ue '" + ue.getCode() + "' retrouvé dans la formation ? " + daoFormation.find(formationId).getUEs().contains(ue));
-
+*/
     }
 
 }

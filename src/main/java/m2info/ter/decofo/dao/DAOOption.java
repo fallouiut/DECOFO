@@ -47,32 +47,13 @@ public class DAOOption extends DAO<Option> {
     }
 
     public void unlinkUE(Option o, UE ue) {
-        Option obj = this.find(o.getId());
+        Option loadedOption = this.find(o.getId()); // a faire sinon erreur lazy
 
-        ue.getOptions().size();
-        obj.removeUE(ue);
-        ue.removeOption(o);
+        UE loadedUE = this.em.find(UE.class, ue.getId());
+        loadedUE.getOptions().size();
 
-        this.update(obj);
-    }
-
-    public void unlinkAll(Option o) {
-        Option obj = this.find(o.getId());
-
-        // enlever liaisons
-        for(UE ue: obj.getUes()) {
-            ue.getOptions().size();
-            ue.removeOption(obj);
-        }
-
-        // enlever liaisons
-        for(Bloc bloc: obj.getBlocs()) {
-            bloc.getOptions().size();
-            bloc.removeOption(obj);
-        }
-
-        obj.setUes(new ArrayList<>());
-        obj.setBlocs(new ArrayList<>());
+        loadedOption.removeUE(loadedUE);
+        loadedUE.removeOption(loadedOption);
     }
 
 }

@@ -1,6 +1,7 @@
 package m2info.ter.decofo.manager;
 
 import m2info.ter.decofo.classes.*;
+import m2info.ter.decofo.dao.DAOUser;
 import m2info.ter.decofo.exceptions.FormationParentNotFoundException;
 import m2info.ter.decofo.exceptions.ItemExistInListException;
 import m2info.ter.decofo.exceptions.NotFoundObjectException;
@@ -14,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -33,6 +36,8 @@ public class Generation {
     @Autowired
     UEManager ueManager;
 
+    @Autowired
+    DAOUser daoUser;
 
     static String[] intitulé = new String [] {"Diplôme Centrale Digital Lab","Diplôme d'ingénieur de Centrale Marseille","Master Chimie Parcours Analyse chimique et spectroscopie ","Master Chimie Parcours Chimie pour le Vivant ","Master Chimie Parcours Méthodologies innovantes en synthèse organique","Master Génie des procédés et des bio-procédés Parcours Génie des procédés","Master Génie mécanique Parcours Conception de structures composites",
         "Master Génie mécanique Parcours Conception de systèmes mécaniques","Master Informatique Parcours Fiabilité et sécurité informatique","Master Informatique Parcours Ingénierie du logiciel et des données","Master Informatique Parcours Intelligence artificielle et apprentissage automatique","Master Mathématiques appliquées, statistique Parcours Computational and mathematical biology","Master Mathématiques appliquées, statistique Parcours Data science",
@@ -55,6 +60,30 @@ public class Generation {
 
 
     public void generate() throws NotFoundObjectException, ItemExistInListException, FormationParentNotFoundException {
+
+        User user = new User("rich.soufiane@gmail.com", "soufiane");
+        daoUser.insert(user);
+
+        User user1 = new User("ndiaye.aziz@gmail.com", "aboudlaziz");
+        daoUser.insert(user1);
+
+        User user2 = new User("seye.fallou@gmail.com", "fallou");
+        daoUser.insert(user2);
+
+        User user3 = new User("can.ozmen@gmail.com", "can");
+        daoUser.insert(user3);
+
+        User user4 = new User("barakat.julien@gmail.com", "julien");
+        daoUser.insert(user4);
+
+        List<User> users = new ArrayList<>();
+        users.add(user);
+        users.add(user1);
+        users.add(user2);
+        users.add(user3);
+        users.add(user4);
+
+        System.err.println("Taille tab");
 
         Formation formationfinal = new Formation("M2-Info","M2 informatique",20, 20 - 2, 15 -2 );
         formationManager.insert(formationfinal);
@@ -80,11 +109,12 @@ public class Generation {
             int effectif3 = random(0, 50);
             int effectif4 = random(0, 50);
 
-
+            int userId = random(0, 4);
 
             int groupe = random(2,30);
 
             Formation formation = new Formation(code[i],intitulé[i],groupe, groupe - 2, groupe -2 );
+            formation.setOwner(users.get(userId));
             formationManager.insert(formation);
             System.err.println("formation code = " + formation.getCode());
 

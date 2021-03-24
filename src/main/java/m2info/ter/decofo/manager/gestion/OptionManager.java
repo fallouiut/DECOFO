@@ -112,7 +112,6 @@ public class OptionManager implements Manager<Option> {
 
         daoOption.unlinkUE(option, ue);
 
-
         System.err.println("----------------------------------");
         System.err.println("Action: Option '" + option.getCode() + "' unlink avec ue '" + ue.getCode());
         System.err.println("Bloc contient à nouveau l'UE' ? " + daoOption.find(option.getId()).getUes().contains(ue));

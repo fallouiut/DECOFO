@@ -31,7 +31,7 @@ public class AuthFilter implements Filter {
         // vérifier
         if (!req.getRequestURI().contains("/login") && !req.getRequestURI().contains("generate")) {
             if(token == null) throw new ServletException("Non Authentifié");
-            if(authManager.isTokenExpired(token)) throw new ServletException("Token expiré");
+            //if(authManager.isTokenExpired(token)) throw new ServletException("Token expiré");
         }
 
         ((HttpServletResponse)servletResponse).addHeader("Access-Control-Allow-Headers", "*");

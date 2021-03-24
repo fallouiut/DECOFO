@@ -169,7 +169,7 @@ public class BlocManager {
 
         System.err.println("----------------------------------");
         System.err.println("Action: Bloc '" + bloc.getCode() + "' unlink avec option '" + option.getCode());
-        System.err.println("Bloc contient à nouveau l'option' ? " + daoBloc.find(bloc.getId()).getOptions().contains(option));
-        System.err.println("Option contient à nouveau le bloc ? " + daoOption.find(option.getId()).getBlocs().contains(bloc));
+        System.err.println("Bloc '" + bloc.getCode() + "' + contient à nouveau l'option' ? " + daoBloc.find(bloc.getId()).getOptions().contains(option));
+        System.err.println("Option '" + option.getCode() + "' contient à nouveau le bloc ? " + daoOption.find(option.getId()).getBlocs().contains(bloc));
     }
 }

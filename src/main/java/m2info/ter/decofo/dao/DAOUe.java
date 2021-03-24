@@ -53,24 +53,26 @@ public class DAOUe extends DAO<UE> {
         return null;
     }
 
-    public void unlinkAll(UE ue) {
-        UE obj = this.find(ue.getId());
+    public void unlinkAll(int ueId) {
+        UE obj = this.find(ueId);
 
         // enlever liaisons
         for(Option option: obj.getOptions()) {
-            option.getUes().size();
-            option.removeUE(obj);
+            Option loaded = this.em.find(Option.class, option.getId());
+
+            loaded.getUes().size();
+            loaded.removeUE(obj);
         }
 
         // enlever liaisons
         for(Bloc bloc: obj.getBlocs()) {
-            bloc.getUes().size();
-            bloc.removeUE(obj);
+            Bloc loaded = this.em.find(Bloc.class, bloc.getId());
+
+            loaded.getUes().size();
+            loaded.removeUE(obj);
         }
 
         obj.setOptions(new ArrayList<>());
         obj.setBlocs(new ArrayList<>());
     }
-
-
 }

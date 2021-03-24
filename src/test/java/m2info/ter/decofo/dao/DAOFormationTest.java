@@ -192,7 +192,7 @@ public class DAOFormationTest {
         UE ue = found.getUEs().get(0);
         int id = ue.getId();
 
-        daoFormation.removeUE(found, ue);
+        daoFormation.removeUE(found.getId(), ue.getId());
         assertNull(daoBloc.find(id));
     }
 

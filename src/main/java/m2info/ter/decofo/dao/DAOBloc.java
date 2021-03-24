@@ -42,37 +42,22 @@ public class DAOBloc extends DAO<Bloc> {
     }
 
     public void linkUE(Bloc b, UE ue) {
-        b.addUE(ue);
-        this.update(b);
+        Bloc b2 = this.find(b.getId());
+        b2.addUE(ue);
+        this.update(b2);
     }
 
     public void unlinkUE(Bloc b, UE ue) {
-        Bloc obj = this.find(b.getId()); // a faire sinon erreur lazy
+        Bloc loadedBloc = this.find(b.getId()); // a faire sinon erreur lazy
 
-        ue.getBlocs().size();
+        UE loadedUE = this.em.find(UE.class, ue.getId());
+        loadedUE.getBlocs().size();
 
-        obj.removeUE(ue);
-        ue.removeBloc(obj);
-        this.update(obj);
-    }
 
-    public void unlinkAll(Bloc b) {
-        Bloc obj = this.find(b.getId());
+        loadedBloc.removeUE(loadedUE);
+        loadedUE.removeBloc(loadedBloc);
 
-        // enlever liaisons
-        for(UE ue: obj.getUes()) {
-            ue.getBlocs().size();
-            ue.removeBloc(obj);
-        }
 
-        // enlever liaisons
-        for(Option option: obj.getOptions()) {
-            option.getBlocs().size();
-            option.removeBloc(obj);
-        }
-
-        obj.setUes(new ArrayList<>());
-        obj.setOptions(new ArrayList<>());
     }
 
     public void linkOption(Bloc b, Option o) {
@@ -81,12 +66,13 @@ public class DAOBloc extends DAO<Bloc> {
     }
 
     public void unlinkOption(Bloc b, Option o) {
-        Bloc obj = this.find(b.getId()); // a faire sinon erreur lazy
+        Bloc loadedBloc = this.find(b.getId()); // a faire sinon erreur lazy
 
-        o.getBlocs().size();
+        Option loadedOpt = this.em.find(Option.class, o.getId());
+        loadedOpt.getBlocs().size();
 
-        obj.removeOption(o);
-        o.removeBloc(obj);
-        this.update(obj);
+
+        loadedBloc.removeOption(loadedOpt);
+        loadedOpt.removeBloc(loadedBloc);
     }
 }

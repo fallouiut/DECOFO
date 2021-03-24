@@ -4,6 +4,9 @@ import m2info.ter.decofo.classes.Bloc;
 import m2info.ter.decofo.classes.Formation;
 import m2info.ter.decofo.classes.Option;
 import m2info.ter.decofo.classes.UE;
+import m2info.ter.decofo.dao.DAOBloc;
+import m2info.ter.decofo.dao.DAOUe;
+import m2info.ter.decofo.exceptions.DecofoException;
 import m2info.ter.decofo.exceptions.ItemExistInListException;
 import m2info.ter.decofo.exceptions.NotFoundObjectException;
 import org.junit.jupiter.api.AfterEach;
@@ -129,7 +132,7 @@ public class FormationManagerTest {
 
 
     @Test
-    public void removeBlocWorks() throws NotFoundObjectException, ItemExistInListException {
+    public void removeBlocWorks() throws DecofoException {
 
         Bloc b = new Bloc("test", "intitule");
 
@@ -226,7 +229,7 @@ public class FormationManagerTest {
 
 
     @Test
-    public void removeOptionWorks() throws NotFoundObjectException, ItemExistInListException {
+    public void removeOptionWorks() throws DecofoException {
 
         Option option = new Option("test", "intitule", 0);
 
@@ -319,7 +322,7 @@ public class FormationManagerTest {
 
 
     @Test
-    public void removeUEWorks() throws NotFoundObjectException, ItemExistInListException {
+    public void removeUEWorks() throws DecofoException {
 
         UE ue = new UE("JEE","M2 - ILD", 5, 2, 3,5,6,7,6);
 
