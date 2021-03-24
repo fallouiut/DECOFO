@@ -49,7 +49,10 @@ public class DAOBloc extends DAO<Bloc> {
     public void unlinkUE(Bloc b, UE ue) {
         Bloc obj = this.find(b.getId()); // a faire sinon erreur lazy
 
+        ue.getBlocs().size();
+
         obj.removeUE(ue);
+        ue.removeBloc(obj);
         this.update(obj);
     }
 
@@ -80,7 +83,10 @@ public class DAOBloc extends DAO<Bloc> {
     public void unlinkOption(Bloc b, Option o) {
         Bloc obj = this.find(b.getId()); // a faire sinon erreur lazy
 
+        o.getBlocs().size();
+
         obj.removeOption(o);
+        o.removeBloc(obj);
         this.update(obj);
     }
 }

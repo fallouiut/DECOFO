@@ -28,7 +28,6 @@ public class FormationManagerTest {
 
     private int formationId;
 
-
     @BeforeEach
     public void befa() {
         Formation f = new Formation("M7ILD", "M3 - ILD", 5, 2, 3);

@@ -98,6 +98,12 @@ public class FormationManager implements Manager<Formation> {
 
         daoBloc.unlinkAll(bloc);
         daoFormation.removeBloc(formation, bloc);
+
+
+        System.err.println("----------------------------------");
+        System.err.println("Action: Bloc '" + bloc.getCode() + "' supprimé de formation '" + formation.getCode());
+        System.err.println("Bloc '" + bloc.getCode() + "' retrouvé dans la BD '" + bloc.getCode());
+        System.err.println("Bloc '" + bloc.getCode() + "' retrouvé dans la formation ? " + daoFormation.find(formationId).getBlocs().contains(bloc));
     }
 
     /**
@@ -130,6 +136,11 @@ public class FormationManager implements Manager<Formation> {
 
         daoOption.unlinkAll(option);
         daoFormation.removeOption(formation, option);
+
+        System.err.println("----------------------------------");
+        System.err.println("Action: Option '" + option.getCode() + "' supprimé de formation '" + formation.getCode());
+        System.err.println("Option '" + option.getCode() + "' retrouvé dans la BD '" + option.getCode());
+        System.err.println("Option '" + option.getCode() + "' retrouvé dans la formation ? " + daoFormation.find(formationId).getOptions().contains(option));
     }
 
     /**
@@ -164,6 +175,12 @@ public class FormationManager implements Manager<Formation> {
 
         daoUe.unlinkAll(ue);
         daoFormation.removeUE(formation, ue);
+
+        System.err.println("----------------------------------");
+        System.err.println("Action: Ue '" + ue.getCode() + "' supprimé de formation '" + formation.getCode());
+        System.err.println("Ue '" + ue.getCode() + "' retrouvé dans la BD '" + ue.getCode());
+        System.err.println("Ue '" + ue.getCode() + "' retrouvé dans la formation ? " + daoFormation.find(formationId).getUEs().contains(ue));
+
     }
 
 }

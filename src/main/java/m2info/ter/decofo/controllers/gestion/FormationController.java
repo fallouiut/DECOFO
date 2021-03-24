@@ -1,6 +1,7 @@
 package m2info.ter.decofo.controllers.gestion;
 
 import m2info.ter.decofo.classes.*;
+import m2info.ter.decofo.dao.DAOFormation;
 import m2info.ter.decofo.dao.DAOUser;
 import m2info.ter.decofo.exceptions.DecofoException;
 import m2info.ter.decofo.exceptions.NotFoundObjectException;
@@ -36,6 +37,9 @@ public class FormationController {
 
     @Autowired
     RolesFilter rolesFilter;
+
+    @Autowired
+    DAOFormation daoFormation;
 
     /**
      * Créer une formation
@@ -307,7 +311,23 @@ public class FormationController {
             User user4 = new User("barakat.julien@gmail.com", "julien");
             daoUser.insert(user4);
 
-            this.generation.generate();
+
+            Formation formation = new Formation();
+            formation.setIntitule("Master info");
+            formation.setCode("M1I");
+
+            formation.addOption(new Option("Op1", "Option 1", 6));
+            formation.addOption(new Option("Op2", "Option 2", 6));
+            formation.addOption(new Option("Op3", "Option 3", 6));
+            formation.addUE(new UE("UE1", "UE 1", 6, 6, 6, 6));
+            formation.addUE(new UE("UE2", "UE 2", 6, 6, 6, 6));
+            formation.addUE(new UE("UE3", "UE 3", 6, 6, 6, 6));
+
+            formation.setOwner(user2);
+            daoFormation.insert(formation);
+
+
+            //this.generation.generate();
             return new ResponseEntity(null, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -23,6 +23,7 @@ public class AuthManager {
     public HashMap<String, Integer> authentificatedUsers = new HashMap<String, Integer>();
 
     // Expiration fixée à 10 mins
+    //private static long TOKEN_EXPIRATION_TIME_IN_MILLIS = 10*60*1000;
     private static long TOKEN_EXPIRATION_TIME_IN_MILLIS = 10*60*1000;
 
     public boolean isTokenExpired(String accessToken) {

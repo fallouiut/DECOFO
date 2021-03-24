@@ -111,6 +111,12 @@ public class OptionManager implements Manager<Option> {
         if(!option.getUes().contains(ue)) throw new NotFoundObjectException("ue, "+ ueId + " pn'exite pas dans le bloc " + optionId);
 
         daoOption.unlinkUE(option, ue);
+
+
+        System.err.println("----------------------------------");
+        System.err.println("Action: Option '" + option.getCode() + "' unlink avec ue '" + ue.getCode());
+        System.err.println("Bloc contient à nouveau l'UE' ? " + daoOption.find(option.getId()).getUes().contains(ue));
+        System.err.println("UE contient à nouveau l'option ? " + daoUe.find(ue.getId()).getOptions().contains(option));
     }
 
 

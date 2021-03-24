@@ -26,7 +26,7 @@ public class AuthFilter implements Filter {
 
         // récupérer le token
         String token = req.getParameter("accessToken");
-        System.err.println("Token: '" + token + "'");
+        System.out.println("Token: '" + token + "'");
 
         // vérifier
         if (!req.getRequestURI().contains("/login") && !req.getRequestURI().contains("generate")) {

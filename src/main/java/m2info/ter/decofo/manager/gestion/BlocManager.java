@@ -117,6 +117,11 @@ public class BlocManager {
         if(!bloc.getUes().contains(ue)) throw new NotFoundObjectException("ue, "+ ueId + " pn'exite pas dans le bloc " + blocId);
 
         daoBloc.unlinkUE(bloc, ue);
+
+        System.err.println("----------------------------------");
+        System.err.println("Action: Bloc '" + bloc.getCode() + "' unlink avec ue '" + ue.getCode());
+        System.err.println("Bloc '" + bloc.getCode() + "' contient à nouveau l'UE' ? '" + ue.getCode() + "'" + daoBloc.find(bloc.getId()).getOptions().contains(ue));
+        System.err.println("UE '" + ue.getCode() + "' contient à nouveau le bloc ? " + daoUe.find(ue.getId()).getBlocs().contains(bloc));
     }
 
     /**
@@ -160,8 +165,11 @@ public class BlocManager {
         if(option == null) throw new NotFoundObjectException("option, "+ optionId + " pn'exite pas ");
         if(!bloc.getOptions().contains(option)) throw new NotFoundObjectException("option, "+ optionId + " pn'exite pas dans le bloc " + blocId);
 
-        System.err.println("Unlink b " + bloc.getCode() + ", et o " + option.getCode());
-
         daoBloc.unlinkOption(bloc, option);
+
+        System.err.println("----------------------------------");
+        System.err.println("Action: Bloc '" + bloc.getCode() + "' unlink avec option '" + option.getCode());
+        System.err.println("Bloc contient à nouveau l'option' ? " + daoBloc.find(bloc.getId()).getOptions().contains(option));
+        System.err.println("Option contient à nouveau le bloc ? " + daoOption.find(option.getId()).getBlocs().contains(bloc));
     }
 }

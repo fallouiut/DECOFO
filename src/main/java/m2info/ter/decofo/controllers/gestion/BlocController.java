@@ -46,6 +46,7 @@ public class BlocController {
             return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
         }catch (Exception e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -64,6 +65,7 @@ public class BlocController {
             return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -82,7 +84,8 @@ public class BlocController {
             result.put("error", e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -104,7 +107,8 @@ public class BlocController {
             result.put("error", e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -127,7 +131,8 @@ public class BlocController {
 
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -149,7 +154,8 @@ public class BlocController {
             result.put("error", e.getMessage());
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
+            e.printStackTrace();
             return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
